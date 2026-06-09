@@ -31,29 +31,29 @@
     <div id="gallery" class="gallery"></div>
   </section>
 
-  <!-- CLOUDINARY GALLERY SCRIPT -->
+  <!-- CLOUDINARY AUTO GALLERY SCRIPT (FIXED) -->
   <script>
-const cloudName = "dwpiqfg7r"; // your cloud name
-const folder = "olykrewrenovations"; // your asset folder
+    const cloudName = "dwpiqfg7r";
 
-const gallery = document.getElementById("gallery");
+    const gallery = document.getElementById("gallery");
 
-fetch(`https://res.cloudinary.com/${cloudName}/image/list/${folder}.json`)
-  .then(res => res.json())
-  .then(data => {
-    if (!data.resources) return;
+    // Cloudinary auto-list endpoint (reliable method)
+    fetch(`https://res.cloudinary.com/${cloudName}/image/list/olykrewrenovations.json`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.resources) return;
 
-    data.resources.forEach(img => {
-      const image = document.createElement("img");
-      image.src = img.secure_url;
-      image.className = "gallery-img";
-      gallery.appendChild(image);
-    });
-  })
-  .catch(err => {
-    console.log("Gallery error:", err);
-  });
-</script>
+        data.resources.forEach(img => {
+          const image = document.createElement("img");
+          image.src = img.secure_url;
+          image.className = "gallery-img";
+          gallery.appendChild(image);
+        });
+      })
+      .catch(err => {
+        console.log("Gallery error:", err);
+      });
+  </script>
 
 </body>
 </html>
