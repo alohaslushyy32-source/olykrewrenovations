@@ -15,7 +15,7 @@
     <img src="images/logo.png" class="logo" alt="Olykrew Logo">
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN HERO SECTION -->
   <main class="content">
     <div class="hero">
       <h1>Olykrew Renovations</h1>
@@ -24,6 +24,34 @@
       <button class="btn">Get a Quote</button>
     </div>
   </main>
+
+  <!-- GALLERY SECTION -->
+  <section class="gallery-section">
+    <h2>Our Work</h2>
+    <div id="gallery" class="gallery"></div>
+  </section>
+
+  <!-- CLOUDINARY GALLERY SCRIPT -->
+  <script>
+    const cloudName = "dwpiqfg7r";
+    const folder = "olykrewrenovations";
+
+    const gallery = document.getElementById("gallery");
+
+    fetch(`https://res.cloudinary.com/${cloudName}/image/list/${folder}.json`)
+      .then(res => res.json())
+      .then(data => {
+        data.resources.forEach(img => {
+          const image = document.createElement("img");
+          image.src = img.secure_url;
+          image.className = "gallery-img";
+          gallery.appendChild(image);
+        });
+      })
+      .catch(err => {
+        console.log("Gallery load error:", err);
+      });
+  </script>
 
 </body>
 </html>
