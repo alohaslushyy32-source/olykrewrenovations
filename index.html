@@ -33,25 +33,27 @@
 
   <!-- CLOUDINARY GALLERY SCRIPT -->
   <script>
-    const cloudName = "dwpiqfg7r";
-    const folder = "olykrewrenovations";
+const cloudName = "dwpiqfg7r"; // your cloud name
+const folder = "Olykrewrenovations"; // your asset folder
 
-    const gallery = document.getElementById("gallery");
+const gallery = document.getElementById("gallery");
 
-    fetch(`https://res.cloudinary.com/${cloudName}/image/list/${folder}.json`)
-      .then(res => res.json())
-      .then(data => {
-        data.resources.forEach(img => {
-          const image = document.createElement("img");
-          image.src = img.secure_url;
-          image.className = "gallery-img";
-          gallery.appendChild(image);
-        });
-      })
-      .catch(err => {
-        console.log("Gallery load error:", err);
-      });
-  </script>
+fetch(`https://res.cloudinary.com/${cloudName}/image/list/${folder}.json`)
+  .then(res => res.json())
+  .then(data => {
+    if (!data.resources) return;
+
+    data.resources.forEach(img => {
+      const image = document.createElement("img");
+      image.src = img.secure_url;
+      image.className = "gallery-img";
+      gallery.appendChild(image);
+    });
+  })
+  .catch(err => {
+    console.log("Gallery error:", err);
+  });
+</script>
 
 </body>
 </html>
