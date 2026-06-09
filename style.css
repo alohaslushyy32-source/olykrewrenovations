@@ -1,69 +1,79 @@
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #2b1b12;
-    color: #f5e6d3;
-    position: relative;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #2b1b12;
+  color: #f5e6d3;
+  overflow-x: hidden;
+}
 
-  /* WATERMARK LOGO */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    width: 500px;
-    height: 500px;
+/* ===== WATERMARK LOGO BACKGROUND ===== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  height: 650px;
+  background: url("images/logo.png") no-repeat center;
+  background-size: contain;
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    background-image: url("logo.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+/* ===== TOP LEFT AREA (NO BAR) ===== */
+.navbar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+}
 
-    opacity: 0.06; /* adjust this (0.03–0.12 looks best) */
-    pointer-events: none;
-    z-index: 0;
-  }
+/* LOGO */
+.logo {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
-  /* TOP BAR */
-  .navbar {
-    height: 80px;
-    width: 100%;
-    background: #3a2418;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 2;
-  }
+/* ===== CENTER CONTENT ===== */
+.content {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
 
-  /* CONTENT */
-  .content {
-    height: calc(100vh - 80px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
-  }
+.hero h1 {
+  font-size: 58px;
+  margin: 0;
+  letter-spacing: 1px;
+}
 
-  h1 {
-    font-size: 56px;
-    color: #f5e6d3;
-    margin: 0;
-    letter-spacing: 1px;
-  }
+.hero p {
+  font-size: 18px;
+  color: #d2a679;
+  margin-top: 10px;
+}
 
-  p {
-    font-size: 18px;
-    color: #d2a679;
-    margin-top: 10px;
-  }
-</style>
+/* BUTTON */
+.btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #d2a679;
+  border: none;
+  color: #2b1b12;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #e0b98a;
+}
