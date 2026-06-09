@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo Upload</title>
+</head>
+<body>
+
+<h1>Upload Photos</h1>
+
+<input type="password" id="password" placeholder="Password">
+<button onclick="unlock()">Login</button>
+
+<div id="uploadArea" style="display:none;">
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+</div>
+
+<script>
+const SITE_PASSWORD = "OlyKrew2023!$";
+
+function unlock() {
+    const pass = document.getElementById("password").value;
+
+    if(pass === SITE_PASSWORD){
+        document.getElementById("uploadArea").style.display = "block";
+    } else {
+        alert("Wrong password");
+    }
+}
+
+async function uploadImage() {
+    const file = document.getElementById("fileInput").files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Olykrewrenovations");
+
+    const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    const data = await response.json();
+
+    alert("Uploaded!");
+    console.log(data.secure_url);
+}
+</script>
+
+</body>
+</html>
