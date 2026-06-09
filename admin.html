@@ -1,54 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Upload</title>
+
+    <!-- LINKS IT TO YOUR MAIN WEBSITE STYLE -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>Upload Photos</h1>
+    <!-- SAME LOGO STYLE AS HOMEPAGE -->
+    <header class="navbar">
+        <img src="images/logo.png" class="logo" alt="Olykrew Logo">
+    </header>
 
-<input type="password" id="password" placeholder="Password">
-<button onclick="unlock()">Login</button>
+    <!-- CENTERED CONTENT USING YOUR EXISTING LAYOUT -->
+    <main class="content">
 
-<div id="uploadArea" style="display:none;">
-    <input type="file" id="fileInput">
-    <button onclick="uploadImage()">Upload</button>
-</div>
+        <div class="admin-box">
 
-<script>
-const SITE_PASSWORD = "OlyKrew2023!$";
+            <h1>Upload Photos</h1>
 
-function unlock() {
-    const pass = document.getElementById("password").value;
+            <input type="password" id="password" placeholder="Password">
+            <button class="btn" onclick="unlock()">Login</button>
 
-    if(pass === SITE_PASSWORD){
-        document.getElementById("uploadArea").style.display = "block";
-    } else {
-        alert("Wrong password");
-    }
-}
+            <div id="uploadArea" style="display:none; margin-top:20px;">
+                <input type="file" id="fileInput">
+                <br><br>
+                <button class="btn" onclick="uploadImage()">Upload</button>
+            </div>
 
-async function uploadImage() {
-    const file = document.getElementById("fileInput").files[0];
+        </div>
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "Olykrewrenovations");
+    </main>
 
-    const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-        {
-            method: "POST",
-            body: formData
+    <script>
+    const SITE_PASSWORD = "OlyKrew2023!$";
+
+    function unlock() {
+        const pass = document.getElementById("password").value;
+
+        if(pass === SITE_PASSWORD){
+            document.getElementById("uploadArea").style.display = "block";
+        } else {
+            alert("Wrong password");
         }
-    );
+    }
 
-    const data = await response.json();
+    async function uploadImage() {
+        const file = document.getElementById("fileInput").files[0];
 
-    alert("Uploaded!");
-    console.log(data.secure_url);
-}
-</script>
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "Olykrewrenovations");
+
+        const response = await fetch(
+            "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        alert("Uploaded!");
+        console.log(data.secure_url);
+    }
+    </script>
 
 </body>
 </html>
