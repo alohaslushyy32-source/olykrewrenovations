@@ -5,72 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Olykrew Renovations</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #2b1b12;
-      color: #f5e6d3;
-    }
-
-    /* TOP BAR */
-    .navbar {
-      height: 80px;
-      width: 100%;
-      background: #3a2418;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-    /* LOGO (if you add it back later) */
-    .logo {
-      height: 70px;
-      width: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    /* MAIN CONTENT */
-    .content {
-      height: calc(100vh - 80px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 56px;
-      color: #f5e6d3;
-      margin: 0;
-      letter-spacing: 1px;
-    }
-
-    p {
-      font-size: 18px;
-      color: #d2a679;
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- TOP BAR -->
-  <div class="navbar">
-    <!-- logo removed as requested -->
-  </div>
+  <!-- TOP LEFT LOGO -->
+  <header class="navbar">
+    <img src="images/logo.png" class="logo" alt="Olykrew Logo">
+  </header>
 
   <!-- MAIN CONTENT -->
-  <div class="content">
-    <div>
+  <main class="content">
+    <div class="hero">
       <h1>Olykrew Renovations</h1>
       <p>Quality renovation work with a clean, modern finish.</p>
+
+      <button class="btn">Get a Quote</button>
     </div>
-  </div>
+  </main>
 
 </body>
 </html>
