@@ -143,7 +143,7 @@
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
-  <!-- LOADER FIX SAFE -->
+  <!-- LOADER -->
   <script>
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
@@ -153,7 +153,22 @@
     });
   </script>
 
-  <!-- FILTER (FIXED SAFE VERSION) -->
+  <!-- SCROLL ANIMATION (RESTORED) -->
+  <script>
+    const elements = document.querySelectorAll('.section, .card, .project-card');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    elements.forEach(el => observer.observe(el));
+  </script>
+
+  <!-- FILTER -->
   <script>
     const buttons = document.querySelectorAll(".filter-btn");
     const projects = document.querySelectorAll(".project-card");
@@ -182,7 +197,7 @@
     });
   </script>
 
-  <!-- BEFORE/AFTER SAFETY FIX -->
+  <!-- BEFORE / AFTER (RESTORED + FIXED) -->
   <script>
     const container = document.querySelector(".ba-container");
     const slider = document.querySelector(".ba-slider");
@@ -191,6 +206,7 @@
     if (container && slider && afterImg) {
 
       let active = false;
+      let auto = true;
 
       function move(clientX) {
         const rect = container.getBoundingClientRect();
@@ -205,16 +221,34 @@
         afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
       }
 
+      function demo(time) {
+        if (!auto) return;
+
+        let t = time / 2500;
+        let progress = (Math.sin(t) + 1) / 2;
+
+        const rect = container.getBoundingClientRect();
+        const x = rect.left + rect.width * progress;
+
+        move(x);
+
+        requestAnimationFrame(demo);
+      }
+
+      requestAnimationFrame(demo);
+
       container.addEventListener("mousedown", () => active = true);
       window.addEventListener("mouseup", () => active = false);
 
       window.addEventListener("mousemove", (e) => {
         if (!active) return;
         move(e.clientX);
+        auto = false;
       });
 
       container.addEventListener("touchstart", (e) => {
         active = true;
+        auto = false;
         move(e.touches[0].clientX);
       }, { passive: true });
 
