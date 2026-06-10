@@ -152,13 +152,14 @@
     });
   </script>
 
-  <!-- FIXED BEFORE / AFTER SLIDER (MOBILE + DESKTOP) -->
+  <!-- BEFORE / AFTER DRAG + AUTO DEMO (NEW) -->
   <script>
     const container = document.querySelector(".ba-container");
     const slider = document.querySelector(".ba-slider");
     const afterImg = document.querySelector(".ba-img.after");
 
     let isDown = false;
+    let autoPlaying = true;
 
     if (container && slider && afterImg) {
 
@@ -175,8 +176,12 @@
         afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
       }
 
-      // DESKTOP
-      container.addEventListener("mousedown", () => isDown = true);
+      // USER INTERACTION STOPS DEMO
+      function stopAuto() {
+        autoPlaying = false;
+      }
+
+      container.addEventListener("mousedown", () => { isDown = true; stopAuto(); });
       window.addEventListener("mouseup", () => isDown = false);
 
       window.addEventListener("mousemove", (e) => {
@@ -184,19 +189,40 @@
         move(e.clientX);
       });
 
-      // MOBILE FIXED (important change)
       container.addEventListener("touchstart", (e) => {
         isDown = true;
+        stopAuto();
         move(e.touches[0].clientX);
       }, { passive: true });
 
       container.addEventListener("touchmove", (e) => {
         if (!isDown) return;
         move(e.touches[0].clientX);
-        e.preventDefault(); // stops page scroll fighting the slider
+        e.preventDefault();
       }, { passive: false });
 
       window.addEventListener("touchend", () => isDown = false);
+
+      // AUTO DEMO ANIMATION
+      let t = 0;
+      const start = performance.now();
+
+      function demo(time) {
+        if (!autoPlaying) return;
+
+        t = (time - start) / 2000; // speed
+
+        let progress = (Math.sin(t) + 1) / 2; // smooth back & forth (0 → 1)
+
+        const rect = container.getBoundingClientRect();
+        const x = rect.left + rect.width * progress;
+
+        move(x);
+
+        requestAnimationFrame(demo);
+      }
+
+      requestAnimationFrame(demo);
     }
   </script>
 
