@@ -649,3 +649,29 @@ html {
     margin-top: 15px;
   }
 }
+/* TIGHTER / SMALLER FOOTER */
+.bottom-bar {
+  padding: 18px 16px; /* smaller height */
+  gap: 12px;          /* less spacing between columns */
+}
+
+/* reduce spacing between contact items */
+.contact-stack {
+  gap: 10px;
+}
+
+/* make buttons slightly more compact */
+.contact-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* reduce spacing between name + number */
+.contact-person {
+  gap: 4px;
+}
+
+/* make whole center section tighter */
+.bottom-center {
+  line-height: 1.2;
+}
