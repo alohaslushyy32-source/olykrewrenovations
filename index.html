@@ -55,16 +55,16 @@
   <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
 
   <div class="grid">
-    <div class="card"><h3>Drywall</h3><p>Expert repair and texture matching.</p></div>
-    <div class="card"><h3>Painting</h3><p>Interior and exterior finishes.</p></div>
-    <div class="card"><h3>Flooring</h3><p>Hardwood, laminate, vinyl installs.</p></div>
-    <div class="card"><h3>Bathrooms</h3><p>Luxury remodels.</p></div>
+    <div class="card"><h3>Drywall</h3><p>Repair & texture matching</p></div>
+    <div class="card"><h3>Painting</h3><p>Interior & exterior</p></div>
+    <div class="card"><h3>Flooring</h3><p>Wood, vinyl, laminate</p></div>
+    <div class="card"><h3>Bathrooms</h3><p>Full remodels</p></div>
   </div>
 </section>
 
-<!-- BEFORE AFTER -->
+<!-- BEFORE / AFTER (FULL RESTORED AUTO + DRAG) -->
 <section class="section" id="beforeafter">
-  <h2 class="title">Before & After</h2>
+  <h2 class="title">Before & After Transformations</h2>
 
   <div class="ba-wrapper">
     <div class="ba-container">
@@ -76,11 +76,10 @@
 
   <div class="after-box">
     <h3>And this is just the beginning.</h3>
-    <p>More transformations coming soon.</p>
   </div>
 </section>
 
-<!-- STATIC GALLERY -->
+<!-- STATIC PORTFOLIO (FULL RESTORED) -->
 <section id="gallery" class="section">
   <h2 class="title">Project Portfolio</h2>
 
@@ -108,13 +107,32 @@
       <div class="project-info">Bathroom</div>
     </div>
 
+    <div class="project-card" data-category="painting">
+      <img src="images/backyard.jpg">
+      <div class="project-info">Backyard</div>
+    </div>
+
+    <div class="project-card" data-category="bathroom">
+      <img src="images/shower.jpg">
+      <div class="project-info">Shower</div>
+    </div>
+
+    <div class="project-card" data-category="painting">
+      <img src="images/kitchen.jpg">
+      <div class="project-info">Kitchen</div>
+    </div>
+
+    <div class="project-card" data-category="flooring">
+      <img src="images/hallway.jpg">
+      <div class="project-info">Hallway</div>
+    </div>
+
   </div>
 </section>
 
-<!-- LIVE GALLERY (FIREBASE) -->
+<!-- LIVE FIREBASE GALLERY -->
 <section id="liveGallery" class="section">
   <h2 class="title">Live Gallery</h2>
-  <p class="subtitle">Uploads from admin</p>
 
   <div id="liveGrid" class="project-grid"></div>
 </section>
@@ -125,27 +143,59 @@
   <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
 </section>
 
-<!-- SCRIPTS -->
+<!-- BEFORE AFTER SCRIPT (RESTORED AUTO ANIMATION) -->
 <script>
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  loader.style.opacity = "0";
-  setTimeout(() => loader.remove(), 600);
+const container = document.querySelector(".ba-container");
+const slider = document.querySelector(".ba-slider");
+const afterImg = document.querySelector(".ba-img.after");
+
+let active = false;
+let auto = true;
+
+function move(x) {
+  const rect = container.getBoundingClientRect();
+  let pos = x - rect.left;
+  pos = Math.max(0, Math.min(pos, rect.width));
+
+  const percent = (pos / rect.width) * 100;
+  slider.style.left = percent + "%";
+  afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+}
+
+// AUTO ANIMATION (RESTORED)
+function animate(time) {
+  if (auto) {
+    let t = time / 2500;
+    let progress = (Math.sin(t) + 1) / 2;
+    const rect = container.getBoundingClientRect();
+    move(rect.left + rect.width * progress);
+  }
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+// DRAG SUPPORT
+container.addEventListener("mousedown", () => { active = true; auto = false; });
+window.addEventListener("mouseup", () => active = false);
+
+window.addEventListener("mousemove", (e) => {
+  if (active) move(e.clientX);
 });
+
+container.addEventListener("touchstart", (e) => {
+  active = true;
+  auto = false;
+  move(e.touches[0].clientX);
+}, { passive: true });
+
+container.addEventListener("touchmove", (e) => {
+  if (active) move(e.touches[0].clientX);
+}, { passive: true });
+
+window.addEventListener("touchend", () => active = false);
 </script>
 
-<script>
-const elements = document.querySelectorAll('.section, .card, .project-card');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('show');
-  });
-}, { threshold: 0.15 });
-
-elements.forEach(el => observer.observe(el));
-</script>
-
+<!-- FILTER -->
 <script>
 const buttons = document.querySelectorAll(".filter-btn");
 const projects = document.querySelectorAll(".static-gallery .project-card");
@@ -159,80 +209,44 @@ buttons.forEach(btn => {
 
     projects.forEach(card => {
       const match = card.dataset.category;
-
-      const show = filter === "all" || filter === match;
-
-      card.style.display = show ? "block" : "none";
+      card.style.display = (filter === "all" || filter === match) ? "block" : "none";
     });
   };
 });
 </script>
 
-<script>
-const container = document.querySelector(".ba-container");
-const slider = document.querySelector(".ba-slider");
-const afterImg = document.querySelector(".ba-img.after");
-
-if (container) {
-  let active = false;
-
-  function move(x) {
-    const rect = container.getBoundingClientRect();
-    let pos = x - rect.left;
-
-    pos = Math.max(0, Math.min(pos, rect.width));
-
-    const percent = (pos / rect.width) * 100;
-
-    slider.style.left = percent + "%";
-    afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-  }
-
-  container.onmousedown = () => active = true;
-  window.onmouseup = () => active = false;
-
-  window.onmousemove = (e) => {
-    if (active) move(e.clientX);
-  };
-}
-</script>
-
-<!-- FIREBASE SAFE LOAD -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-    authDomain: "olykrew-website.firebaseapp.com",
-    projectId: "olykrew-website"
-  });
-}
+firebase.initializeApp({
+  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+  authDomain: "olykrew-website.firebaseapp.com",
+  projectId: "olykrew-website"
+});
 
 const db = firebase.firestore();
 const liveGrid = document.getElementById("liveGrid");
 
-if (liveGrid) {
-  db.collection("projects").orderBy("created", "desc")
-    .onSnapshot(snapshot => {
-      liveGrid.innerHTML = "";
+db.collection("projects").orderBy("created", "desc")
+  .onSnapshot(snapshot => {
+    liveGrid.innerHTML = "";
 
-      snapshot.forEach(doc => {
-        const d = doc.data();
+    snapshot.forEach(doc => {
+      const d = doc.data();
 
-        const div = document.createElement("div");
-        div.className = "project-card";
+      const div = document.createElement("div");
+      div.className = "project-card";
 
-        div.innerHTML = `
-          <img src="${d.url}">
-          <div class="project-info">Project</div>
-        `;
+      div.innerHTML = `
+        <img src="${d.url}">
+        <div class="project-info">Uploaded Project</div>
+      `;
 
-        liveGrid.appendChild(div);
-      });
+      liveGrid.appendChild(div);
     });
-}
+  });
 </script>
 
 </body>
