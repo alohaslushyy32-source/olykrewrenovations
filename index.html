@@ -50,59 +50,61 @@
     } catch (e) {
       console.log("Firebase already initialized or failed safely:", e);
     }
-  </script>
-
-  <!-- (UNCHANGED FUNCTIONALITY) -->
   <script>
-    const gallery = document.getElementById("gallery");
+const gallery = document.getElementById("gallery");
+let images = JSON.parse(localStorage.getItem("gallery")) || [];
 
-    let images = JSON.parse(localStorage.getItem("gallery")) || [];
+// store logged-in user ONCE
+let currentUser = null;
 
-    function renderGallery() {
-      gallery.innerHTML = "";
+if (firebase && firebase.auth) {
+  firebase.auth().onAuthStateChanged(user => {
+    currentUser = user;
+    renderGallery();
+  });
+} else {
+  renderGallery();
+}
 
-      images.forEach((url, index) => {
-        const wrapper = document.createElement("div");
-        wrapper.style.position = "relative";
-        wrapper.style.display = "inline-block";
+function renderGallery() {
+  gallery.innerHTML = "";
 
-        const img = document.createElement("img");
-        img.src = url;
-        img.className = "gallery-img";
+  images.forEach((url, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "relative";
+    wrapper.style.display = "inline-block";
 
-        wrapper.appendChild(img);
+    const img = document.createElement("img");
+    img.src = url;
+    img.className = "gallery-img";
 
-        // 🔐 ONLY SHOW DELETE IF ADMIN LOGGED IN
-        if (firebase?.auth) {
-          firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-              const btn = document.createElement("button");
-              btn.innerText = "X";
-              btn.style.position = "absolute";
-              btn.style.top = "5px";
-              btn.style.right = "5px";
-              btn.style.background = "red";
-              btn.style.color = "white";
-              btn.style.border = "none";
-              btn.style.cursor = "pointer";
+    wrapper.appendChild(img);
 
-              btn.onclick = () => {
-                images.splice(index, 1);
-                localStorage.setItem("gallery", JSON.stringify(images));
-                renderGallery();
-              };
+    // 🔐 ONLY SHOW DELETE IF LOGGED IN ADMIN
+    if (currentUser) {
+      const btn = document.createElement("button");
+      btn.innerText = "X";
+      btn.style.position = "absolute";
+      btn.style.top = "5px";
+      btn.style.right = "5px";
+      btn.style.background = "red";
+      btn.style.color = "white";
+      btn.style.border = "none";
+      btn.style.cursor = "pointer";
 
-              wrapper.appendChild(btn);
-            }
-          });
-        }
+      btn.onclick = () => {
+        images.splice(index, 1);
+        localStorage.setItem("gallery", JSON.stringify(images));
+        renderGallery();
+      };
 
-        gallery.appendChild(wrapper);
-      });
+      wrapper.appendChild(btn);
     }
 
-    renderGallery();
-  </script>
+    gallery.appendChild(wrapper);
+  });
+}
+</script>
 
 </body>
 </html>
