@@ -22,69 +22,71 @@
   </header>
 
   <!-- HERO -->
-<section class="hero">
+  <section class="hero">
 
-  <div class="hero-overlay">
-    <h1>Luxury Renovation & Restoration</h1>
-    <p>Precision craftsmanship. Modern design. Built to last.</p>
+    <div class="hero-overlay">
+      <h1>Luxury Renovation & Restoration</h1>
+      <p>Precision craftsmanship. Modern design. Built to last.</p>
 
-    <a href="#services" class="btn">Explore Services</a>
-  </div>
+      <a href="#services" class="btn">Explore Services</a>
+    </div>
 
-</section>
+  </section>
 
-<!-- VIDEO SECTION (UNDER BUTTON) -->
-<section class="video-section">
+  <!-- VIDEO SECTION -->
+  <section class="video-section">
 
-  <video autoplay muted loop playsinline class="service-video">
-    <source src="videos/background.mp4" type="video/mp4">
-  </video>
+    <video autoplay muted loop playsinline class="service-video">
+      <source src="videos/background.mp4" type="video/mp4">
+    </video>
 
-</section>
+  </section>
 
-<!-- TRUST BAR (UNDER VIDEO) -->
-<section class="trust">
-  <div>✔ Licensed & Insured</div>
-  <div>✔ Residential & Commercial</div>
-  <div>✔ Fast Response</div>
-</section>
+  <!-- TRUST BAR -->
+  <section class="trust">
+    <div>✔ Licensed & Insured</div>
+    <div>✔ Residential & Commercial</div>
+    <div>✔ Fast Response</div>
+  </section>
 
-  <!-- SERVICES (UPGRADED VISUALS ONLY) -->
+  <!-- SERVICES -->
   <section id="services" class="section">
     <h2 class="title">What We Do</h2>
     <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
 
     <div class="grid">
 
-  <div class="card">
-    <h3>Drywall & Texture Repair</h3>
-    <p>Expert drywall repair and seamless texture matching for flawless wall restoration.</p>
-  </div>
+      <div class="card">
+        <h3>Drywall & Texture Repair</h3>
+        <p>Expert drywall repair and seamless texture matching for flawless wall restoration.</p>
+      </div>
 
-  <div class="card">
-    <h3>Interior & Exterior Painting</h3>
-    <p>High-quality painting services delivering clean finishes and long-lasting results.</p>
-  </div>
+      <div class="card">
+        <h3>Interior & Exterior Painting</h3>
+        <p>High-quality painting services delivering clean finishes and long-lasting results.</p>
+      </div>
 
-  <div class="card">
-    <h3>Tile & Flooring Installation</h3>
-    <p>Professional tile work and flooring installation for durable, modern spaces.</p>
-  </div>
+      <div class="card">
+        <h3>Tile & Flooring Installation</h3>
+        <p>Professional tile work and flooring installation for durable, modern spaces.</p>
+      </div>
 
-  <div class="card">
-    <h3>Bathroom Remodels</h3>
-    <p>Complete bathroom renovations designed for comfort, style, and function.</p>
-  </div>
+      <div class="card">
+        <h3>Bathroom Remodels</h3>
+        <p>Complete bathroom renovations designed for comfort, style, and function.</p>
+      </div>
 
-  <div class="card">
-    <h3>Insurance Restoration</h3>
-    <p>Fast and reliable restoration for water, fire, and insurance-related damage.</p>
-  </div>
-      
-    <div class="card">
-  <h3>Built to the Highest Standards</h3>
-  <p>We take pride in delivering superior workmanship, premium finishes, and lasting results on every project we complete.</p>
-</div>
+      <div class="card">
+        <h3>Insurance Restoration</h3>
+        <p>Fast and reliable restoration for water, fire, and insurance-related damage.</p>
+      </div>
+
+      <div class="card">
+        <h3>Built to the Highest Standards</h3>
+        <p>We take pride in delivering superior workmanship, premium finishes, and lasting results on every project we complete.</p>
+      </div>
+
+    </div>
   </section>
 
   <!-- GALLERY -->
@@ -124,7 +126,6 @@
   <script>
     const gallery = document.getElementById("gallery");
     let images = JSON.parse(localStorage.getItem("gallery")) || [];
-
     let currentUser = null;
 
     firebase.auth().onAuthStateChanged(user => {
@@ -165,20 +166,21 @@
 
     renderGallery();
   </script>
- 
-<script>
-  const elements = document.querySelectorAll('.section, .card, .gallery-img');
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    }
-  });
-}, { threshold: 0.15 });
+  <!-- SCROLL ANIMATION -->
+  <script>
+    const elements = document.querySelectorAll('.section, .card, .gallery-img');
 
-elements.forEach(el => observer.observe(el));
-</script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    elements.forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
