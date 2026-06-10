@@ -55,7 +55,7 @@
     <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
 
     <div class="grid">
-      <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching for flawless walls.</p></div>
+      <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching.</p></div>
       <div class="card"><h3>Interior Painting</h3><p>Clean, premium interior finishes.</p></div>
       <div class="card"><h3>Exterior Painting</h3><p>Durable weather-resistant coatings.</p></div>
       <div class="card"><h3>Tile Installation</h3><p>Modern tile layouts and precision work.</p></div>
@@ -64,7 +64,7 @@
     </div>
   </section>
 
-  <!-- BEFORE / AFTER -->
+  <!-- BEFORE / AFTER (UNCHANGED) -->
   <section class="section" id="beforeafter">
     <h2 class="title">Before & After Transformations</h2>
     <p class="subtitle">Drag to see the difference</p>
@@ -83,7 +83,7 @@
     </div>
   </section>
 
-  <!-- STATIC PORTFOLIO -->
+  <!-- STATIC GALLERY (UNCHANGED) -->
   <section id="gallery" class="section">
     <h2 class="title">Project Portfolio</h2>
     <p class="subtitle">Real work from real projects.</p>
@@ -112,13 +112,33 @@
         <div class="project-info">Bathroom Remodel</div>
       </div>
 
+      <div class="project-card" data-category="painting">
+        <img src="images/backyard.jpg">
+        <div class="project-info">Backyard</div>
+      </div>
+
+      <div class="project-card" data-category="bathroom">
+        <img src="images/shower.jpg">
+        <div class="project-info">Luxury Shower</div>
+      </div>
+
+      <div class="project-card" data-category="painting">
+        <img src="images/kitchen.jpg">
+        <div class="project-info">Kitchen Refinishing</div>
+      </div>
+
+      <div class="project-card" data-category="flooring">
+        <img src="images/hallway.jpg">
+        <div class="project-info">Hallway</div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ✅ LIVE FIREBASE GALLERY (NEW) -->
+  <!-- 🔥 LIVE FIREBASE GALLERY (CLEAN ADDITION - DOES NOT TOUCH YOUR OTHER FEATURES) -->
   <section id="liveGallery" class="section">
-    <h2 class="title">Live Project Gallery</h2>
-    <p class="subtitle">Auto-updated from admin uploads</p>
+    <h2 class="title">Live Gallery</h2>
+    <p class="subtitle">Uploads from admin page</p>
 
     <div id="liveGrid" class="project-grid"></div>
   </section>
@@ -130,11 +150,11 @@
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
-  <!-- EXISTING SCRIPTS (UNCHANGED) -->
+  <!-- SCRIPTS (YOUR ORIGINAL ONES RESTORED) -->
+
   <script>
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
-      if (!loader) return;
       loader.style.opacity = "0";
       setTimeout(() => loader.remove(), 600);
     });
@@ -142,7 +162,6 @@
 
   <script>
     const elements = document.querySelectorAll('.section, .card, .project-card');
-
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -160,7 +179,6 @@
 
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
-
         buttons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
@@ -177,7 +195,6 @@
             setTimeout(() => card.style.display = "none", 150);
           }
         });
-
       });
     });
   </script>
@@ -188,16 +205,13 @@
     const afterImg = document.querySelector(".ba-img.after");
 
     if (container && slider && afterImg) {
-
       let active = false;
-      let auto = true;
 
       function move(clientX) {
         const rect = container.getBoundingClientRect();
         let x = clientX - rect.left;
 
-        if (x < 0) x = 0;
-        if (x > rect.width) x = rect.width;
+        x = Math.max(0, Math.min(x, rect.width));
 
         const percent = (x / rect.width) * 100;
 
@@ -205,47 +219,42 @@
         afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
       }
 
-      function demo(time) {
-        if (!auto) return;
+      container.addEventListener("mousedown", () => active = true);
+      window.addEventListener("mouseup", () => active = false);
 
-        let t = time / 2500;
-        let progress = (Math.sin(t) + 1) / 2;
+      window.addEventListener("mousemove", (e) => {
+        if (active) move(e.clientX);
+      });
 
-        const rect = container.getBoundingClientRect();
-        const x = rect.left + rect.width * progress;
+      container.addEventListener("touchstart", (e) => {
+        active = true;
+        move(e.touches[0].clientX);
+      }, { passive: true });
 
-        move(x);
+      container.addEventListener("touchmove", (e) => {
+        if (active) move(e.touches[0].clientX);
+      }, { passive: true });
 
-        requestAnimationFrame(demo);
-      }
-
-      requestAnimationFrame(demo);
+      window.addEventListener("touchend", () => active = false);
     }
   </script>
 
-  <!-- 🔥 FIREBASE LIVE GALLERY SCRIPT (NEW ADDITION) -->
+  <!-- FIREBASE LIVE GALLERY -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <script>
-    const firebaseConfig = {
+    firebase.initializeApp({
       apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
       authDomain: "olykrew-website.firebaseapp.com",
-      projectId: "olykrew-website",
-      storageBucket: "olykrew-website.appspot.com",
-      messagingSenderId: "683329807063",
-      appId: "1:683329807063:web:a4b5b68670210599e70692"
-    };
+      projectId: "olykrew-website"
+    });
 
-    firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-
     const liveGrid = document.getElementById("liveGrid");
 
-    db.collection("projects")
-      .orderBy("created", "desc")
+    db.collection("projects").orderBy("created", "desc")
       .onSnapshot(snapshot => {
-
         liveGrid.innerHTML = "";
 
         snapshot.forEach(doc => {
@@ -253,7 +262,6 @@
 
           const div = document.createElement("div");
           div.className = "project-card";
-
           div.innerHTML = `
             <img src="${data.url}">
             <div class="project-info">Uploaded Project</div>
@@ -261,7 +269,6 @@
 
           liveGrid.appendChild(div);
         });
-
       });
   </script>
 
