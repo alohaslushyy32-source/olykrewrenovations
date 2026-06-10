@@ -196,8 +196,9 @@ body::before {
 }
 
 .card:hover {
-  box-shadow: 0 0 20px rgba(212,175,55,0.25),
-              0 0 60px rgba(212,175,55,0.1);
+  box-shadow:
+    0 0 20px rgba(212,175,55,0.25),
+    0 0 60px rgba(212,175,55,0.1);
   transform: translateY(-8px);
 }
 
@@ -268,6 +269,7 @@ body::before {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  transition: opacity 0.6s ease;
 }
 
 .loader-text {
@@ -281,6 +283,21 @@ body::before {
   0% { opacity: 0.3; }
   50% { opacity: 1; }
   100% { opacity: 0.3; }
+}
+
+/* ========================= */
+/* ANIMATION (FIXED - GLOBAL) */
+/* ========================= */
+
+.section, .card, .gallery-img {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ========================= */
@@ -299,8 +316,10 @@ body::before {
   }
 
   .service-video {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
+    height: 45vh;
+    min-height: 250px;
+    max-height: 400px;
+    object-fit: cover;
   }
 
   .grid {
@@ -349,16 +368,5 @@ body::before {
   .nav-right .cta {
     padding: 8px 12px;
     font-size: 12px;
-  }
-
-  .section, .card, .gallery-img {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease;
-  }
-
-  .show {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
