@@ -82,8 +82,11 @@ body::before {
 
 /* HERO */
 .hero {
-  padding-bottom: 0;
-  margin-bottom: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-overlay {
