@@ -295,10 +295,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ========================= */
 /* BEFORE / AFTER SLIDER */
-/* ========================= */
-
 .ba-wrapper {
   display: flex;
   justify-content: center;
@@ -370,10 +367,11 @@ html {
     font-size: 14px;
   }
 
+  /* ✅ FIXED: FORCE 2 COLUMNS ON MOBILE */
   .grid {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+  }
 
   .card {
     padding: 18px;
