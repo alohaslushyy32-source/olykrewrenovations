@@ -432,23 +432,33 @@ html {
   }
 
   .service-video {
-    display: inline-block;
+  display: inline-block;
 
-    width: 90%;
-    max-width: 1400px;
+  width: 90%;
+  max-width: 1400px;
 
-    height: 700px !important;
-    min-height: 700px !important;
-    max-height: 700px !important;
+  height: 700px !important;
+  min-height: 700px !important;
+  max-height: 700px !important;
 
-    object-fit: cover !important;
+  object-fit: cover !important;
 
-    border-radius: 20px;
-    border: 2px solid rgba(212,175,55,0.35);
+  border-radius: 20px;
+  border: 2px solid rgba(212,175,55,0.35);
 
-    box-shadow:
-      0 0 0 1px rgba(212,175,55,0.15),
-      0 25px 60px rgba(0,0,0,0.5),
-      0 0 50px rgba(212,175,55,0.08);
-  }
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.15),
+    0 25px 60px rgba(0,0,0,0.5),
+    0 0 50px rgba(212,175,55,0.08);
+
+  transition: all 0.4s ease;
+}
+
+/* ✨ GOLD GLOW ON HOVER */
+.service-video:hover {
+  transform: scale(1.01);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.25),
+    0 30px 80px rgba(0,0,0,0.6),
+    0 0 80px rgba(212,175,55,0.35);
 }
