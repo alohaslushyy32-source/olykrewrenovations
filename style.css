@@ -367,13 +367,9 @@ html {
     font-size: 14px;
   }
 
-  /* ✅ FIXED: FORCE 2 COLUMNS ON MOBILE */
-  @media (max-width: 768px) {
-
-  /* FORCE SERVICES TO ALWAYS BE 2 PER ROW */
+  /* ✅ FIXED 2-COLUMN GRID */
   .grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
   }
 
@@ -389,8 +385,6 @@ html {
   .card p {
     font-size: 12px;
   }
-
-}
 
   .trust {
     flex-wrap: wrap;
