@@ -3,108 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
+  <title>Admin Login</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* FORCE VISIBILITY FIX */
+    #loginBox, #uploadArea {
+      position: relative;
+      z-index: 999;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.3);
+    }
+
+    input {
+      color: black;
+    }
+
+    .admin-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <img src="images/logo.png" class="logo" alt="Logo">
-</header>
+  <header class="topbar">
+    <img src="images/logo.png" class="logo" alt="Logo">
+  </header>
 
-<main class="section">
+  <main class="admin-center">
 
-  <div class="card" style="max-width:420px;margin:auto;">
+    <div class="card" style="max-width:400px;width:100%;">
 
-    <h1>Admin Login</h1>
+      <h1>Admin Login</h1>
 
-    <!-- LOGIN -->
-    <div id="loginBox">
-      <input id="email" placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
-      <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin:5px 0;">
-      <button class="btn" onclick="login()">Login</button>
+      <!-- LOGIN -->
+      <div id="loginBox">
+        <input id="email" placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
+        <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin:5px 0;">
+        <button class="btn" onclick="login()">Login</button>
+      </div>
+
+      <!-- UPLOAD -->
+      <div id="uploadArea" style="display:none;margin-top:20px;">
+        <h2>Upload Project Photo</h2>
+
+        <input type="file" id="fileInput">
+        <br><br>
+
+        <button class="btn" onclick="uploadImage()">Upload</button>
+      </div>
+
     </div>
 
-    <!-- UPLOAD -->
-    <div id="uploadArea" style="display:none;margin-top:20px;">
-      <h2>Upload Project</h2>
+  </main>
 
-      <input type="file" id="fileInput">
-      <br><br>
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-      <button class="btn" onclick="uploadImage()">Upload</button>
-    </div>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+      authDomain: "olykrew-website.firebaseapp.com",
+      projectId: "olykrew-website",
+      storageBucket: "olykrew-website.appspot.com",
+      messagingSenderId: "683329807063",
+      appId: "1:683329807063:web:a4b5b68670210599e70692"
+    };
 
-  </div>
+    firebase.initializeApp(firebaseConfig);
 
-</main>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-  authDomain: "olykrew-website.firebaseapp.com",
-  projectId: "olykrew-website",
-  storageBucket: "olykrew-website.appspot.com",
-  messagingSenderId: "683329807063",
-  appId: "1:683329807063:web:a4b5b68670210599e70692"
-};
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("loginBox").style.display = "none";
+          document.getElementById("uploadArea").style.display = "block";
+        })
+        .catch(err => alert(err.message));
+    }
 
-firebase.initializeApp(firebaseConfig);
+    async function uploadImage() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return alert("Select a file first");
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "Olykrewrenovations");
 
-// FIXED LOGIN UI HANDLING
-auth.onAuthStateChanged(user => {
-  document.getElementById("loginBox").style.display = user ? "none" : "block";
-  document.getElementById("uploadArea").style.display = user ? "block" : "none";
-});
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+        { method: "POST", body: formData }
+      );
 
-// LOGIN
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+      const data = await res.json();
 
-  auth.signInWithEmailAndPassword(email, password)
-    .catch(err => alert(err.message));
-}
+      if (!data.secure_url) return alert("Upload failed");
 
-// UPLOAD
-async function uploadImage() {
-  const file = document.getElementById("fileInput").files[0];
-  if (!file) return alert("Select a file first");
+      await db.collection("projects").add({
+        url: data.secure_url,
+        created: Date.now()
+      });
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "Olykrewrenovations");
-
-  const res = await fetch(
-    "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-    { method: "POST", body: formData }
-  );
-
-  const data = await res.json();
-
-  if (!data.secure_url) {
-    alert("Upload failed");
-    return;
-  }
-
-  await db.collection("projects").add({
-    url: data.secure_url,
-    category: "painting",
-    created: Date.now()
-  });
-
-  alert("Uploaded!");
-}
-</script>
+      alert("Uploaded successfully!");
+    }
+  </script>
 
 </body>
 </html>
