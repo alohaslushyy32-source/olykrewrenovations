@@ -729,3 +729,36 @@ html {
   border-radius: 50%;
   object-fit: cover;
 }
+/* FIX FOOTER MOBILE BREAKAGE */
+@media (max-width: 768px) {
+
+  .bottom-bar {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .bottom-left,
+  .bottom-center,
+  .bottom-right {
+    width: 100%;
+    align-items: center;
+  }
+
+  .contact-stack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-btn {
+    width: 90%;
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-top: 4px;
+  }
+}
