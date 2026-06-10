@@ -313,4 +313,13 @@ body::before {
     padding: 8px 12px;
     font-size: 12px;
   }
+  .section, .card, .gallery-img {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
 }
