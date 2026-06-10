@@ -467,3 +467,70 @@ html {
     100% { transform: scale(1); }
   }
 }
+/* BOTTOM INFO BAR */
+.bottom-bar {
+  width: 100%;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(212,175,55,0.25);
+  color: #f5f5f5;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 40px;
+  box-sizing: border-box;
+
+  position: relative;
+  z-index: 10;
+}
+
+/* LEFT SIDE */
+.bottom-left .brand {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.bottom-left .email {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* CENTER CONTACTS */
+.bottom-center {
+  text-align: center;
+}
+
+.contact-title {
+  font-size: 14px;
+  color: #d4af37;
+  margin-bottom: 5px;
+}
+
+.contact {
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+/* RIGHT SIDE */
+.bottom-right {
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: right;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .bottom-right {
+    text-align: center;
+  }
+}
