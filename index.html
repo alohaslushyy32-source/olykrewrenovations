@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olykrew Renovations</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olykrew Renovations</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -52,7 +52,6 @@
 <!-- SERVICES -->
 <section id="services" class="section">
   <h2 class="title">What We Do</h2>
-  <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
 
   <div class="grid">
     <div class="card"><h3>Drywall</h3><p>Repair & texture matching</p></div>
@@ -62,8 +61,8 @@
   </div>
 </section>
 
-<!-- BEFORE / AFTER (FULL RESTORED AUTO + DRAG) -->
-<section class="section" id="beforeafter">
+<!-- BEFORE / AFTER -->
+<section id="beforeafter" class="section">
   <h2 class="title">Before & After Transformations</h2>
 
   <div class="ba-wrapper">
@@ -79,7 +78,7 @@
   </div>
 </section>
 
-<!-- STATIC PORTFOLIO (FULL RESTORED) -->
+<!-- STATIC GALLERY -->
 <section id="gallery" class="section">
   <h2 class="title">Project Portfolio</h2>
 
@@ -112,96 +111,76 @@
       <div class="project-info">Backyard</div>
     </div>
 
-    <div class="project-card" data-category="bathroom">
-      <img src="images/shower.jpg">
-      <div class="project-info">Shower</div>
-    </div>
-
-    <div class="project-card" data-category="painting">
-      <img src="images/kitchen.jpg">
-      <div class="project-info">Kitchen</div>
-    </div>
-
-    <div class="project-card" data-category="flooring">
-      <img src="images/hallway.jpg">
-      <div class="project-info">Hallway</div>
-    </div>
-
   </div>
 </section>
 
-<!-- LIVE FIREBASE GALLERY -->
+<!-- LIVE GALLERY -->
 <section id="liveGallery" class="section">
   <h2 class="title">Live Gallery</h2>
-
   <div id="liveGrid" class="project-grid"></div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="section contact">
+<section id="contact" class="section">
   <h2 class="title">Get a Quote</h2>
   <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
 </section>
 
-<!-- BEFORE AFTER SCRIPT (RESTORED AUTO ANIMATION) -->
+<!-- LOADER FIX -->
 <script>
-const container = document.querySelector(".ba-container");
-const slider = document.querySelector(".ba-slider");
-const afterImg = document.querySelector(".ba-img.after");
-
-let active = false;
-let auto = true;
-
-function move(x) {
-  const rect = container.getBoundingClientRect();
-  let pos = x - rect.left;
-  pos = Math.max(0, Math.min(pos, rect.width));
-
-  const percent = (pos / rect.width) * 100;
-  slider.style.left = percent + "%";
-  afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-}
-
-// AUTO ANIMATION (RESTORED)
-function animate(time) {
-  if (auto) {
-    let t = time / 2500;
-    let progress = (Math.sin(t) + 1) / 2;
-    const rect = container.getBoundingClientRect();
-    move(rect.left + rect.width * progress);
-  }
-  requestAnimationFrame(animate);
-}
-requestAnimationFrame(animate);
-
-// DRAG SUPPORT
-container.addEventListener("mousedown", () => { active = true; auto = false; });
-window.addEventListener("mouseup", () => active = false);
-
-window.addEventListener("mousemove", (e) => {
-  if (active) move(e.clientX);
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  if (!loader) return;
+  loader.style.opacity = "0";
+  setTimeout(() => loader.remove(), 500);
 });
-
-container.addEventListener("touchstart", (e) => {
-  active = true;
-  auto = false;
-  move(e.touches[0].clientX);
-}, { passive: true });
-
-container.addEventListener("touchmove", (e) => {
-  if (active) move(e.touches[0].clientX);
-}, { passive: true });
-
-window.addEventListener("touchend", () => active = false);
 </script>
 
-<!-- FILTER -->
+<!-- BEFORE AFTER FIX (STABLE) -->
+<script>
+const container = document.querySelector(".ba-container");
+
+if (container) {
+  const slider = document.querySelector(".ba-slider");
+  const afterImg = document.querySelector(".ba-img.after");
+
+  let active = false;
+  let auto = true;
+
+  function move(x) {
+    const rect = container.getBoundingClientRect();
+    let pos = x - rect.left;
+    pos = Math.max(0, Math.min(pos, rect.width));
+
+    const percent = (pos / rect.width) * 100;
+    slider.style.left = percent + "%";
+    afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+  }
+
+  function animate(t) {
+    if (auto) {
+      const rect = container.getBoundingClientRect();
+      const p = (Math.sin(t / 2000) + 1) / 2;
+      move(rect.left + rect.width * p);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+
+  container.addEventListener("mousedown", () => { active = true; auto = false; });
+  window.addEventListener("mouseup", () => active = false);
+  window.addEventListener("mousemove", e => active && move(e.clientX));
+}
+</script>
+
+<!-- FILTER FIX -->
 <script>
 const buttons = document.querySelectorAll(".filter-btn");
 const projects = document.querySelectorAll(".static-gallery .project-card");
 
 buttons.forEach(btn => {
-  btn.onclick = () => {
+  btn.addEventListener("click", () => {
     buttons.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
@@ -209,13 +188,19 @@ buttons.forEach(btn => {
 
     projects.forEach(card => {
       const match = card.dataset.category;
-      card.style.display = (filter === "all" || filter === match) ? "block" : "none";
+
+      if (filter === "all" || filter === match) {
+        card.style.display = "block";
+        card.style.opacity = "1";
+      } else {
+        card.style.display = "none";
+      }
     });
-  };
+  });
 });
 </script>
 
-<!-- FIREBASE -->
+<!-- FIREBASE LIVE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -230,23 +215,24 @@ const db = firebase.firestore();
 const liveGrid = document.getElementById("liveGrid");
 
 db.collection("projects").orderBy("created", "desc")
-  .onSnapshot(snapshot => {
-    liveGrid.innerHTML = "";
+.onSnapshot(snapshot => {
+  liveGrid.innerHTML = "";
 
-    snapshot.forEach(doc => {
-      const d = doc.data();
+  snapshot.forEach(doc => {
+    const d = doc.data();
+    if (!d.url) return;
 
-      const div = document.createElement("div");
-      div.className = "project-card";
+    const div = document.createElement("div");
+    div.className = "project-card";
 
-      div.innerHTML = `
-        <img src="${d.url}">
-        <div class="project-info">Uploaded Project</div>
-      `;
+    div.innerHTML = `
+      <img src="${d.url}">
+      <div class="project-info">Uploaded Project</div>
+    `;
 
-      liveGrid.appendChild(div);
-    });
+    liveGrid.appendChild(div);
   });
+});
 </script>
 
 </body>
