@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Olykrew Renovations</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -55,38 +54,73 @@
     <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
 
     <div class="grid">
-      <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching.</p></div>
-      <div class="card"><h3>Interior & Exterior Painting</h3><p>Clean finishes and long-lasting results.</p></div>
-      <div class="card"><h3>Tile & Flooring</h3><p>Modern durable installations.</p></div>
-      <div class="card"><h3>Bathroom Remodels</h3><p>Luxury bathroom transformations.</p></div>
+
+      <div class="card">
+        <h3>Drywall & Texture Repair</h3>
+        <p>Expert drywall repair and seamless texture matching for flawless wall restoration.</p>
+      </div>
+
+      <div class="card">
+        <h3>Interior & Exterior Painting</h3>
+        <p>High-quality painting services delivering clean finishes and long-lasting results.</p>
+      </div>
+
+      <div class="card">
+        <h3>Tile & Flooring Installation</h3>
+        <p>Professional tile work and flooring installation for durable, modern spaces.</p>
+      </div>
+
+      <div class="card">
+        <h3>Bathroom Remodels</h3>
+        <p>Complete bathroom renovations designed for comfort, style, and function.</p>
+      </div>
+
+      <div class="card">
+        <h3>Insurance Restoration</h3>
+        <p>Fast and reliable restoration for water, fire, and insurance-related damage.</p>
+      </div>
+
+      <div class="card">
+        <h3>Built to the Highest Standards</h3>
+        <p>We take pride in delivering superior workmanship, premium finishes, and lasting results on every project we complete.</p>
+      </div>
+
     </div>
   </section>
 
-  <!-- BEFORE / AFTER -->
-  <section class="section">
-    <h2 class="title">Before & After</h2>
-    <p class="subtitle">Drag to compare transformation</p>
+  <!-- BEFORE / AFTER (NEW FEATURE) -->
+  <section class="section" id="beforeafter">
 
-    <div class="slider">
-      <div class="before" style="background-image:url('images/before.jpg')"></div>
-      <div class="after" style="background-image:url('images/after.jpg')"></div>
-      <input type="range" min="0" max="100" value="50" id="slider">
+    <h2 class="title">Before & After Transformations</h2>
+    <p class="subtitle">Drag to see the difference</p>
+
+    <div class="ba-wrapper">
+
+      <div class="ba-container">
+        <img src="images/before.jpg" class="ba-img before">
+        <img src="images/after.jpg" class="ba-img after">
+        <div class="ba-slider"></div>
+      </div>
+
     </div>
+
   </section>
 
   <!-- GALLERY -->
   <section id="gallery" class="section">
     <h2 class="title">Project Portfolio</h2>
+    <p class="subtitle">Real work from real projects.</p>
     <div class="gallery" id="gallery"></div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact" class="section contact">
     <h2 class="title">Get a Quote</h2>
+    <p class="subtitle">We respond quickly — tell us about your project.</p>
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
-  <!-- LOADER -->
+  <!-- LOADER SCRIPT -->
   <script>
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
@@ -101,30 +135,22 @@
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
       });
     }, { threshold: 0.15 });
 
     elements.forEach(el => observer.observe(el));
   </script>
 
-  <!-- PARALLAX -->
+  <!-- VIDEO PARALLAX -->
   <script>
     window.addEventListener("scroll", () => {
       const video = document.querySelector(".service-video");
-      if (video) {
-        video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
-      }
-    });
-  </script>
+      if (!video) return;
 
-  <!-- BEFORE/AFTER -->
-  <script>
-    const slider = document.getElementById("slider");
-    const after = document.querySelector(".after");
-
-    slider.addEventListener("input", (e) => {
-      after.style.width = e.target.value + "%";
+      video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
     });
   </script>
 
