@@ -1,51 +1,108 @@
-<script>
-const gallery = document.getElementById("gallery");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olykrew Renovations</title>
 
-let images = JSON.parse(localStorage.getItem("gallery")) || [];
+  <link rel="stylesheet" href="style.css">
+</head>
 
-function renderGallery() {
-  gallery.innerHTML = "";
+<body>
 
-  firebase.auth().onAuthStateChanged(user => {
+  <!-- TOP LEFT LOGO -->
+  <header class="navbar">
+    <img src="images/logo.png" class="logo" alt="Olykrew Logo">
+  </header>
 
-    images.forEach((url, index) => {
+  <!-- MAIN HERO SECTION -->
+  <main class="content">
+    <div class="hero">
+      <h1>Olykrew Renovations</h1>
+      <p>Quality renovation work with a clean, modern finish.</p>
 
-      const wrapper = document.createElement("div");
-      wrapper.style.position = "relative";
-      wrapper.style.display = "inline-block";
+      <button class="btn">Get a Quote</button>
+    </div>
+  </main>
 
-      const img = document.createElement("img");
-      img.src = url;
-      img.className = "gallery-img";
+  <!-- GALLERY SECTION -->
+  <section class="gallery-section">
+    <h2>Our Work</h2>
+    <div id="gallery" class="gallery"></div>
+  </section>
 
-      wrapper.appendChild(img);
+  <!-- 🔥 ONLY ADDITION: Firebase SAFE INIT (DOES NOT BREAK PAGE) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
-      // 🔐 ONLY ADMIN CAN SEE DELETE BUTTON
-      if (user) {
-        const btn = document.createElement("button");
-        btn.innerText = "X";
-        btn.style.position = "absolute";
-        btn.style.top = "5px";
-        btn.style.right = "5px";
-        btn.style.background = "red";
-        btn.style.color = "white";
-        btn.style.border = "none";
-        btn.style.cursor = "pointer";
+  <script>
+    try {
+      const firebaseConfig = {
+        apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+        authDomain: "olykrew-website.firebaseapp.com",
+        projectId: "olykrew-website",
+        storageBucket: "olykrew-website.firebasestorage.app",
+        messagingSenderId: "683329807063",
+        appId: "1:683329807063:web:a4b5b68670210599e70692"
+      };
 
-        btn.onclick = () => {
-          images.splice(index, 1);
-          localStorage.setItem("gallery", JSON.stringify(images));
-          renderGallery();
-        };
+      firebase.initializeApp(firebaseConfig);
+    } catch (e) {
+      console.log("Firebase already initialized or failed safely:", e);
+    }
+  </script>
 
-        wrapper.appendChild(btn);
-      }
+  <!-- 🔥 YOUR ORIGINAL GALLERY LOGIC (UNCHANGED FUNCTIONALITY) -->
+  <script>
+    const gallery = document.getElementById("gallery");
 
-      gallery.appendChild(wrapper);
-    });
+    let images = JSON.parse(localStorage.getItem("gallery")) || [];
 
-  });
-}
+    function renderGallery() {
+      gallery.innerHTML = "";
 
-renderGallery();
-</script>
+      images.forEach((url, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        wrapper.style.display = "inline-block";
+
+        const img = document.createElement("img");
+        img.src = url;
+        img.className = "gallery-img";
+
+        wrapper.appendChild(img);
+
+        // 🔐 ONLY SHOW DELETE IF ADMIN LOGGED IN
+        if (firebase?.auth) {
+          firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              const btn = document.createElement("button");
+              btn.innerText = "X";
+              btn.style.position = "absolute";
+              btn.style.top = "5px";
+              btn.style.right = "5px";
+              btn.style.background = "red";
+              btn.style.color = "white";
+              btn.style.border = "none";
+              btn.style.cursor = "pointer";
+
+              btn.onclick = () => {
+                images.splice(index, 1);
+                localStorage.setItem("gallery", JSON.stringify(images));
+                renderGallery();
+              };
+
+              wrapper.appendChild(btn);
+            }
+          });
+        }
+
+        gallery.appendChild(wrapper);
+      });
+    }
+
+    renderGallery();
+  </script>
+
+</body>
+</html>
