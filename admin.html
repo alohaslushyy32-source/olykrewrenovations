@@ -20,12 +20,14 @@
 
       <h1>Admin Login</h1>
 
+      <!-- LOGIN -->
       <div id="loginBox">
         <input id="email" placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
         <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin:5px 0;">
         <button class="btn" onclick="login()">Login</button>
       </div>
 
+      <!-- UPLOAD -->
       <div id="uploadArea" style="display:none;margin-top:20px;">
         <h2>Upload Project Photo</h2>
 
@@ -39,7 +41,7 @@
 
   </main>
 
-  <!-- FIREBASE -->
+  <!-- FIREBASE (COMPAT VERSION - IMPORTANT) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -59,42 +61,58 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // AUTO CHECK LOGIN STATE
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("uploadArea").style.display = "block";
+      } else {
+        document.getElementById("loginBox").style.display = "block";
+        document.getElementById("uploadArea").style.display = "none";
+      }
+    });
+
     // LOGIN
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          document.getElementById("loginBox").style.display = "none";
-          document.getElementById("uploadArea").style.display = "block";
-        })
         .catch(err => alert(err.message));
     }
 
-    // UPLOAD IMAGE (CLOUDINARY + FIRESTORE)
+    // UPLOAD IMAGE
     async function uploadImage() {
       const file = document.getElementById("fileInput").files[0];
       if (!file) return alert("Select a file first");
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "Olykrewrenovations");
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "Olykrewrenovations");
 
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-        { method: "POST", body: formData }
-      );
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+          { method: "POST", body: formData }
+        );
 
-      const data = await res.json();
+        const data = await res.json();
 
-      // SAVE TO FIRESTORE (THIS FIXES EVERYTHING)
-      await db.collection("projects").add({
-        url: data.secure_url,
-        created: Date.now()
-      });
+        if (!data.secure_url) {
+          alert("Upload failed");
+          return;
+        }
 
-      alert("Uploaded successfully!");
+        await db.collection("projects").add({
+          url: data.secure_url,
+          created: Date.now()
+        });
+
+        alert("Uploaded successfully!");
+
+      } catch (err) {
+        alert("Upload error: " + err.message);
+      }
     }
   </script>
 
