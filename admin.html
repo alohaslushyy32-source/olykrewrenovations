@@ -15,7 +15,6 @@
     <img src="images/logo.png" class="logo" alt="Olykrew Logo">
   </header>
 
-  <!-- CENTER -->
   <main class="content">
 
     <div class="admin-box">
@@ -58,7 +57,14 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // LOGIN FUNCTION
+    let isAdmin = false;
+
+    // TRACK LOGIN STATE
+    auth.onAuthStateChanged(user => {
+      isAdmin = !!user;
+    });
+
+    // LOGIN
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
@@ -71,14 +77,11 @@
         .catch(err => alert(err.message));
     }
 
-    // UPLOAD FUNCTION (ONLY WORKS AFTER LOGIN)
+    // UPLOAD IMAGE
     async function uploadImage() {
       const file = document.getElementById("fileInput").files[0];
 
-      if (!file) {
-        alert("Please select a file");
-        return;
-      }
+      if (!file) return alert("Select a file first");
 
       const formData = new FormData();
       formData.append("file", file);
@@ -98,7 +101,7 @@
       stored.push(data.secure_url);
       localStorage.setItem("gallery", JSON.stringify(stored));
 
-      alert("Uploaded successfully!");
+      alert("Uploaded!");
     }
   </script>
 
