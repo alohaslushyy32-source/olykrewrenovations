@@ -10,28 +10,49 @@
 
 <body>
 
-  <!-- TOP LEFT LOGO -->
+  <!-- LOGO -->
   <header class="navbar">
     <img src="images/logo.png" class="logo" alt="Olykrew Logo">
   </header>
 
-  <!-- MAIN HERO SECTION -->
+  <!-- HERO -->
   <main class="content">
     <div class="hero">
       <h1>Olykrew Renovations</h1>
       <p>Quality renovation work with a clean, modern finish.</p>
-
       <button class="btn">Get a Quote</button>
     </div>
   </main>
 
-  <!-- GALLERY SECTION -->
+  <!-- SERVICES SECTION (NEW PROFESSIONAL LAYOUT) -->
+  <section class="services">
+    <h2>Our Services</h2>
+
+    <div class="service-grid">
+      <div class="service-box">
+        <h3>Renovations</h3>
+        <p>High-quality home remodeling and upgrades built to last.</p>
+      </div>
+
+      <div class="service-box">
+        <h3>Restoration</h3>
+        <p>Bringing damaged or outdated spaces back to life.</p>
+      </div>
+
+      <div class="service-box">
+        <h3>Design Work</h3>
+        <p>Modern, clean finishes tailored to your home.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
   <section class="gallery-section">
     <h2>Our Work</h2>
     <div id="gallery" class="gallery"></div>
   </section>
 
-  <!-- Firebase SAFE INIT (DOES NOT BREAK PAGE) -->
+  <!-- FIREBASE SAFE INIT (DO NOT BREAK PAGE) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
@@ -47,64 +68,58 @@
       };
 
       firebase.initializeApp(firebaseConfig);
-    } catch (e) {
-      console.log("Firebase already initialized or failed safely:", e);
-    }
+    } catch (e) {}
+  </script>
+
+  <!-- GALLERY SCRIPT (CLEAN + ADMIN SAFE) -->
   <script>
-const gallery = document.getElementById("gallery");
-let images = JSON.parse(localStorage.getItem("gallery")) || [];
+    const gallery = document.getElementById("gallery");
+    let images = JSON.parse(localStorage.getItem("gallery")) || [];
 
-// store logged-in user ONCE
-let currentUser = null;
+    let currentUser = null;
 
-if (firebase && firebase.auth) {
-  firebase.auth().onAuthStateChanged(user => {
-    currentUser = user;
-    renderGallery();
-  });
-} else {
-  renderGallery();
-}
-
-function renderGallery() {
-  gallery.innerHTML = "";
-
-  images.forEach((url, index) => {
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "relative";
-    wrapper.style.display = "inline-block";
-
-    const img = document.createElement("img");
-    img.src = url;
-    img.className = "gallery-img";
-
-    wrapper.appendChild(img);
-
-    // 🔐 ONLY SHOW DELETE IF LOGGED IN ADMIN
-    if (currentUser) {
-      const btn = document.createElement("button");
-      btn.innerText = "X";
-      btn.style.position = "absolute";
-      btn.style.top = "5px";
-      btn.style.right = "5px";
-      btn.style.background = "red";
-      btn.style.color = "white";
-      btn.style.border = "none";
-      btn.style.cursor = "pointer";
-
-      btn.onclick = () => {
-        images.splice(index, 1);
-        localStorage.setItem("gallery", JSON.stringify(images));
+    if (firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(user => {
+        currentUser = user;
         renderGallery();
-      };
-
-      wrapper.appendChild(btn);
+      });
+    } else {
+      renderGallery();
     }
 
-    gallery.appendChild(wrapper);
-  });
-}
-</script>
+    function renderGallery() {
+      gallery.innerHTML = "";
+
+      images.forEach((url, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "img-wrapper";
+
+        const img = document.createElement("img");
+        img.src = url;
+        img.className = "gallery-img";
+
+        wrapper.appendChild(img);
+
+        if (currentUser) {
+          const btn = document.createElement("button");
+          btn.innerText = "X";
+          btn.className = "delete-btn";
+
+          btn.onclick = () => {
+            images.splice(index, 1);
+            localStorage.setItem("gallery", JSON.stringify(images));
+            renderGallery();
+          };
+
+          wrapper.appendChild(btn);
+        }
+
+        gallery.appendChild(wrapper);
+      });
+    }
+
+    renderGallery();
+  </script>
 
 </body>
 </html>
