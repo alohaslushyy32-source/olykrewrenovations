@@ -242,3 +242,14 @@ body::before {
   object-fit: cover;
   display: block;
 }
+
+@media (max-width: 768px) {
+
+  .service-video {
+    height: 35vh;
+    min-height: 220px;
+    max-height: 300px;
+    object-fit: cover;
+  }
+
+}
