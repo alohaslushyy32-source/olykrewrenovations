@@ -50,24 +50,36 @@ body::before {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
+
+  /* IMPORTANT FIX */
+  flex-shrink: 0;
   flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-right a {
-  margin-left: 0;
   color: #f5e6d3;
   text-decoration: none;
   font-size: 14px;
+
+  /* prevents text chopping */
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-right .cta {
   background: #d2a679;
   color: #2b1b12;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
+
+  /* CRITICAL FIX */
   white-space: nowrap;
+  flex-shrink: 0;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* HERO */
