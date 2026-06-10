@@ -411,9 +411,17 @@ html {
 }
 /* MOBILE VIDEO FIX */
 @media (max-width: 768px) {
-  .service-video {
-    height: 30vh;
-    min-height: 180px;
-    max-height: 250px;
+
+  .video-section {
+    overflow: hidden;
   }
+
+  .service-video {
+    width: 100%;
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    object-fit: cover;
+  }
+
 }
