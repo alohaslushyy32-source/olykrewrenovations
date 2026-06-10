@@ -424,7 +424,6 @@ html {
     object-fit: cover;
   }
 }
-/* DESKTOP VIDEO FRAME */
 @media (min-width: 769px) {
 
   .video-section {
@@ -434,11 +433,15 @@ html {
 
   .service-video {
     display: inline-block;
+
     width: 90%;
     max-width: 1400px;
 
-    height: 700px;
-    object-fit: cover;
+    height: 700px !important;
+    min-height: 700px !important;
+    max-height: 700px !important;
+
+    object-fit: cover !important;
 
     border-radius: 20px;
     border: 2px solid rgba(212,175,55,0.35);
