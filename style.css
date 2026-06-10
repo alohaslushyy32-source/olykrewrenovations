@@ -238,7 +238,9 @@ body::before {
 
 .service-video {
   width: 100%;
-  height: 650px; /* ⬅️ makes it BIG and cinematic */
+  height: 90vh;   /* ⬅️ fills most of screen height */
+  min-height: 700px;
+  max-height: 1000px;
   object-fit: cover;
   display: block;
-}}
+}
