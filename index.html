@@ -78,7 +78,6 @@
       </div>
     </div>
 
-    <!-- ✅ ADDED BOX (YOU REQUESTED THIS) -->
     <div class="after-box">
       <h3>And this is just the beginning.</h3>
       <p>More transformations coming soon — every project pushes higher standards.</p>
@@ -144,14 +143,17 @@
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
+  <!-- LOADER FIX SAFE -->
   <script>
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
+      if (!loader) return;
       loader.style.opacity = "0";
       setTimeout(() => loader.remove(), 600);
     });
   </script>
 
+  <!-- FILTER (FIXED SAFE VERSION) -->
   <script>
     const buttons = document.querySelectorAll(".filter-btn");
     const projects = document.querySelectorAll(".project-card");
@@ -169,13 +171,60 @@
 
           if (filter === "all" || filter === match) {
             card.style.display = "block";
+            setTimeout(() => card.style.opacity = "1", 50);
           } else {
-            card.style.display = "none";
+            card.style.opacity = "0";
+            setTimeout(() => card.style.display = "none", 150);
           }
         });
 
       });
     });
+  </script>
+
+  <!-- BEFORE/AFTER SAFETY FIX -->
+  <script>
+    const container = document.querySelector(".ba-container");
+    const slider = document.querySelector(".ba-slider");
+    const afterImg = document.querySelector(".ba-img.after");
+
+    if (container && slider && afterImg) {
+
+      let active = false;
+
+      function move(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
+
+        const percent = (x / rect.width) * 100;
+
+        slider.style.left = percent + "%";
+        afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+      }
+
+      container.addEventListener("mousedown", () => active = true);
+      window.addEventListener("mouseup", () => active = false);
+
+      window.addEventListener("mousemove", (e) => {
+        if (!active) return;
+        move(e.clientX);
+      });
+
+      container.addEventListener("touchstart", (e) => {
+        active = true;
+        move(e.touches[0].clientX);
+      }, { passive: true });
+
+      container.addEventListener("touchmove", (e) => {
+        if (!active) return;
+        move(e.touches[0].clientX);
+      }, { passive: true });
+
+      window.addEventListener("touchend", () => active = false);
+    }
   </script>
 
 </body>
