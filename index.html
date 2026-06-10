@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Olykrew Renovations</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -28,26 +27,21 @@
 
   <!-- HERO -->
   <section class="hero">
-
     <div class="hero-overlay">
       <h1>Luxury Renovation & Restoration</h1>
       <p>Precision craftsmanship. Modern design. Built to last.</p>
-
       <a href="#services" class="btn">Explore Services</a>
     </div>
-
   </section>
 
-  <!-- VIDEO SECTION -->
+  <!-- VIDEO -->
   <section class="video-section">
-
     <video autoplay muted loop playsinline class="service-video">
       <source src="videos/background.mp4" type="video/mp4">
     </video>
-
   </section>
 
-  <!-- TRUST BAR -->
+  <!-- TRUST -->
   <section class="trust">
     <div>✔ Licensed & Insured</div>
     <div>✔ Residential & Commercial</div>
@@ -98,78 +92,23 @@
   <section id="gallery" class="section">
     <h2 class="title">Project Portfolio</h2>
     <p class="subtitle">Real work from real projects.</p>
-
-    <div id="gallery" class="gallery"></div>
+    <div class="gallery" id="gallery"></div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact" class="section contact">
     <h2 class="title">Get a Quote</h2>
     <p class="subtitle">We respond quickly — tell us about your project.</p>
-
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
-  <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
+  <!-- LOADER SCRIPT -->
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-      authDomain: "olykrew-website.firebaseapp.com",
-      projectId: "olykrew-website",
-      storageBucket: "olykrew-website.firebasestorage.app",
-      messagingSenderId: "683329807063",
-      appId: "1:683329807063:web:a4b5b68670210599e70692"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-  </script>
-
-  <!-- GALLERY SCRIPT -->
-  <script>
-    const gallery = document.getElementById("gallery");
-    let images = JSON.parse(localStorage.getItem("gallery")) || [];
-    let currentUser = null;
-
-    firebase.auth().onAuthStateChanged(user => {
-      currentUser = user;
-      renderGallery();
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      loader.style.opacity = "0";
+      setTimeout(() => loader.remove(), 600);
     });
-
-    function renderGallery() {
-      gallery.innerHTML = "";
-
-      images.forEach((url, index) => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "img-wrapper";
-
-        const img = document.createElement("img");
-        img.src = url;
-        img.className = "gallery-img";
-
-        wrapper.appendChild(img);
-
-        if (currentUser) {
-          const btn = document.createElement("button");
-          btn.innerText = "×";
-          btn.className = "delete-btn";
-
-          btn.onclick = () => {
-            images.splice(index, 1);
-            localStorage.setItem("gallery", JSON.stringify(images));
-            renderGallery();
-          };
-
-          wrapper.appendChild(btn);
-        }
-
-        gallery.appendChild(wrapper);
-      });
-    }
-
-    renderGallery();
   </script>
 
   <!-- SCROLL ANIMATION -->
@@ -187,21 +126,13 @@
     elements.forEach(el => observer.observe(el));
   </script>
 
-  <!-- LOADER FIXED (NO STUCK SCREEN EVER) -->
+  <!-- VIDEO PARALLAX -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const loader = document.getElementById('loader');
+    window.addEventListener("scroll", () => {
+      const video = document.querySelector(".service-video");
+      if (!video) return;
 
-      if (!loader) return;
-
-      setTimeout(() => {
-        loader.style.transition = 'opacity 0.6s ease';
-        loader.style.opacity = '0';
-
-        setTimeout(() => {
-          loader.style.display = 'none';
-        }, 650);
-      }, 900);
+      video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
     });
   </script>
 
