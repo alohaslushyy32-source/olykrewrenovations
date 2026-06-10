@@ -88,7 +88,7 @@
     </div>
   </section>
 
-  <!-- BEFORE / AFTER (NEW FEATURE) -->
+  <!-- BEFORE / AFTER SLIDER (NEW FEATURE) -->
   <section class="section" id="beforeafter">
 
     <h2 class="title">Before & After Transformations</h2>
@@ -97,8 +97,9 @@
     <div class="ba-wrapper">
 
       <div class="ba-container">
-        <img src="images/before.jpg" class="ba-img before">
-        <img src="images/after.jpg" class="ba-img after">
+        <img src="images/before.jpg" class="ba-img before" alt="Before Image">
+        <img src="images/after.jpg" class="ba-img after" alt="After Image">
+
         <div class="ba-slider"></div>
       </div>
 
@@ -152,6 +153,52 @@
 
       video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
     });
+  </script>
+
+  <!-- BEFORE / AFTER DRAG FUNCTION -->
+  <script>
+    const container = document.querySelector(".ba-container");
+    const slider = document.querySelector(".ba-slider");
+
+    let isDown = false;
+
+    if (container && slider) {
+      container.addEventListener("mousedown", () => isDown = true);
+      window.addEventListener("mouseup", () => isDown = false);
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+
+        const rect = container.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
+
+        const percent = (x / rect.width) * 100;
+
+        slider.style.left = percent + "%";
+        container.querySelector(".after").style.clipPath =
+          `inset(0 ${100 - percent}% 0 0)`;
+      });
+
+      /* mobile touch */
+      container.addEventListener("touchmove", (e) => {
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+
+        let x = touch.clientX - rect.left;
+
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
+
+        const percent = (x / rect.width) * 100;
+
+        slider.style.left = percent + "%";
+        container.querySelector(".after").style.clipPath =
+          `inset(0 ${100 - percent}% 0 0)`;
+      });
+    }
   </script>
 
 </body>
