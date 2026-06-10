@@ -3,117 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    /* EMERGENCY VISIBILITY FIX */
-    #loginBox { display: block; }
-    #uploadArea { display: none; }
-  </style>
 </head>
 
 <body>
 
 <header class="topbar">
-  <img src="images/logo.png" class="logo">
+  <img src="images/logo.png" class="logo" alt="Logo">
 </header>
 
 <main class="section">
 
-  <div class="card" style="max-width:400px;margin:auto;">
+  <div class="card" style="max-width:420px;margin:auto;">
 
     <h1>Admin Login</h1>
 
+    <!-- LOGIN -->
     <div id="loginBox">
       <input id="email" placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
       <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin:5px 0;">
       <button class="btn" onclick="login()">Login</button>
     </div>
 
-    <div id="uploadArea">
-      <h2>Upload</h2>
+    <!-- UPLOAD -->
+    <div id="uploadArea" style="display:none;margin-top:20px;">
+      <h2>Upload Project</h2>
+
       <input type="file" id="fileInput">
       <br><br>
+
       <button class="btn" onclick="uploadImage()">Upload</button>
-      <button class="btn" onclick="logout()" style="margin-top:10px;background:#333;">Logout</button>
     </div>
 
   </div>
 
 </main>
 
-<!-- FIREBASE -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+const firebaseConfig = {
+  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+  authDomain: "olykrew-website.firebaseapp.com",
+  projectId: "olykrew-website",
+  storageBucket: "olykrew-website.appspot.com",
+  messagingSenderId: "683329807063",
+  appId: "1:683329807063:web:a4b5b68670210599e70692"
+};
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-    authDomain: "olykrew-website.firebaseapp.com",
-    projectId: "olykrew-website",
-    storageBucket: "olykrew-website.appspot.com",
-    messagingSenderId: "683329807063",
-    appId: "1:683329807063:web:a4b5b68670210599e70692"
-  };
+firebase.initializeApp(firebaseConfig);
 
-  firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+// FIXED LOGIN UI HANDLING
+auth.onAuthStateChanged(user => {
+  document.getElementById("loginBox").style.display = user ? "none" : "block";
+  document.getElementById("uploadArea").style.display = user ? "block" : "none";
+});
 
-  const loginBox = document.getElementById("loginBox");
-  const uploadArea = document.getElementById("uploadArea");
+// LOGIN
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      loginBox.style.display = "none";
-      uploadArea.style.display = "block";
-    } else {
-      loginBox.style.display = "block";
-      uploadArea.style.display = "none";
-    }
+  auth.signInWithEmailAndPassword(email, password)
+    .catch(err => alert(err.message));
+}
+
+// UPLOAD
+async function uploadImage() {
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) return alert("Select a file first");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "Olykrewrenovations");
+
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+    { method: "POST", body: formData }
+  );
+
+  const data = await res.json();
+
+  if (!data.secure_url) {
+    alert("Upload failed");
+    return;
+  }
+
+  await db.collection("projects").add({
+    url: data.secure_url,
+    category: "painting",
+    created: Date.now()
   });
 
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    auth.signInWithEmailAndPassword(email, password)
-      .catch(err => alert(err.message));
-  };
-
-  window.logout = function () {
-    auth.signOut();
-  };
-
-  window.uploadImage = async function () {
-    const file = document.getElementById("fileInput").files[0];
-    if (!file) return alert("Select a file first");
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "Olykrewrenovations");
-
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-      { method: "POST", body: formData }
-    );
-
-    const data = await res.json();
-
-    await db.collection("projects").add({
-      url: data.secure_url,
-      created: Date.now()
-    });
-
-    alert("Uploaded!");
-  };
-
-});
+  alert("Uploaded!");
+}
 </script>
 
 </body>
