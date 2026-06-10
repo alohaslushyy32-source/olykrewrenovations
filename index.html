@@ -10,38 +10,39 @@
 
 <body>
 
-  <!-- LOGO -->
-  <header class="navbar">
+  <!-- TOP BAR -->
+  <header class="topbar">
     <img src="images/logo.png" class="logo" alt="Olykrew Logo">
+    <a href="#contact" class="top-btn">Get a Quote</a>
   </header>
 
   <!-- HERO -->
-  <main class="content">
-    <div class="hero">
-      <h1>Olykrew Renovations</h1>
-      <p>Quality renovation work with a clean, modern finish.</p>
-      <button class="btn">Get a Quote</button>
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Premium Renovation & Restoration</h1>
+      <p>Clean. Modern. Built to last.</p>
+      <a href="#services" class="btn">Explore Services</a>
     </div>
-  </main>
+  </section>
 
-  <!-- SERVICES SECTION (NEW PROFESSIONAL LAYOUT) -->
-  <section class="services">
-    <h2>Our Services</h2>
+  <!-- SERVICES -->
+  <section id="services" class="services">
+    <h2>What We Do</h2>
 
     <div class="service-grid">
       <div class="service-box">
         <h3>Renovations</h3>
-        <p>High-quality home remodeling and upgrades built to last.</p>
+        <p>Full home and commercial upgrades with modern finishes.</p>
       </div>
 
       <div class="service-box">
         <h3>Restoration</h3>
-        <p>Bringing damaged or outdated spaces back to life.</p>
+        <p>Water, fire, and damage restoration done professionally.</p>
       </div>
 
       <div class="service-box">
-        <h3>Design Work</h3>
-        <p>Modern, clean finishes tailored to your home.</p>
+        <h3>Design Builds</h3>
+        <p>Custom interior and exterior design solutions.</p>
       </div>
     </div>
   </section>
@@ -52,26 +53,32 @@
     <div id="gallery" class="gallery"></div>
   </section>
 
-  <!-- FIREBASE SAFE INIT (DO NOT BREAK PAGE) -->
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <h2>Request a Quote</h2>
+    <p>We respond quickly — send us your project details.</p>
+
+    <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
+  </section>
+
+  <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
   <script>
-    try {
-      const firebaseConfig = {
-        apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-        authDomain: "olykrew-website.firebaseapp.com",
-        projectId: "olykrew-website",
-        storageBucket: "olykrew-website.firebasestorage.app",
-        messagingSenderId: "683329807063",
-        appId: "1:683329807063:web:a4b5b68670210599e70692"
-      };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+      authDomain: "olykrew-website.firebaseapp.com",
+      projectId: "olykrew-website",
+      storageBucket: "olykrew-website.firebasestorage.app",
+      messagingSenderId: "683329807063",
+      appId: "1:683329807063:web:a4b5b68670210599e70692"
+    };
 
-      firebase.initializeApp(firebaseConfig);
-    } catch (e) {}
+    firebase.initializeApp(firebaseConfig);
   </script>
 
-  <!-- GALLERY SCRIPT (CLEAN + ADMIN SAFE) -->
+  <!-- GALLERY SCRIPT -->
   <script>
     const gallery = document.getElementById("gallery");
     let images = JSON.parse(localStorage.getItem("gallery")) || [];
@@ -102,7 +109,7 @@
 
         if (currentUser) {
           const btn = document.createElement("button");
-          btn.innerText = "X";
+          btn.innerText = "×";
           btn.className = "delete-btn";
 
           btn.onclick = () => {
