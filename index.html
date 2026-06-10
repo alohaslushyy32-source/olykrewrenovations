@@ -1,270 +1,383 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olykrew Renovations</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #050505;
+  color: #f5f5f5;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
 
-<body>
+/* BACKGROUND WATERMARK */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  height: 650px;
+  background: url("images/logo.png") no-repeat center;
+  background-size: contain;
+  opacity: 0.05;
+  z-index: 0;
+  pointer-events: none;
+  animation: watermarkFloat 18s ease-in-out infinite;
+}
 
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-text">Olykrew Renovations</div>
-  </div>
+@keyframes watermarkFloat {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.04; }
+  50% { transform: translate(-50%, -52%) scale(1.03); opacity: 0.06; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.04; }
+}
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <img src="images/logo.png" class="logo" alt="Logo">
+/* TOP BAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  z-index: 100;
+  box-sizing: border-box;
+}
 
-    <div class="nav-right">
-      <a href="#services">Services</a>
-      <a href="#gallery">Work</a>
-      <a href="#contact" class="cta">Get Quote</a>
-    </div>
-  </header>
+.logo {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-overlay">
-      <h1>Luxury Renovation & Restoration</h1>
-      <p>Precision craftsmanship. Modern design. Built to last.</p>
-      <a href="#services" class="btn">Explore Services</a>
-    </div>
-  </section>
+/* NAVIGATION */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: nowrap;
+}
 
-  <!-- VIDEO -->
-  <section class="video-section">
-    <video autoplay muted loop playsinline class="service-video">
-      <source src="videos/background.mp4" type="video/mp4">
-    </video>
-  </section>
+.nav-right a {
+  color: #f5f5f5;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap;
+}
 
-  <!-- TRUST -->
-  <section class="trust">
-    <div>✔ Licensed & Insured</div>
-    <div>✔ Residential & Commercial</div>
-    <div>✔ Fast Response</div>
-  </section>
+.nav-right .cta {
+  background: #d4af37;
+  color: #050505;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
 
-  <!-- SERVICES -->
-  <section id="services" class="section">
-    <h2 class="title">What We Do</h2>
-    <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
+.nav-right .cta:hover {
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+  transform: translateY(-2px);
+}
 
-    <div class="grid">
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
-      <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching for flawless walls.</p></div>
-      <div class="card"><h3>Interior Painting</h3><p>Clean, premium interior finishes.</p></div>
-      <div class="card"><h3>Exterior Painting</h3><p>Durable weather-resistant coatings.</p></div>
-      <div class="card"><h3>Tile Installation</h3><p>Modern tile layouts and precision work.</p></div>
-      <div class="card"><h3>Flooring</h3><p>Hardwood, laminate, vinyl installations.</p></div>
-      <div class="card"><h3>Bathroom Remodels</h3><p>Full luxury bathroom renovations.</p></div>
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 10px 20px;
+}
 
-    </div>
-  </section>
+.hero h1 {
+  margin-bottom: 6px;
+  font-size: clamp(42px, 6vw, 72px);
+  color: #fff;
+}
 
-  <!-- BEFORE / AFTER -->
-  <section class="section" id="beforeafter">
-    <h2 class="title">Before & After Transformations</h2>
-    <p class="subtitle">Drag to see the difference</p>
+.hero p {
+  margin-bottom: 10px;
+  color: #d4af37;
+}
 
-    <div class="ba-wrapper">
-      <div class="ba-container">
-        <img src="images/before.jpg" class="ba-img before" alt="Before Image">
-        <img src="images/after.jpg" class="ba-img after" alt="After Image">
-        <div class="ba-slider"></div>
-      </div>
-    </div>
+/* BUTTON */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #d4af37;
+  color: #050505;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
 
-    <!-- ➕ ONLY ADDITION -->
-    <div class="beginning-box">
-      That’s only the beginning — more transformations coming soon.
-    </div>
+.btn:hover {
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+  transform: translateY(-2px);
+}
 
-  </section>
+/* VIDEO SECTION */
+.video-section {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
 
-  <!-- PORTFOLIO -->
-  <section id="gallery" class="section">
-    <h2 class="title">Project Portfolio</h2>
-    <p class="subtitle">Real work from real projects.</p>
+.video-section::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(5,5,5,0), rgba(5,5,5,1));
+  z-index: 2;
+  pointer-events: none;
+}
 
-    <!-- FILTERS (ADDED ONLY STYLE SUPPORT, NO CHANGE TO FUNCTIONALITY) -->
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="painting">Painting</button>
-      <button class="filter-btn" data-filter="flooring">Flooring</button>
-      <button class="filter-btn" data-filter="bathroom">Bathroom</button>
-    </div>
+.service-video {
+  width: 100%;
+  height: 75vh;
+  min-height: 500px;
+  max-height: 900px;
+  object-fit: cover;
+  display: block;
+  will-change: transform;
+  transition: transform 0.2s ease-out;
+}
 
-    <div class="project-grid">
+/* SECTIONS */
+.section {
+  padding: 120px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
 
-      <div class="project-card" data-category="painting">
-        <img src="images/closet.jpg">
-        <div class="project-info">Closet</div>
-      </div>
+.title {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
 
-      <div class="project-card" data-category="flooring">
-        <img src="images/flooring.jpg">
-        <div class="project-info">Hardwood Flooring</div>
-      </div>
+.subtitle {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  color: #d4af37;
+}
 
-      <div class="project-card" data-category="bathroom">
-        <img src="images/bathroom.jpg">
-        <div class="project-info">Bathroom Remodel</div>
-      </div>
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  max-width: 1000px;
+  margin: auto;
+}
 
-      <div class="project-card" data-category="painting">
-        <img src="images/backyard.jpg">
-        <div class="project-info">Backyard</div>
-      </div>
+/* CARDS */
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.25);
+  backdrop-filter: blur(10px);
+  padding: 28px;
+  border-radius: 14px;
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-      <div class="project-card" data-category="bathroom">
-        <img src="images/shower.jpg">
-        <div class="project-info">Luxury Shower Build</div>
-      </div>
+.card:hover {
+  box-shadow: 0 0 20px rgba(212,175,55,0.25), 0 0 60px rgba(212,175,55,0.1);
+  transform: translateY(-8px);
+}
 
-      <div class="project-card" data-category="painting">
-        <img src="images/kitchen.jpg">
-        <div class="project-info">Kitchen Refinishing</div>
-      </div>
+/* TRUST */
+.trust {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 30px;
+  background: rgba(0,0,0,0.2);
+  font-size: 14px;
+}
 
-      <div class="project-card" data-category="flooring">
-        <img src="images/hallway.jpg">
-        <div class="project-info">Hallway</div>
-      </div>
+/* GALLERY */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 15px;
+  max-width: 1100px;
+  margin: auto;
+}
 
-    </div>
-  </section>
+.gallery-img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #d4af37;
+}
 
-  <!-- CONTACT -->
-  <section id="contact" class="section contact">
-    <h2 class="title">Get a Quote</h2>
-    <p class="subtitle">We respond quickly — tell us about your project.</p>
-    <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
-  </section>
+/* LOADER */
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
 
-  <!-- LOADER SCRIPT -->
-  <script>
-    window.addEventListener("load", () => {
-      const loader = document.getElementById("loader");
-      loader.style.opacity = "0";
-      setTimeout(() => loader.remove(), 600);
-    });
-  </script>
+.loader-text {
+  font-size: 24px;
+  letter-spacing: 4px;
+  color: #d4af37;
+}
 
-  <!-- SCROLL ANIMATION (UNCHANGED) -->
-  <script>
-    const elements = document.querySelectorAll('.section, .card, .gallery-img');
+/* ANIMATION */
+.section, .card, .gallery-img {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, { threshold: 0.15 });
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-    elements.forEach(el => observer.observe(el));
-  </script>
+/* SMOOTH SCROLL */
+html {
+  scroll-behavior: smooth;
+}
 
-  <!-- VIDEO PARALLAX (UNCHANGED) -->
-  <script>
-    window.addEventListener("scroll", () => {
-      const video = document.querySelector(".service-video");
-      if (!video) return;
-      video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
-    });
-  </script>
+/* BEFORE AFTER */
+.ba-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+}
 
-  <!-- BEFORE AFTER (UNCHANGED) -->
-  <script>
-    const container = document.querySelector(".ba-container");
-    const slider = document.querySelector(".ba-slider");
-    const afterImg = document.querySelector(".ba-img.after");
+.ba-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 2px solid #d4af37;
+}
 
-    if (container && slider && afterImg) {
-      let active = false;
-      let auto = true;
+.ba-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
 
-      function move(clientX) {
-        const rect = container.getBoundingClientRect();
-        let x = clientX - rect.left;
+.ba-img.after {
+  clip-path: inset(0 50% 0 0);
+}
 
-        if (x < 0) x = 0;
-        if (x > rect.width) x = rect.width;
+.ba-slider {
+  position: absolute;
+  left: 50%;
+  width: 3px;
+  height: 100%;
+  background: #d4af37;
+}
 
-        const percent = (x / rect.width) * 100;
+/* ========================= */
+/* PROJECT GRID (ADDED - NO REMOVALS) */
+/* ========================= */
 
-        slider.style.left = percent + "%";
-        afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-      }
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
 
-      container.addEventListener("mousedown", () => active = true);
-      window.addEventListener("mouseup", () => active = false);
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.5);
+  color: #f5f5f5;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-      window.addEventListener("mousemove", (e) => {
-        if (!active) return;
-        move(e.clientX);
-      });
+.filter-btn.active,
+.filter-btn:hover {
+  background: #d4af37;
+  color: #050505;
+}
 
-      container.addEventListener("touchstart", (e) => {
-        active = true;
-        move(e.touches[0].clientX);
-      }, { passive: true });
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  max-width: 1000px;
+  margin: auto;
+}
 
-      container.addEventListener("touchmove", (e) => {
-        if (!active) return;
-        move(e.touches[0].clientX);
-      }, { passive: true });
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(212,175,55,0.25);
+}
 
-      window.addEventListener("touchend", () => active = false);
+.project-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
 
-      let start = performance.now();
+.project-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
+  background: rgba(0,0,0,0.6);
+  color: #d4af37;
+}
 
-      function demo(time) {
-        if (!auto) return;
+/* ========================= */
+/* ADDED: "JUST THE BEGINNING" BOX */
+/* ========================= */
 
-        let t = (time - start) / 2500;
-        let progress = (Math.sin(t) + 1) / 2;
+.after-box {
+  margin-top: 25px;
+  padding: 18px;
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 10px;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        const rect = container.getBoundingClientRect();
-        move(rect.left + rect.width * progress);
+.after-box h3 {
+  color: #d4af37;
+}
 
-        requestAnimationFrame(demo);
-      }
-
-      requestAnimationFrame(demo);
-    }
-  </script>
-
-  <!-- FILTER SCRIPT (UNCHANGED) -->
-  <script>
-    const buttons = document.querySelectorAll(".filter-btn");
-    const projects = document.querySelectorAll(".project-card");
-
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-
-        buttons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        const filter = btn.dataset.filter;
-
-        projects.forEach(card => {
-          const match = card.dataset.category;
-
-          if (filter === "all" || filter === match) {
-            card.style.display = "block";
-            setTimeout(() => card.style.opacity = "1", 50);
-          } else {
-            card.style.opacity = "0";
-            setTimeout(() => card.style.display = "none", 200);
-          }
-        });
-
-      });
-    });
-  </script>
-
-</body>
-</html>
+.after-box p {
+  color: #f5f5f5;
+  opacity: 0.8;
+}
