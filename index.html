@@ -55,42 +55,18 @@
 
     <div class="grid">
 
-      <div class="card">
-        <h3>Drywall & Texture Repair</h3>
-        <p>Expert drywall repair and seamless texture matching for flawless wall restoration.</p>
-      </div>
-
-      <div class="card">
-        <h3>Interior & Exterior Painting</h3>
-        <p>High-quality painting services delivering clean finishes and long-lasting results.</p>
-      </div>
-
-      <div class="card">
-        <h3>Tile & Flooring Installation</h3>
-        <p>Professional tile work and flooring installation for durable, modern spaces.</p>
-      </div>
-
-      <div class="card">
-        <h3>Bathroom Remodels</h3>
-        <p>Complete bathroom renovations designed for comfort, style, and function.</p>
-      </div>
-
-      <div class="card">
-        <h3>Insurance Restoration</h3>
-        <p>Fast and reliable restoration for water, fire, and insurance-related damage.</p>
-      </div>
-
-      <div class="card">
-        <h3>Built to the Highest Standards</h3>
-        <p>We take pride in delivering superior workmanship, premium finishes, and lasting results on every project we complete.</p>
-      </div>
+      <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching for flawless walls.</p></div>
+      <div class="card"><h3>Interior Painting</h3><p>Clean, premium interior finishes.</p></div>
+      <div class="card"><h3>Exterior Painting</h3><p>Durable weather-resistant coatings.</p></div>
+      <div class="card"><h3>Tile Installation</h3><p>Modern tile layouts and precision work.</p></div>
+      <div class="card"><h3>Flooring</h3><p>Hardwood, laminate, vinyl installations.</p></div>
+      <div class="card"><h3>Bathroom Remodels</h3><p>Full luxury bathroom renovations.</p></div>
 
     </div>
   </section>
 
   <!-- BEFORE / AFTER -->
   <section class="section" id="beforeafter">
-
     <h2 class="title">Before & After Transformations</h2>
     <p class="subtitle">Drag to see the difference</p>
 
@@ -101,31 +77,45 @@
         <div class="ba-slider"></div>
       </div>
     </div>
-
   </section>
 
-  <!-- GALLERY -->
+  <!-- 🔥 PORTFOLIO (UPGRADED) -->
   <section id="gallery" class="section">
     <h2 class="title">Project Portfolio</h2>
     <p class="subtitle">Real work from real projects.</p>
 
-    <!-- 🔥 ADDED FILTER BAR (NEW) -->
+    <!-- FILTERS -->
     <div class="filter-bar">
-      <button class="filter-btn active">All</button>
-      <button class="filter-btn">Painting</button>
-      <button class="filter-btn">Flooring</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="painting">Painting</button>
+      <button class="filter-btn" data-filter="flooring">Flooring</button>
+      <button class="filter-btn" data-filter="bathroom">Bathroom</button>
     </div>
 
-    <!-- 🔥 ADDED PROJECT GRID (NEW) -->
+    <!-- PROJECT GRID -->
     <div class="project-grid">
 
-      <div class="project-card">
-        <img src="images/project1.jpg" alt="Project 1">
-        <div class="project-info">Kitchen Remodel</div>
+      <div class="project-card" data-category="painting">
+        <img src="images/project1.jpg">
+        <div class="project-info">Interior Painting</div>
+      </div>
+
+      <div class="project-card" data-category="flooring">
+        <img src="images/project2.jpg">
+        <div class="project-info">Hardwood Flooring</div>
+      </div>
+
+      <div class="project-card" data-category="bathroom">
+        <img src="images/project3.jpg">
+        <div class="project-info">Bathroom Remodel</div>
+      </div>
+
+      <div class="project-card" data-category="painting">
+        <img src="images/project4.jpg">
+        <div class="project-info">Exterior Paint Job</div>
       </div>
 
     </div>
-
   </section>
 
   <!-- CONTACT -->
@@ -135,7 +125,7 @@
     <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
   </section>
 
-  <!-- LOADER SCRIPT -->
+  <!-- LOADER -->
   <script>
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
@@ -150,9 +140,7 @@
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('show');
       });
     }, { threshold: 0.15 });
 
@@ -168,14 +156,13 @@
     });
   </script>
 
-  <!-- BEFORE / AFTER -->
+  <!-- BEFORE AFTER (UNCHANGED) -->
   <script>
     const container = document.querySelector(".ba-container");
     const slider = document.querySelector(".ba-slider");
     const afterImg = document.querySelector(".ba-img.after");
 
     if (container && slider && afterImg) {
-
       let active = false;
       let auto = true;
 
@@ -235,6 +222,35 @@
 
       requestAnimationFrame(demo);
     }
+  </script>
+
+  <!-- 🔥 PORTFOLIO FILTER SCRIPT -->
+  <script>
+    const buttons = document.querySelectorAll(".filter-btn");
+    const projects = document.querySelectorAll(".project-card");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.dataset.filter;
+
+        projects.forEach(card => {
+          const match = card.dataset.category;
+
+          if (filter === "all" || filter === match) {
+            card.style.display = "block";
+            setTimeout(() => card.style.opacity = "1", 50);
+          } else {
+            card.style.opacity = "0";
+            setTimeout(() => card.style.display = "none", 200);
+          }
+        });
+
+      });
+    });
   </script>
 
 </body>
