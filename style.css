@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #2b1b12;
-  color: #f5e6d3;
+  background: #050505;
+  color: #f5f5f5;
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -103,7 +103,7 @@ body::before {
 
 .hero p {
   font-size: 18px;
-  color: #d2a679;
+  color: #d4af37;
 }
 
 /* BUTTON */
@@ -111,7 +111,7 @@ body::before {
   display: inline-block;
   margin-top: 20px;
   padding: 12px 24px;
-  background: #d2a679;
+  background: #d4af37;
   color: #2b1b12;
   border-radius: 6px;
   text-decoration: none;
@@ -147,10 +147,9 @@ body::before {
 
 /* CARDS (UPDATED PREMIUM STYLE) */
 .card {
-  background: rgba(210,166,121,0.08);
-  border: 1px solid #d2a679;
-  padding: 28px;
-  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+border: 1px solid rgba(212,175,55,0.25);
+backdrop-filter: blur(10px);
 
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
