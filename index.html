@@ -108,7 +108,24 @@
   <section id="gallery" class="section">
     <h2 class="title">Project Portfolio</h2>
     <p class="subtitle">Real work from real projects.</p>
-    <div class="gallery" id="gallery"></div>
+
+    <!-- 🔥 ADDED FILTER BAR (NEW) -->
+    <div class="filter-bar">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Painting</button>
+      <button class="filter-btn">Flooring</button>
+    </div>
+
+    <!-- 🔥 ADDED PROJECT GRID (NEW) -->
+    <div class="project-grid">
+
+      <div class="project-card">
+        <img src="images/project1.jpg" alt="Project 1">
+        <div class="project-info">Kitchen Remodel</div>
+      </div>
+
+    </div>
+
   </section>
 
   <!-- CONTACT -->
@@ -151,7 +168,7 @@
     });
   </script>
 
-  <!-- BEFORE / AFTER (FIXED + AUTO DEMO + MOBILE SAFE) -->
+  <!-- BEFORE / AFTER -->
   <script>
     const container = document.querySelector(".ba-container");
     const slider = document.querySelector(".ba-slider");
@@ -175,12 +192,10 @@
         afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
       }
 
-      // stop auto when user touches
       function stopAuto() {
         auto = false;
       }
 
-      // desktop drag
       container.addEventListener("mousedown", () => { active = true; stopAuto(); });
       window.addEventListener("mouseup", () => active = false);
 
@@ -189,7 +204,6 @@
         move(e.clientX);
       });
 
-      // mobile touch (FIXED)
       container.addEventListener("touchstart", (e) => {
         active = true;
         stopAuto();
@@ -203,7 +217,6 @@
 
       window.addEventListener("touchend", () => active = false);
 
-      // AUTO DEMO (smooth sweep)
       let start = performance.now();
 
       function demo(time) {
