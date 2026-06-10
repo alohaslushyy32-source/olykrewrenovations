@@ -30,7 +30,7 @@ body::before {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 0.04; }
 }
 
-/* TOP BAR (GLASS UPGRADE) */
+/* TOP BAR */
 .topbar {
   position: fixed;
   top: 0;
@@ -40,12 +40,8 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background: rgba(0,0,0,0.22);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-
-  border-bottom: 1px solid rgba(212,175,55,0.15);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
   z-index: 100;
   box-sizing: border-box;
 }
@@ -98,7 +94,6 @@ body::before {
   z-index: 2;
   max-width: 800px;
   padding: 10px 20px;
-  margin-bottom: 0;
 }
 
 .hero h1 {
@@ -134,7 +129,6 @@ body::before {
   margin: 0;
   padding: 0;
   position: relative;
-  overflow: hidden;
 }
 
 .video-section::before {
@@ -160,8 +154,6 @@ body::before {
   max-height: 900px;
   object-fit: cover;
   display: block;
-
-  transition: transform 0.2s ease-out;
 }
 
 /* SECTIONS */
@@ -192,41 +184,21 @@ body::before {
   margin: auto;
 }
 
-/* CARDS + GOLD GLOW UPGRADE */
+/* CARDS */
 .card {
-  position: relative;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(212,175,55,0.25);
   backdrop-filter: blur(10px);
   padding: 28px;
   border-radius: 14px;
   transition: 0.3s ease;
-  overflow: hidden;
-}
-
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(212,175,55,0.5), transparent);
-  background-size: 200% 200%;
-  opacity: 0;
-  transition: 0.4s ease;
-}
-
-.card:hover::before {
-  opacity: 1;
-  animation: glowMove 2.5s linear infinite;
-}
-
-@keyframes glowMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
 }
 
 .card:hover {
+  box-shadow:
+    0 0 20px rgba(212,175,55,0.25),
+    0 0 60px rgba(212,175,55,0.1);
   transform: translateY(-8px);
-  box-shadow: 0 0 50px rgba(212,175,55,0.15);
 }
 
 /* TRUST */
@@ -282,11 +254,6 @@ body::before {
   100% { opacity: 0.3; }
 }
 
-/* SMOOTH SCROLL */
-html {
-  scroll-behavior: smooth;
-}
-
 /* ANIMATION */
 .section, .card, .gallery-img {
   opacity: 0;
@@ -299,7 +266,10 @@ html {
   transform: translateY(0);
 }
 
+/* ========================= */
 /* MOBILE FIXED HERO CENTER */
+/* ========================= */
+
 @media (max-width: 768px) {
 
   .hero {
@@ -329,6 +299,7 @@ html {
 
   .hero p {
     font-size: 14px;
+    padding: 0 10px;
     text-align: center;
   }
 
@@ -336,10 +307,11 @@ html {
     height: 45vh;
     min-height: 250px;
     max-height: 400px;
+    object-fit: cover;
   }
 
   .grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
@@ -373,6 +345,10 @@ html {
     padding: 80px 15px;
   }
 
+  .nav-right {
+    gap: 10px;
+  }
+
   .nav-right a {
     font-size: 12px;
   }
@@ -381,4 +357,50 @@ html {
     padding: 8px 12px;
     font-size: 12px;
   }
+}
+
+/* ===================================================== */
+/* ================== NEW UPGRADES ====================== */
+/* ===================================================== */
+
+/* GLASS NAVBAR UPGRADE */
+.topbar {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* GOLD GLOW CARD ENHANCEMENT */
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(
+    circle at top left,
+    rgba(212,175,55,0.25),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: 0.4s ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* SMOOTHER SCROLL BEHAVIOR */
+html {
+  scroll-behavior: smooth;
+}
+
+/* VIDEO PARALLAX ENHANCEMENT (supports JS) */
+.service-video {
+  will-change: transform;
+  transition: transform 0.2s ease-out;
 }
