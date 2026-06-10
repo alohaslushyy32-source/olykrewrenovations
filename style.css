@@ -187,8 +187,16 @@ body::before {
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 20px rgba(212,175,55,0.15);
+  box-shadow:
+    0 0 20px rgba(212,175,55,0.25),
+    0 0 60px rgba(212,175,55,0.1);
+}
+
+.btn:hover,
+.nav-right .cta:hover {
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+  transform: translateY(-2px);
+  transition: 0.3s ease;
 }
 
 .card h3 {
