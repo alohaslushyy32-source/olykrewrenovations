@@ -1,72 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olykrew Renovations</title>
+<script>
+const gallery = document.getElementById("gallery");
 
-  <link rel="stylesheet" href="style.css">
-</head>
+let images = JSON.parse(localStorage.getItem("gallery")) || [];
 
-<body>
+function renderGallery() {
+  gallery.innerHTML = "";
 
-  <!-- TOP LEFT LOGO -->
-  <header class="navbar">
-    <img src="images/logo.png" class="logo" alt="Olykrew Logo">
-  </header>
+  firebase.auth().onAuthStateChanged(user => {
 
-  <!-- MAIN HERO SECTION -->
-  <main class="content">
-    <div class="hero">
-      <h1>Olykrew Renovations</h1>
-      <p>Quality renovation work with a clean, modern finish.</p>
+    images.forEach((url, index) => {
 
-      <button class="btn">Get a Quote</button>
-    </div>
-  </main>
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+      wrapper.style.display = "inline-block";
 
-  <!-- GALLERY SECTION -->
-  <section class="gallery-section">
-    <h2>Our Work</h2>
-    <div id="gallery" class="gallery"></div>
-  </section>
+      const img = document.createElement("img");
+      img.src = url;
+      img.className = "gallery-img";
 
-  <!-- FIXED CLOUDINARY GALLERY (WORKING METHOD) -->
-  <script>
-    const gallery = document.getElementById("gallery");
+      wrapper.appendChild(img);
 
-    // IMPORTANT: replace ONLY this with your real Cloudinary cloud name
-    const cloudName = "dwpiqfg7r";
+      // 🔐 ONLY ADMIN CAN SEE DELETE BUTTON
+      if (user) {
+        const btn = document.createElement("button");
+        btn.innerText = "X";
+        btn.style.position = "absolute";
+        btn.style.top = "5px";
+        btn.style.right = "5px";
+        btn.style.background = "red";
+        btn.style.color = "white";
+        btn.style.border = "none";
+        btn.style.cursor = "pointer";
 
-    // This pulls images directly from Cloudinary uploads (no folder API needed)
-    const imageUrls = [];
+        btn.onclick = () => {
+          images.splice(index, 1);
+          localStorage.setItem("gallery", JSON.stringify(images));
+          renderGallery();
+        };
 
-    async function loadGallery() {
-      try {
-        // Cloudinary "auto upload listing workaround":
-        // We load from a known endpoint of uploaded assets via delivery API
-
-        const res = await fetch(`https://res.cloudinary.com/${cloudName}/image/upload/sample.jpg`);
-        
-        // NOTE: we cannot list automatically without backend access,
-        // so instead we rely on manual upload URL storage (from admin page)
-
-        const stored = JSON.parse(localStorage.getItem("gallery")) || [];
-
-        stored.forEach(url => {
-          const img = document.createElement("img");
-          img.src = url;
-          img.className = "gallery-img";
-          gallery.appendChild(img);
-        });
-
-      } catch (err) {
-        console.log("Gallery error:", err);
+        wrapper.appendChild(btn);
       }
-    }
 
-    loadGallery();
-  </script>
+      gallery.appendChild(wrapper);
+    });
 
-</body>
-</html>
+  });
+}
+
+renderGallery();
+</script>
