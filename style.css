@@ -762,3 +762,79 @@ html {
     margin-top: 4px;
   }
 }
+/* =========================
+   BOTTOM BAR DESKTOP FIX
+   ========================= */
+
+.bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 40px;
+  background: rgba(40, 40, 40, 0.85);
+  backdrop-filter: blur(10px);
+  color: #f5f5f5;
+  gap: 20px;
+}
+
+/* LEFT SIDE */
+.bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LOGO UNDER TEXT (DESKTOP ONLY) */
+.bottom-left .bottom-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-top: 8px;
+}
+
+/* CENTER CONTACT STACK (TIGHTER) */
+.bottom-center {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-btn {
+  display: block;
+  padding: 8px 12px;
+  background: rgba(212,175,55,0.12);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: #f5f5f5;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.contact-btn:hover {
+  background: rgba(212,175,55,0.25);
+}
+
+/* RIGHT SIDE */
+.bottom-right {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* MOBILE SAFETY (DON'T TOUCH YOUR WORKING MOBILE LAYOUT) */
+@media (max-width: 768px) {
+  .bottom-bar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bottom-left .bottom-logo {
+    display: none; /* keep mobile clean */
+  }
+}
