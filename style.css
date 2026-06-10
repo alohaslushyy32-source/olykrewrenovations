@@ -368,14 +368,29 @@ html {
   }
 
   /* ✅ FIXED: FORCE 2 COLUMNS ON MOBILE */
+  @media (max-width: 768px) {
+
+  /* FORCE SERVICES TO ALWAYS BE 2 PER ROW */
   .grid {
+    display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 12px;
+    gap: 10px !important;
   }
 
   .card {
-    padding: 18px;
+    padding: 14px;
+    font-size: 13px;
   }
+
+  .card h3 {
+    font-size: 14px;
+  }
+
+  .card p {
+    font-size: 12px;
+  }
+
+}
 
   .trust {
     flex-wrap: wrap;
