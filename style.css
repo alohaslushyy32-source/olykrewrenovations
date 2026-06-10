@@ -7,7 +7,7 @@ body {
   line-height: 1.6;
 }
 
-/* WATERMARK */
+/* BACKGROUND WATERMARK */
 body::before {
   content: "";
   position: fixed;
@@ -23,7 +23,7 @@ body::before {
   pointer-events: none;
 }
 
-/* TOP BAR */
+/* TOP BAR (FIXED ONLY — NO DESIGN CHANGE) */
 .topbar {
   position: fixed;
   top: 0;
@@ -36,20 +36,30 @@ body::before {
   background: rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
   z-index: 100;
+  box-sizing: border-box;
 }
 
+/* LOGO */
 .logo {
   width: 55px;
   height: 55px;
   border-radius: 50%;
 }
 
-/* NAV */
+/* NAV (FIX ONLY — PREVENT CUT OFF "GET QUOTE") */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: nowrap;
+}
+
 .nav-right a {
-  margin-left: 18px;
+  margin-left: 0;
   color: #f5e6d3;
   text-decoration: none;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .nav-right .cta {
@@ -57,6 +67,7 @@ body::before {
   color: #2b1b12;
   padding: 8px 14px;
   border-radius: 6px;
+  white-space: nowrap;
 }
 
 /* HERO */
@@ -95,7 +106,7 @@ body::before {
   color: #d2a679;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .btn {
   display: inline-block;
   margin-top: 20px;
@@ -106,7 +117,7 @@ body::before {
   text-decoration: none;
 }
 
-/* SECTIONS (FIXES CRAMPING) */
+/* SECTIONS */
 .section {
   padding: 120px 20px;
   text-align: center;
