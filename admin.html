@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -41,7 +40,7 @@
 
   </main>
 
-  <!-- FIREBASE (COMPAT VERSION - IMPORTANT) -->
+  <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -61,18 +60,21 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // AUTO CHECK LOGIN STATE
+    // FIXED LOGIN STATE HANDLER
     auth.onAuthStateChanged(user => {
+      const loginBox = document.getElementById("loginBox");
+      const uploadArea = document.getElementById("uploadArea");
+
       if (user) {
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("uploadArea").style.display = "block";
+        loginBox.style.display = "none";
+        uploadArea.style.display = "block";
       } else {
-        document.getElementById("loginBox").style.display = "block";
-        document.getElementById("uploadArea").style.display = "none";
+        loginBox.style.display = "block";
+        uploadArea.style.display = "none";
       }
     });
 
-    // LOGIN
+    // LOGIN FUNCTION
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
@@ -81,10 +83,14 @@
         .catch(err => alert(err.message));
     }
 
-    // UPLOAD IMAGE
+    // UPLOAD IMAGE TO CLOUDINARY + FIRESTORE
     async function uploadImage() {
       const file = document.getElementById("fileInput").files[0];
-      if (!file) return alert("Select a file first");
+
+      if (!file) {
+        alert("Select a file first");
+        return;
+      }
 
       try {
         const formData = new FormData();
