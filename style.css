@@ -634,3 +634,18 @@ html {
     align-items: center;
   }
 }
+/* FORCE EMAIL BUTTON TO BOTTOM ON MOBILE */
+@media (max-width: 768px) {
+
+  .contact-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* push email to bottom */
+  .email-btn {
+    order: 999;
+    margin-top: 15px;
+  }
+}
