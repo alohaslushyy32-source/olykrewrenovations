@@ -88,7 +88,7 @@
     </div>
   </section>
 
-  <!-- BEFORE / AFTER SLIDER -->
+  <!-- BEFORE / AFTER -->
   <section class="section" id="beforeafter">
 
     <h2 class="title">Before & After Transformations</h2>
@@ -147,72 +147,70 @@
     window.addEventListener("scroll", () => {
       const video = document.querySelector(".service-video");
       if (!video) return;
-
       video.style.transform = `translateY(${window.scrollY * 0.08}px) scale(1.05)`;
     });
   </script>
 
-  <!-- BEFORE / AFTER DRAG + AUTO DEMO (NEW) -->
+  <!-- BEFORE / AFTER (FIXED + AUTO DEMO + MOBILE SAFE) -->
   <script>
     const container = document.querySelector(".ba-container");
     const slider = document.querySelector(".ba-slider");
     const afterImg = document.querySelector(".ba-img.after");
 
-    let isDown = false;
-    let autoPlaying = true;
-
     if (container && slider && afterImg) {
 
-      function move(x) {
+      let active = false;
+      let auto = true;
+
+      function move(clientX) {
         const rect = container.getBoundingClientRect();
-        let pos = x - rect.left;
+        let x = clientX - rect.left;
 
-        if (pos < 0) pos = 0;
-        if (pos > rect.width) pos = rect.width;
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
 
-        const percent = (pos / rect.width) * 100;
+        const percent = (x / rect.width) * 100;
 
         slider.style.left = percent + "%";
         afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
       }
 
-      // USER INTERACTION STOPS DEMO
+      // stop auto when user touches
       function stopAuto() {
-        autoPlaying = false;
+        auto = false;
       }
 
-      container.addEventListener("mousedown", () => { isDown = true; stopAuto(); });
-      window.addEventListener("mouseup", () => isDown = false);
+      // desktop drag
+      container.addEventListener("mousedown", () => { active = true; stopAuto(); });
+      window.addEventListener("mouseup", () => active = false);
 
       window.addEventListener("mousemove", (e) => {
-        if (!isDown) return;
+        if (!active) return;
         move(e.clientX);
       });
 
+      // mobile touch (FIXED)
       container.addEventListener("touchstart", (e) => {
-        isDown = true;
+        active = true;
         stopAuto();
         move(e.touches[0].clientX);
       }, { passive: true });
 
       container.addEventListener("touchmove", (e) => {
-        if (!isDown) return;
+        if (!active) return;
         move(e.touches[0].clientX);
-        e.preventDefault();
-      }, { passive: false });
+      }, { passive: true });
 
-      window.addEventListener("touchend", () => isDown = false);
+      window.addEventListener("touchend", () => active = false);
 
-      // AUTO DEMO ANIMATION
-      let t = 0;
-      const start = performance.now();
+      // AUTO DEMO (smooth sweep)
+      let start = performance.now();
 
       function demo(time) {
-        if (!autoPlaying) return;
+        if (!auto) return;
 
-        t = (time - start) / 2000; // speed
-
-        let progress = (Math.sin(t) + 1) / 2; // smooth back & forth (0 → 1)
+        let t = (time - start) / 2500;
+        let progress = (Math.sin(t) + 1) / 2;
 
         const rect = container.getBoundingClientRect();
         const x = rect.left + rect.width * progress;
