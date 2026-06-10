@@ -1,122 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login</title>
-
+<title>Admin</title>
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* FORCE ADMIN VISIBILITY FIX */
-.admin-wrap {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.admin-wrap{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.card {
-  z-index: 9999;
-  position: relative;
-  background: rgba(0,0,0,0.75);
-  border: 1px solid rgba(212,175,55,0.4);
+.card{
+  width:350px;
+  background:rgba(0,0,0,0.8);
+  padding:20px;
+  border-radius:10px;
+  z-index:9999;
+  position:relative;
 }
 
-#loginBox, #uploadArea {
-  display: block;
-  margin-top: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  color: black;
+input{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  color:black;
 }
 </style>
-
 </head>
 
 <body>
 
-<header class="topbar">
-  <img src="images/logo.png" class="logo">
-</header>
-
 <div class="admin-wrap">
+  <div class="card">
 
-  <div class="card" style="max-width:400px;width:90%;padding:20px;">
-
-    <h1>Admin Login</h1>
+    <h2>Admin Login</h2>
 
     <div id="loginBox">
       <input id="email" placeholder="Email">
       <input id="password" type="password" placeholder="Password">
-      <button class="btn" onclick="login()">Login</button>
+      <button onclick="login()">Login</button>
     </div>
 
     <div id="uploadArea" style="display:none;">
-      <h2>Upload Project Photo</h2>
+      <h2>Upload</h2>
       <input type="file" id="fileInput">
-      <button class="btn" onclick="uploadImage()">Upload</button>
+      <button onclick="upload()">Upload</button>
     </div>
 
   </div>
-
 </div>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
 firebase.initializeApp({
-  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-  authDomain: "olykrew-website.firebaseapp.com",
-  projectId: "olykrew-website",
-  storageBucket: "olykrew-website.appspot.com",
-  messagingSenderId: "683329807063",
-  appId: "1:683329807063:web:a4b5b68670210599e70692"
+apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+authDomain:"olykrew-website.firebaseapp.com",
+projectId:"olykrew-website"
 });
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("uploadArea").style.display = "block";
-    })
-    .catch(e => alert(e.message));
+function login(){
+auth.signInWithEmailAndPassword(email.value,password.value)
+.then(()=>{
+document.getElementById("loginBox").style.display="none";
+document.getElementById("uploadArea").style.display="block";
+});
 }
 
-async function uploadImage() {
-  const file = document.getElementById("fileInput").files[0];
-  if (!file) return alert("Select a file");
+async function upload(){
+const file=fileInput.files[0];
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "Olykrewrenovations");
+const form=new FormData();
+form.append("file",file);
+form.append("upload_preset","Olykrewrenovations");
 
-  const res = await fetch(
-    "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-    { method: "POST", body: formData }
-  );
+const res=await fetch("https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",{method:"POST",body:form});
+const data=await res.json();
 
-  const data = await res.json();
+await db.collection("projects").add({
+url:data.secure_url,
+created:Date.now()
+});
 
-  await db.collection("projects").add({
-    url: data.secure_url,
-    created: Date.now()
-  });
-
-  alert("Uploaded!");
+alert("Uploaded");
 }
 </script>
 
