@@ -206,7 +206,7 @@ body::before {
   transform: translateY(-8px);
 }
 
-/* GOLD GLOW OVERLAY */
+/* GOLD GLOW */
 .card::after {
   content: "";
   position: absolute;
@@ -313,6 +313,7 @@ html {
   overflow: hidden;
   border-radius: 14px;
   border: 2px solid #d4af37;
+  user-select: none;
 }
 
 .ba-container img {
@@ -370,7 +371,7 @@ html {
   }
 
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
