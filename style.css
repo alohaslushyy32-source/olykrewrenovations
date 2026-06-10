@@ -267,8 +267,10 @@ body::before {
   transform: translateY(0);
 }
 
-/* MOBILE */
-/* MOBILE */
+/* ========================= */
+/* MOBILE FIXED HERO CENTER */
+/* ========================= */
+
 @media (max-width: 768px) {
 
   .hero {
@@ -277,26 +279,31 @@ body::before {
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-
-  .hero-overlay {
-    transform: none;
     padding: 0 20px;
   }
 
-  /* 👇 FIXED: smaller + centered properly */
+  .hero-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    max-width: 100%;
+  }
+
   .hero h1 {
-    font-size: 30px !important;
+    font-size: 28px !important;
     line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    text-align: center;
   }
 
   .hero p {
     font-size: 14px;
     padding: 0 10px;
+    text-align: center;
   }
 
-  /* VIDEO (NOW PROPERLY INSIDE MOBILE QUERY) */
   .service-video {
     height: 45vh;
     min-height: 250px;
@@ -304,7 +311,6 @@ body::before {
     object-fit: cover;
   }
 
-  /* GRID */
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -322,14 +328,12 @@ body::before {
     font-size: 13px;
   }
 
-  /* TRUST */
   .trust {
     flex-wrap: wrap;
     gap: 12px;
     padding: 20px;
   }
 
-  /* GALLERY */
   .gallery {
     grid-template-columns: 1fr;
   }
@@ -338,12 +342,10 @@ body::before {
     height: 250px;
   }
 
-  /* SECTIONS */
   .section {
     padding: 80px 15px;
   }
 
-  /* NAV */
   .nav-right {
     gap: 10px;
   }
