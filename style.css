@@ -675,3 +675,42 @@ html {
 .bottom-center {
   line-height: 1.2;
 }
+/* SMALLER FOOTER */
+.bottom-bar {
+  padding: 14px 16px;
+}
+
+/* LEFT SIDE LAYOUT WITH LOGO */
+.bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* LOGO IN FOOTER */
+.footer-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* BRAND TEXT */
+.bottom-left .brand {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* TIGHTER CONTACT SPACING */
+.contact-stack {
+  gap: 8px;
+}
+
+.contact-person {
+  gap: 3px;
+}
+
+.contact-btn {
+  padding: 7px 11px;
+  font-size: 13px;
+}
