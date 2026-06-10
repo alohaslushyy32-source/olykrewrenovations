@@ -155,8 +155,6 @@ body::before {
   max-height: 900px;
   object-fit: cover;
   display: block;
-  will-change: transform;
-  transition: transform 0.2s ease-out;
 }
 
 /* SECTIONS */
@@ -204,25 +202,6 @@ body::before {
     0 0 20px rgba(212,175,55,0.25),
     0 0 60px rgba(212,175,55,0.1);
   transform: translateY(-8px);
-}
-
-/* GOLD GLOW */
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  background: radial-gradient(
-    circle at top left,
-    rgba(212,175,55,0.25),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: 0.4s ease;
-}
-
-.card:hover::after {
-  opacity: 1;
 }
 
 /* TRUST */
@@ -295,7 +274,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* BEFORE / AFTER SLIDER */
+/* BEFORE / AFTER */
 .ba-wrapper {
   display: flex;
   justify-content: center;
@@ -310,7 +289,6 @@ html {
   overflow: hidden;
   border-radius: 14px;
   border: 2px solid #d4af37;
-  user-select: none;
 }
 
 .ba-container img {
@@ -318,8 +296,6 @@ html {
   height: 100%;
   object-fit: cover;
   position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .ba-img.after {
@@ -328,159 +304,83 @@ html {
 
 .ba-slider {
   position: absolute;
-  top: 0;
   left: 50%;
   width: 3px;
   height: 100%;
   background: #d4af37;
-  cursor: ew-resize;
-  z-index: 10;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-
-  .hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 20px;
-  }
-
-  .hero-overlay {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    max-width: 100%;
-  }
-
-  .hero h1 {
-    font-size: 28px !important;
-    line-height: 1.2;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  /* ✅ FIXED 2-COLUMN GRID */
-  .grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  .card {
-    padding: 14px;
-    font-size: 13px;
-  }
-
-  .card h3 {
-    font-size: 14px;
-  }
-
-  .card p {
-    font-size: 12px;
-  }
-
-  .trust {
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 20px;
-  }
-
-  .gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-img {
-    height: 250px;
-  }
-
-  .section {
-    padding: 80px 15px;
-  }
-
-  .nav-right a {
-    font-size: 12px;
-  }
-
-  .nav-right .cta {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-
-  .ba-container {
-    height: 320px;
-  }
-  /* ========================= */
-/* PROJECT FILTER GRID */
+/* ========================= */
+/* 🔥 ADDED: PROJECT FILTER GRID (NO REMOVALS) */
 /* ========================= */
 
 .filter-bar {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
 .filter-btn {
   background: transparent;
-  border: 1px solid rgba(212,175,55,0.4);
+  border: 1px solid rgba(212,175,55,0.5);
   color: #f5f5f5;
-  padding: 8px 14px;
+  padding: 10px 16px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.3s;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: 0.3s ease;
 }
 
-.filter-btn.active,
 .filter-btn:hover {
   background: #d4af37;
   color: #050505;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(212,175,55,0.4);
 }
 
+.filter-btn.active {
+  background: #d4af37;
+  color: #050505;
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+}
+
+/* PROJECT GRID */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-  max-width: 1100px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  max-width: 1000px;
   margin: auto;
 }
 
+/* PROJECT CARD */
 .project-card {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
-  border: 2px solid rgba(212,175,55,0.3);
-  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid rgba(212,175,55,0.25);
   transition: 0.3s ease;
 }
 
 .project-card img {
   width: 100%;
-  height: 260px;
+  height: 180px;
   object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
+  transition: 0.4s ease;
 }
 
 .project-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .project-info {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  width: 100%;
+  padding: 8px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
   color: #d4af37;
-  font-size: 14px;
-}
+  font-size: 13px;
 }
