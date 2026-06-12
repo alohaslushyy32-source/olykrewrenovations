@@ -301,6 +301,7 @@ message.innerHTML=error.message;
 
 
 
+
 async function upload(){
 
 
@@ -309,11 +310,7 @@ const file=document.getElementById("fileInput").files[0];
 
 if(!file){
 
-message.innerHTML="Uploaded successfully";
-
-document.getElementById("fileInput").value="";
-
-loadProjects();
+message.innerHTML="Choose an image first";
 
 return;
 
@@ -338,6 +335,9 @@ form.append(
 
 
 
+try{
+
+
 const res=await fetch(
 
 "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
@@ -358,6 +358,10 @@ const data=await res.json();
 
 
 
+console.log(data);
+
+
+
 await db.collection("projects").add({
 
 url:data.secure_url,
@@ -371,7 +375,30 @@ created:Date.now()
 message.innerHTML="Uploaded successfully";
 
 
+document.getElementById("fileInput").value="";
+
+
+loadProjects();
+
+
 }
+
+
+catch(error){
+
+
+console.log(error);
+
+
+message.innerHTML="Upload failed";
+
+
+}
+
+
+}
+
+
 
 
 
@@ -451,6 +478,8 @@ db.collection("projects")
 
 
 }
+
+
 
 
 
