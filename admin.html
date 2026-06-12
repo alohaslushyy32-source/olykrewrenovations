@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -310,7 +309,11 @@ const file=document.getElementById("fileInput").files[0];
 
 if(!file){
 
-message.innerHTML="Choose an image first";
+message.innerHTML="Uploaded successfully";
+
+document.getElementById("fileInput").value="";
+
+loadProjects();
 
 return;
 
