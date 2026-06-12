@@ -2,97 +2,326 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Olykrew Admin</title>
+
 <link rel="stylesheet" href="style.css">
 
 <style>
+
+body{
+  background:#050505;
+}
+
 .admin-wrap{
-  height:100vh;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-.card{
+
+.admin-card{
+
   width:350px;
-  background:rgba(0,0,0,0.8);
-  padding:20px;
-  border-radius:10px;
-  z-index:9999;
-  position:relative;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
+
+  padding:30px;
+  border-radius:15px;
+
+  border:1px solid rgba(212,175,55,0.35);
+
+  text-align:center;
+
 }
 
-input{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  color:black;
+
+.admin-card h2{
+
+  color:#d4af37;
+
 }
+
+
+input{
+
+  width:100%;
+  padding:12px;
+
+  margin:8px 0;
+
+  box-sizing:border-box;
+
+  border-radius:8px;
+
+  border:none;
+
+  color:black;
+
+}
+
+
+button{
+
+  width:100%;
+
+  padding:12px;
+
+  margin-top:10px;
+
+  background:#d4af37;
+
+  color:#050505;
+
+  border:none;
+
+  border-radius:8px;
+
+  cursor:pointer;
+
+}
+
+
+button:hover{
+
+  box-shadow:0 0 20px rgba(212,175,55,.5);
+
+}
+
+
+#message{
+
+color:#d4af37;
+
+margin-top:10px;
+
+}
+
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="admin-wrap">
-  <div class="card">
 
-    <h2>Admin Login</h2>
 
-    <div id="loginBox">
-      <input id="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Password">
-      <button onclick="login()">Login</button>
-    </div>
+<div class="admin-card">
 
-    <div id="uploadArea" style="display:none;">
-      <h2>Upload</h2>
-      <input type="file" id="fileInput">
-      <button onclick="upload()">Upload</button>
-    </div>
 
-  </div>
+<h2>Olykrew Admin</h2>
+
+
+
+<div id="loginBox">
+
+
+<input id="email" placeholder="Email">
+
+<input id="password" type="password" placeholder="Password">
+
+
+<button onclick="login()">
+Login
+</button>
+
+
 </div>
 
+
+
+<div id="uploadArea" style="display:none;">
+
+
+<h2>Upload Project</h2>
+
+
+<input type="file" id="fileInput">
+
+
+<button onclick="upload()">
+Upload
+</button>
+
+
+<button onclick="logout()">
+Logout
+</button>
+
+
+</div>
+
+
+
+<div id="message"></div>
+
+
+</div>
+
+
+</div>
+
+
+
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+
+
+
 <script>
+
+
 firebase.initializeApp({
+
 apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+
 authDomain:"olykrew-website.firebaseapp.com",
+
 projectId:"olykrew-website"
+
 });
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+
+
+const auth=firebase.auth();
+
+const db=firebase.firestore();
+
+
 
 function login(){
-auth.signInWithEmailAndPassword(email.value,password.value)
+
+
+auth.signInWithEmailAndPassword(
+email.value,
+password.value
+
+)
+
 .then(()=>{
+
+
 document.getElementById("loginBox").style.display="none";
+
+
 document.getElementById("uploadArea").style.display="block";
+
+
+message.innerHTML="Logged in";
+
+
+})
+
+
+.catch(error=>{
+
+
+message.innerHTML=error.message;
+
+
 });
+
+
 }
+
+
+
 
 async function upload(){
-const file=fileInput.files[0];
+
+
+const file=document.getElementById("fileInput").files[0];
+
+
+if(!file){
+
+message.innerHTML="Choose an image first";
+
+return;
+
+}
+
+
+
+message.innerHTML="Uploading...";
+
+
 
 const form=new FormData();
-form.append("file",file);
-form.append("upload_preset","Olykrewrenovations");
 
-const res=await fetch("https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",{method:"POST",body:form});
+
+form.append("file",file);
+
+
+form.append(
+"upload_preset",
+"Olykrewrenovations"
+);
+
+
+
+const res=await fetch(
+
+"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+
+{
+
+method:"POST",
+
+body:form
+
+}
+
+);
+
+
+
 const data=await res.json();
 
+
+
 await db.collection("projects").add({
+
 url:data.secure_url,
+
 created:Date.now()
+
 });
 
-alert("Uploaded");
+
+
+message.innerHTML="Uploaded successfully";
+
+
 }
+
+
+
+
+function logout(){
+
+
+auth.signOut();
+
+
+location.reload();
+
+
+}
+
+
+
 </script>
 
+
 </body>
+
 </html>
