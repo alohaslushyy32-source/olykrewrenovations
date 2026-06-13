@@ -106,9 +106,11 @@
 
   <div class="filter-bar">
   <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="flooring">flooring</button>
-  <button class="filter-btn" data-filter="bathroom">bathroom</button>
-  <button class="filter-btn" data-filter="painting">closet</button>
+<button class="filter-btn" data-filter="closet">Closet</button>
+<button class="filter-btn" data-filter="shower">Shower</button>
+<button class="filter-btn" data-filter="flooring">Flooring</button>
+<button class="filter-btn" data-filter="bathroom">Bathroom</button>
+<button class="filter-btn" data-filter="kitchen">Kitchen</button>
 </div>
 
   <div class="project-grid static-gallery">
@@ -192,28 +194,58 @@ const observer = new IntersectionObserver(entries => {
 elements.forEach(el => observer.observe(el));
 </script>
 
-<!-- FILTER -->
+<!-- FILTER (STATIC + LIVE CONNECTED) -->
 <script>
 const buttons = document.querySelectorAll(".filter-btn");
-const projects = document.querySelectorAll(".static-gallery .project-card");
+const staticCards = document.querySelectorAll(".static-gallery .project-card");
+const liveGrid = document.getElementById("liveGrid");
 
-buttons.forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const filter = btn.dataset.filter;
+let currentFilter = "all";
 
-    projects.forEach(card=>{
-      const match = card.dataset.category;
+// CLICK FILTER BUTTONS
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
 
-      if(filter === "all" || filter === match){
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentFilter = btn.dataset.filter;
+
+    filterStatic();
+    filterLive();
   });
 });
-</script>
 
+// FILTER STATIC IMAGES
+function filterStatic(){
+  staticCards.forEach(card => {
+    const match = card.dataset.category;
+
+    if(currentFilter === "all" || currentFilter === match){
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+// FILTER FIREBASE LIVE IMAGES
+function filterLive(){
+  if(!liveGrid) return;
+
+  const items = liveGrid.querySelectorAll(".project-card");
+
+  items.forEach(card => {
+    const match = card.dataset.category;
+
+    if(currentFilter === "all" || currentFilter === match){
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+</script>
 <!-- BEFORE AFTER (STABLE AUTO + DRAG) -->
 <script>
 const container = document.querySelector(".ba-container");
