@@ -324,11 +324,12 @@ db.collection("projects").orderBy("created", "desc")
 
       const div = document.createElement("div");
       div.className = "project-card";
+div.dataset.category = d.category || "live";
 
       div.innerHTML = `
-        <img src="${d.url}">
-        <div class="project-info">Uploaded Project</div>
-      `;
+  <img src="${d.url}">
+  <div class="project-info">${d.category || "live"}</div>
+`;
 
       liveGrid.appendChild(div);
     });
