@@ -7,11 +7,9 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-
 body{
   background:#050505;
-  font-family:Arial;
-  color:white;
+  font-family: Arial;
 }
 
 .admin-wrap{
@@ -33,67 +31,57 @@ body{
 
 h2{
   color:#d4af37;
-  margin-bottom:10px;
 }
 
-input{
+input, select{
   width:100%;
-  padding:12px;
-  margin:8px 0;
+  padding:10px;
+  margin:6px 0;
   border-radius:8px;
   border:none;
+  box-sizing:border-box;
 }
 
 button{
   width:100%;
-  padding:12px;
+  padding:10px;
   margin-top:8px;
   background:#d4af37;
-  color:#050505;
   border:none;
   border-radius:8px;
   cursor:pointer;
 }
 
 button:hover{
-  box-shadow:0 0 20px rgba(212,175,55,0.5);
+  box-shadow:0 0 20px rgba(212,175,55,.5);
 }
 
-/* CATEGORY BUTTONS */
-.cat-grid{
+#adminGallery{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  margin-top:10px;
+  gap:10px;
+  margin-top:15px;
 }
 
-.cat-btn{
-  background:rgba(255,255,255,0.08);
-  color:white;
-  border:1px solid rgba(212,175,55,0.3);
-  padding:10px;
+.admin-photo{
+  background:rgba(255,255,255,0.05);
+  padding:8px;
+  border-radius:10px;
+}
+
+.admin-photo img{
+  width:100%;
+  height:100px;
+  object-fit:cover;
   border-radius:8px;
-  cursor:pointer;
 }
 
-.cat-btn:hover{
-  background:#d4af37;
-  color:#050505;
+.delete-btn{
+  background:#8b0000;
+  color:white;
+  margin-top:5px;
 }
-
-.section{
-  margin-top:25px;
-  padding-top:15px;
-  border-top:1px solid rgba(255,255,255,0.1);
-}
-
-#message{
-  margin-top:10px;
-  color:#d4af37;
-}
-
 </style>
-
 </head>
 
 <body>
@@ -103,101 +91,135 @@ button:hover{
 
 <h2>Olykrew Admin</h2>
 
-<!-- FILE -->
-<input type="file" id="fileInput">
+<!-- LOGIN -->
+<div id="loginBox">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- UPLOAD -->
+<div id="uploadArea" style="display:none;">
+
+  <h3>Upload Type</h3>
+
+  <select id="category">
+    <option value="live">Live Gallery (Unsorted)</option>
+    <option value="closet">Closet</option>
+    <option value="shower">Shower</option>
+    <option value="flooring">Flooring</option>
+    <option value="bathroom">Bathroom</option>
+    <option value="kitchen">Kitchen</option>
+  </select>
+
+  <input type="file" id="fileInput">
+
+  <button onclick="upload()">Upload</button>
+
+  <h3>Current Projects</h3>
+  <div id="adminGallery"></div>
+
+  <button onclick="logout()">Logout</button>
+</div>
 
 <div id="message"></div>
 
-<!-- 🟨 CATEGORIZED UPLOAD -->
-<div class="section">
-
-<h3>Portfolio Upload (Categorized)</h3>
-
-<div class="cat-grid">
-
-<button class="cat-btn" onclick="uploadCat('closets')">Closets</button>
-<button class="cat-btn" onclick="uploadCat('showers')">Showers</button>
-<button class="cat-btn" onclick="uploadCat('flooring')">Flooring</button>
-<button class="cat-btn" onclick="uploadCat('kitchen')">Kitchen</button>
-<button class="cat-btn" onclick="uploadCat('bathroom')">Bathroom</button>
-<button class="cat-btn" onclick="uploadCat('painting')">Painting</button>
-
-</div>
-
-</div>
-
-<!-- 🟦 LIVE UPLOAD -->
-<div class="section">
-
-<h3>Live Gallery Upload</h3>
-
-<button onclick="uploadLive()">Upload to Live Gallery</button>
-
-</div>
-
 </div>
 </div>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-
 firebase.initializeApp({
   apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
   authDomain:"olykrew-website.firebaseapp.com",
   projectId:"olykrew-website"
 });
 
+const auth = firebase.auth();
 const db = firebase.firestore();
 
-/* UPLOAD FUNCTION */
-async function uploadToCollection(collection){
+function login(){
+  auth.signInWithEmailAndPassword(email.value, password.value)
+  .then(()=>{
+    loginBox.style.display="none";
+    uploadArea.style.display="block";
+    message.innerHTML="Logged in";
+    loadProjects();
+  })
+  .catch(e=>{
+    message.innerHTML=e.message;
+  });
+}
 
-  const file = document.getElementById("fileInput").files[0];
+async function upload(){
+  const file = fileInput.files[0];
+  const category = document.getElementById("category").value;
 
   if(!file){
-    message.innerHTML = "Select a file first";
+    message.innerHTML="Pick a file first";
     return;
   }
 
-  message.innerHTML = "Uploading...";
+  message.innerHTML="Uploading...";
 
   const form = new FormData();
   form.append("file", file);
   form.append("upload_preset", "Olykrewrenovations");
 
-  const res = await fetch(
-    "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-    { method:"POST", body:form }
-  );
+  const res = await fetch("https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload", {
+    method:"POST",
+    body:form
+  });
 
   const data = await res.json();
 
-  await db.collection(collection).add({
-    url: data.secure_url,
-    created: Date.now()
+  await db.collection("projects").add({
+    url:data.secure_url,
+    category:category,
+    created:Date.now()
   });
 
-  message.innerHTML = "Uploaded successfully!";
-  document.getElementById("fileInput").value = "";
+  message.innerHTML="Uploaded successfully";
+  fileInput.value="";
 }
 
-/* CATEGORY UPLOAD */
-function uploadCat(category){
-  uploadToCollection("categorizedProjects").then(() => {
-    db.collection("categorizedProjects").add({
-      url: "",
-      category: category
+function loadProjects(){
+  const gallery = document.getElementById("adminGallery");
+
+  db.collection("projects")
+  .orderBy("created","desc")
+  .onSnapshot(snapshot=>{
+    gallery.innerHTML="";
+
+    snapshot.forEach(doc=>{
+      const d = doc.data();
+
+      const div = document.createElement("div");
+      div.className="admin-photo";
+
+      div.innerHTML=`
+        <img src="${d.url}">
+        <div style="color:#d4af37;font-size:12px">${d.category || "live"}</div>
+        <button class="delete-btn" onclick="deleteProject('${doc.id}')">Delete</button>
+      `;
+
+      gallery.appendChild(div);
     });
   });
 }
 
-/* LIVE UPLOAD */
-function uploadLive(){
-  uploadToCollection("liveProjects");
+function deleteProject(id){
+  db.collection("projects").doc(id).delete();
 }
 
+function logout(){
+  auth.signOut();
+  location.reload();
+}
 </script>
 
 </body>
