@@ -196,16 +196,18 @@ elements.forEach(el => observer.observe(el));
 const buttons = document.querySelectorAll(".filter-btn");
 const projects = document.querySelectorAll(".static-gallery .project-card");
 
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
+buttons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
     const filter = btn.dataset.filter;
 
-    projects.forEach(card => {
+    projects.forEach(card=>{
       const match = card.dataset.category;
-      card.style.display = (filter === "all" || filter === match) ? "block" : "none";
+
+      if(filter === "all" || filter === match){
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
     });
   });
 });
