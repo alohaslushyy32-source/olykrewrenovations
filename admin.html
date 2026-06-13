@@ -10,6 +10,8 @@
 
 body{
   background:#050505;
+  font-family:Arial;
+  color:white;
 }
 
 .admin-wrap{
@@ -19,489 +21,184 @@ body{
   justify-content:center;
 }
 
-
 .admin-card{
-
-  width:350px;
+  width:420px;
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(15px);
-
-  padding:30px;
+  padding:25px;
   border-radius:15px;
-
   border:1px solid rgba(212,175,55,0.35);
-
   text-align:center;
-
 }
 
-
-.admin-card h2{
-
+h2{
   color:#d4af37;
-
+  margin-bottom:10px;
 }
-
 
 input{
-
   width:100%;
   padding:12px;
-
   margin:8px 0;
-
-  box-sizing:border-box;
-
   border-radius:8px;
-
   border:none;
-
-  color:black;
-
 }
-
 
 button{
-
   width:100%;
-
   padding:12px;
-
-  margin-top:10px;
-
+  margin-top:8px;
   background:#d4af37;
-
   color:#050505;
-
   border:none;
-
   border-radius:8px;
-
   cursor:pointer;
-
 }
-
 
 button:hover{
-
-  box-shadow:0 0 20px rgba(212,175,55,.5);
-
+  box-shadow:0 0 20px rgba(212,175,55,0.5);
 }
 
+/* CATEGORY BUTTONS */
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+
+.cat-btn{
+  background:rgba(255,255,255,0.08);
+  color:white;
+  border:1px solid rgba(212,175,55,0.3);
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.cat-btn:hover{
+  background:#d4af37;
+  color:#050505;
+}
+
+.section{
+  margin-top:25px;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,0.1);
+}
 
 #message{
-
-color:#d4af37;
-
-margin-top:10px;
-
+  margin-top:10px;
+  color:#d4af37;
 }
-
-
-/* ADMIN PHOTO GRID */
-
-#adminGallery{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:15px;
-
-margin-top:20px;
-
-}
-
-
-.admin-photo{
-
-background:rgba(255,255,255,0.05);
-
-padding:10px;
-
-border-radius:10px;
-
-}
-
-
-.admin-photo img{
-
-width:100%;
-
-height:100px;
-
-object-fit:cover;
-
-border-radius:8px;
-
-}
-
-
-.delete-btn{
-
-background:#8b0000;
-
-color:white;
-
-font-size:14px;
-
-}
-
 
 </style>
 
 </head>
 
-
 <body>
 
-
 <div class="admin-wrap">
-
-
 <div class="admin-card">
-
 
 <h2>Olykrew Admin</h2>
 
-
-
-<div id="loginBox">
-
-
-<input id="email" placeholder="Email">
-
-<input id="password" type="password" placeholder="Password">
-
-
-<button onclick="login()">
-Login
-</button>
-
-
-</div>
-
-
-
-
-<div id="uploadArea" style="display:none;">
-
-
-<h2>Upload Project</h2>
-
-
+<!-- FILE -->
 <input type="file" id="fileInput">
-
-
-<button onclick="upload()">
-Upload
-</button>
-
-
-
-<h2>Current Projects</h2>
-
-
-<div id="adminGallery"></div>
-
-
-
-<button onclick="logout()">
-Logout
-</button>
-
-
-</div>
-
-
 
 <div id="message"></div>
 
+<!-- 🟨 CATEGORIZED UPLOAD -->
+<div class="section">
+
+<h3>Portfolio Upload (Categorized)</h3>
+
+<div class="cat-grid">
+
+<button class="cat-btn" onclick="uploadCat('closets')">Closets</button>
+<button class="cat-btn" onclick="uploadCat('showers')">Showers</button>
+<button class="cat-btn" onclick="uploadCat('flooring')">Flooring</button>
+<button class="cat-btn" onclick="uploadCat('kitchen')">Kitchen</button>
+<button class="cat-btn" onclick="uploadCat('bathroom')">Bathroom</button>
+<button class="cat-btn" onclick="uploadCat('painting')">Painting</button>
 
 </div>
 
+</div>
+
+<!-- 🟦 LIVE UPLOAD -->
+<div class="section">
+
+<h3>Live Gallery Upload</h3>
+
+<button onclick="uploadLive()">Upload to Live Gallery</button>
 
 </div>
 
-
-
-
+</div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-
-
 
 <script>
 
-
 firebase.initializeApp({
-
-apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-
-authDomain:"olykrew-website.firebaseapp.com",
-
-projectId:"olykrew-website"
-
+  apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+  authDomain:"olykrew-website.firebaseapp.com",
+  projectId:"olykrew-website"
 });
 
+const db = firebase.firestore();
 
+/* UPLOAD FUNCTION */
+async function uploadToCollection(collection){
 
-const auth=firebase.auth();
+  const file = document.getElementById("fileInput").files[0];
 
-const db=firebase.firestore();
+  if(!file){
+    message.innerHTML = "Select a file first";
+    return;
+  }
 
+  message.innerHTML = "Uploading...";
 
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", "Olykrewrenovations");
 
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+    { method:"POST", body:form }
+  );
 
+  const data = await res.json();
 
-function login(){
+  await db.collection(collection).add({
+    url: data.secure_url,
+    created: Date.now()
+  });
 
-
-auth.signInWithEmailAndPassword(
-email.value,
-password.value
-
-)
-
-.then(()=>{
-
-
-document.getElementById("loginBox").style.display="none";
-
-
-document.getElementById("uploadArea").style.display="block";
-
-
-message.innerHTML="Logged in";
-
-
-loadProjects();
-
-
-})
-
-
-.catch(error=>{
-
-
-message.innerHTML=error.message;
-
-
-});
-
-
+  message.innerHTML = "Uploaded successfully!";
+  document.getElementById("fileInput").value = "";
 }
 
-
-
-
-
-
-async function upload(){
-
-
-const file=document.getElementById("fileInput").files[0];
-
-
-if(!file){
-
-message.innerHTML="Choose an image first";
-
-return;
-
+/* CATEGORY UPLOAD */
+function uploadCat(category){
+  uploadToCollection("categorizedProjects").then(() => {
+    db.collection("categorizedProjects").add({
+      url: "",
+      category: category
+    });
+  });
 }
 
-
-
-message.innerHTML="Uploading...";
-
-
-
-const form=new FormData();
-
-
-form.append("file",file);
-
-
-form.append(
-"upload_preset",
-"Olykrewrenovations"
-);
-
-
-
-try{
-
-
-const res=await fetch(
-
-"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-
-{
-
-method:"POST",
-
-body:form
-
+/* LIVE UPLOAD */
+function uploadLive(){
+  uploadToCollection("liveProjects");
 }
-
-);
-
-
-
-const data=await res.json();
-
-
-
-console.log(data);
-
-
-
-await db.collection("projects").add({
-
-url:data.secure_url,
-
-created:Date.now()
-
-});
-
-
-
-message.innerHTML="Uploaded successfully";
-
-
-document.getElementById("fileInput").value="";
-
-
-loadProjects();
-
-
-}
-
-
-catch(error){
-
-
-console.log(error);
-
-
-message.innerHTML="Upload failed";
-
-
-}
-
-
-}
-
-
-
-
-
-
-
-function loadProjects(){
-
-
-const gallery=document.getElementById("adminGallery");
-
-
-db.collection("projects")
-.orderBy("created","desc")
-.onSnapshot(snapshot=>{
-
-
-gallery.innerHTML="";
-
-
-snapshot.forEach(doc=>{
-
-
-const data=doc.data();
-
-
-const div=document.createElement("div");
-
-
-div.className="admin-photo";
-
-
-
-div.innerHTML=`
-
-<img src="${data.url}">
-
-
-<button class="delete-btn" onclick="deleteProject('${doc.id}')">
-
-Delete
-
-</button>
-
-`;
-
-
-
-gallery.appendChild(div);
-
-
-
-});
-
-
-});
-
-
-}
-
-
-
-
-
-
-function deleteProject(id){
-
-
-if(confirm("Delete this photo?")){
-
-
-db.collection("projects")
-.doc(id)
-.delete();
-
-
-}
-
-
-}
-
-
-
-
-
-
-
-function logout(){
-
-
-auth.signOut();
-
-
-location.reload();
-
-
-}
-
-
-
 
 </script>
 
-
 </body>
-
 </html>
