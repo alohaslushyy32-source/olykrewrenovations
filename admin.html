@@ -148,6 +148,9 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+  
+const message = document.getElementById("message");
+const fileInput = document.getElementById("fileInput");
 
 function login(){
   auth.signInWithEmailAndPassword(
