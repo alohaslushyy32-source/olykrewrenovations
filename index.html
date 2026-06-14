@@ -252,6 +252,7 @@ requestAnimationFrame(animate);
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+  <!-- FIREBASE -->
 <script>
 firebase.initializeApp({
 apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
@@ -262,7 +263,7 @@ projectId: "olykrew-website"
 const db = firebase.firestore();
 const liveGrid = document.getElementById("liveGrid");
 
-db.collection("projects")
+db.collection("images")
 .orderBy("created", "desc")
 .onSnapshot(snapshot => {
 
