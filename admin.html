@@ -173,6 +173,107 @@ async function upload(){
   const file = document.getElementById("fileInput").files[0];
   const category = document.getElementById("category").value;
 
+  console.log("Selected file:", file);
+
+  if(!file){
+    message.innerHTML = "❌ No file selected";
+    return;
+  }
+
+
+  try {
+
+    message.innerHTML = "Uploading...";
+
+
+    const form = new FormData();
+
+    form.append("file", file);
+
+    form.append(
+      "upload_preset",
+      "Olykrewrenovations"
+    );
+
+
+    console.log("Sending to Cloudinary...");
+
+
+    const res = await fetch(
+
+      "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+
+      {
+        method:"POST",
+        body:form
+      }
+
+    );
+
+
+    console.log("Cloudinary status:", res.status);
+
+
+    const data = await res.json();
+
+
+    console.log("Cloudinary response:", data);
+
+
+
+    if(!data.secure_url){
+
+      message.innerHTML =
+      "❌ Cloudinary failed - check console";
+
+      return;
+
+    }
+
+
+
+    console.log("Saving to Firebase...");
+
+
+    await db.collection("projects").add({
+
+      url:data.secure_url,
+
+      category:category,
+
+      created:Date.now()
+
+    });
+
+
+
+    console.log("DONE");
+
+
+    message.innerHTML =
+    "✅ Uploaded successfully";
+
+
+    fileInput.value="";
+
+
+  }
+
+
+  catch(error){
+
+    console.log("ERROR:", error);
+
+    message.innerHTML =
+    "❌ Upload error";
+
+  }
+
+}
+
+  const file = document.getElementById("fileInput").files[0];
+  const category = document.getElementById("category").value;
+
   if(!file){
     document.getElementById("message").innerHTML="Pick a file first";
     return;
