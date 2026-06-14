@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 <head>
 
@@ -7,255 +7,618 @@
 
 <link rel="stylesheet" href="style.css">
 
+
 <style>
+
 body{
 background:#050505;
 font-family:Arial,sans-serif;
 margin:0;
 }
 
+
 .admin-wrap{
+
 min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+
 }
+
 
 .admin-card{
+
 width:420px;
+
 background:rgba(255,255,255,0.05);
+
 backdrop-filter:blur(15px);
+
 padding:25px;
+
 border-radius:15px;
+
 border:1px solid rgba(212,175,55,.35);
+
 text-align:center;
+
 }
 
-h2,h3{color:#d4af37;}
+
+
+h2,h3{
+
+color:#d4af37;
+
+}
+
+
 
 input,select{
+
 width:100%;
+
 padding:10px;
+
 margin:6px 0;
+
 box-sizing:border-box;
+
 border-radius:8px;
+
 border:none;
+
 }
+
+
 
 button{
+
 width:100%;
+
 padding:10px;
+
 margin-top:8px;
+
 background:#d4af37;
+
 border:none;
+
 border-radius:8px;
+
 cursor:pointer;
+
 }
 
-#message{color:#d4af37;margin-top:10px;}
+
+
+#message{
+
+color:#d4af37;
+
+margin-top:10px;
+
+}
+
+
 
 #adminGallery{
+
 display:grid;
+
 grid-template-columns:repeat(2,1fr);
+
 gap:10px;
+
 margin-top:15px;
+
 }
+
+
 
 .admin-photo{
+
 background:rgba(255,255,255,.05);
+
 padding:8px;
+
 border-radius:10px;
+
 }
+
+
 
 .admin-photo img{
+
 width:100%;
+
 height:100px;
+
 object-fit:cover;
+
 border-radius:8px;
+
 }
 
+
+
 .delete-btn{
+
 background:#8b0000;
+
 color:white;
+
 }
+
+
+
 </style>
+
 
 </head>
 
+
 <body>
 
+
 <div class="admin-wrap">
+
+
 <div class="admin-card">
+
 
 <h2>Olykrew Admin</h2>
 
+
+
 <div id="loginBox">
+
+
 <input id="email" placeholder="Email">
+
+
 <input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+
+
+<button onclick="login()">
+
+Login
+
+</button>
+
+
 </div>
+
+
+
 
 <div id="uploadArea" style="display:none;">
 
+
 <h3>Upload Category</h3>
 
+
 <select id="category">
-<option value="live">Live</option>
+
+<option value="live">Live Gallery</option>
+
 <option value="closet">Closet</option>
+
 <option value="shower">Shower</option>
+
 <option value="flooring">Flooring</option>
+
 <option value="bathroom">Bathroom</option>
+
 <option value="kitchen">Kitchen</option>
+
 </select>
 
+
+
 <input type="file" id="fileInput">
-<button onclick="upload()">Upload</button>
+
+
+
+<button onclick="upload()">
+
+Upload
+
+</button>
+
+
+
 
 <h3>Current Projects</h3>
+
+
 <div id="adminGallery"></div>
 
-<button onclick="logout()">Logout</button>
+
+
+<button onclick="logout()">
+
+Logout
+
+</button>
+
 
 </div>
+
+
 
 <div id="message"></div>
 
+
 </div>
+
 </div>
+
+
+
+
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-  <!--FIREBASE-->
+
+
 <script>
 
+
+console.log("ADMIN SCRIPT LOADED");
+
+
+
 firebase.initializeApp({
+
 apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+
 authDomain:"olykrew-website.firebaseapp.com",
+
 projectId:"olykrew-website"
+
 });
 
+
+
 const auth = firebase.auth();
+
 const db = firebase.firestore();
+
+
 
 const message = document.getElementById("message");
 
+
+
+
+
 function login(){
+
+
+console.log("LOGIN CLICKED");
+
+
+
 auth.signInWithEmailAndPassword(
-email.value,
-password.value
-).then(()=>{
-loginBox.style.display="none";
-uploadArea.style.display="block";
+
+document.getElementById("email").value,
+
+document.getElementById("password").value
+
+)
+
+
+.then(()=>{
+
+
+console.log("LOGIN SUCCESS");
+
+
+document.getElementById("loginBox").style.display="none";
+
+
+document.getElementById("uploadArea").style.display="block";
+
+
 message.innerHTML="Logged in";
+
+
 loadProjects();
-}).catch(e=>{
-message.innerHTML=e.message;
+
+
+})
+
+
+.catch(err=>{
+
+
+console.log(err);
+
+
+message.innerHTML=err.message;
+
+
 });
+
+
 }
 
-window.upload = async function () {
 
-console.log("UPLOAD FUNCTION FIRED");
 
-const file = document.getElementById("fileInput").files[0];
-const category = document.getElementById("category").value;
 
-console.log("FILE:", file);
-console.log("CATEGORY:", category);
 
-if (!file) {
-message.innerHTML = "❌ Choose a file";
+
+
+
+async function upload(){
+
+
+console.log("UPLOAD CLICKED");
+
+
+
+const file=document.getElementById("fileInput").files[0];
+
+
+const category=document.getElementById("category").value;
+
+
+
+console.log("FILE:",file);
+
+
+
+if(!file){
+
+message.innerHTML="❌ Choose a file";
+
 return;
+
 }
 
-message.innerHTML = "Uploading...";
 
-try {
 
-const form = new FormData();
-form.append("file", file);
-form.append("upload_preset", "Olykrewrenovations");
 
-console.log("➡ Sending to Cloudinary...");
+message.innerHTML="Uploading...";
 
-const response = await fetch(
-"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-{
-method: "POST",
-body: form
-}
+
+
+try{
+
+
+const form=new FormData();
+
+
+
+form.append("file",file);
+
+
+
+form.append(
+
+"upload_preset",
+
+"Olykrewrenovations"
+
 );
 
-const data = await response.json();
 
-console.log("⬅ Cloudinary response:", data);
 
-if (!data.secure_url) {
-message.innerHTML = "❌ Cloudinary failed";
-return;
+
+console.log("SENDING CLOUDINARY");
+
+
+
+const response=await fetch(
+
+"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+
+{
+
+method:"POST",
+
+body:form
+
 }
 
-console.log("➡ Saving to Firestore...");
+);
+
+
+
+console.log("STATUS:",response.status);
+
+
+
+const data=await response.json();
+
+
+
+console.log("CLOUDINARY:",data);
+
+
+
+
+
+if(!data.secure_url){
+
+
+message.innerHTML="❌ Cloudinary failed";
+
+
+return;
+
+
+}
+
+
+
+
 
 await db.collection("projects").add({
-url: data.secure_url,
-category: category,
-created: Date.now()
+
+url:data.secure_url,
+
+category:category,
+
+created:Date.now()
+
 });
 
-console.log("✅ Saved to Firestore");
 
-message.innerHTML = "✅ Uploaded";
 
-document.getElementById("fileInput").value = "";
+console.log("FIREBASE SAVED");
+
+
+
+message.innerHTML="✅ Uploaded";
+
+
+document.getElementById("fileInput").value="";
+
 
 loadProjects();
 
-} catch (err) {
-console.log("UPLOAD ERROR:", err);
-message.innerHTML = "❌ Upload error";
+
+
 }
-};
+
+
+
+catch(error){
+
+
+console.log("ERROR:",error);
+
+
+message.innerHTML="❌ Upload error";
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
 
 function loadProjects(){
 
-db.collection("images")
+
+const gallery=document.getElementById("adminGallery");
+
+
+
+db.collection("projects")
+
 .orderBy("created","desc")
-.onSnapshot(snap=>{
 
-adminGallery.innerHTML="";
 
-snap.forEach(doc=>{
+.onSnapshot(snapshot=>{
+
+
+gallery.innerHTML="";
+
+
+
+snapshot.forEach(doc=>{
+
+
 const d=doc.data();
 
+
+
 const div=document.createElement("div");
+
+
 div.className="admin-photo";
 
+
+
 div.innerHTML=`
+
 <img src="${d.url}">
-<div>${d.category}</div>
-<button class="delete-btn" onclick="deleteProject('${doc.id}')">Delete</button>
+
+<div style="color:#d4af37">
+
+${d.category || "live"}
+
+</div>
+
+
+<button class="delete-btn" onclick="deleteProject('${doc.id}')">
+
+Delete
+
+</button>
+
 `;
 
-adminGallery.appendChild(div);
-});
+
+
+gallery.appendChild(div);
+
+
 
 });
+
+
+
+});
+
 
 }
+
+
+
+
+
+
 
 function deleteProject(id){
-db.collection("projects").doc(id).delete();
+
+
+db.collection("projects")
+
+.doc(id)
+
+.delete();
+
+
 }
 
+
+
+
+
+
+
 function logout(){
+
+
 auth.signOut();
+
+
 location.reload();
+
+
 }
+
+
 
 </script>
 
+
 </body>
+
 </html>
