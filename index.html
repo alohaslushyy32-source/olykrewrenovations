@@ -307,34 +307,38 @@ window.addEventListener("touchend", () => active = false);
 
 <script>
 firebase.initializeApp({
-apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-authDomain: "olykrew-website.firebaseapp.com",
-projectId: "olykrew-website"
+  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+  authDomain: "olykrew-website.firebaseapp.com",
+  projectId: "olykrew-website"
 });
 
 const db = firebase.firestore();
 const liveGrid = document.getElementById("liveGrid");
 
-db.collection("projects").orderBy("created", "desc")
-.onSnapshot(snapshot => {
+db.collection("projects")
+  .orderBy("created", "desc")
+  .onSnapshot((snapshot) => {
 
-liveGrid.innerHTML = "";
+    if (!liveGrid) return; // safety check
 
-snapshot.forEach(doc => {
-const d = doc.data();
+    liveGrid.innerHTML = "";
 
-const div = document.createElement("div");
-div.className = "project-card";
-div.dataset.category = d.category || "live";
+    snapshot.forEach((doc) => {
+      const d = doc.data();
 
-div.innerHTML = `
-<img src="${d.url}">
-<div class="project-info">${d.category || "live"}</div>
-`;
+      const card = document.createElement("div");
+      card.className = "project-card";
+      card.dataset.category = d.category || "live";
 
-liveGrid.appendChild(div);
-});
-});
+      card.innerHTML = `
+        <img src="${d.url}" />
+        <div class="project-info">${d.category || "live"}</div>
+      `;
+
+      liveGrid.appendChild(card);
+    });
+
+  });
 </script>
 
 <!-- BOTTOM INFO BAR -->
