@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-
 body{
 background:#050505;
 font-family:Arial,sans-serif;
@@ -32,9 +31,7 @@ border:1px solid rgba(212,175,55,.35);
 text-align:center;
 }
 
-h2,h3{
-color:#d4af37;
-}
+h2,h3{color:#d4af37;}
 
 input,select{
 width:100%;
@@ -55,10 +52,7 @@ border-radius:8px;
 cursor:pointer;
 }
 
-#message{
-color:#d4af37;
-margin-top:10px;
-}
+#message{color:#d4af37;margin-top:10px;}
 
 #adminGallery{
 display:grid;
@@ -84,7 +78,6 @@ border-radius:8px;
 background:#8b0000;
 color:white;
 }
-
 </style>
 
 </head>
@@ -92,18 +85,14 @@ color:white;
 <body>
 
 <div class="admin-wrap">
-
 <div class="admin-card">
 
 <h2>Olykrew Admin</h2>
 
 <div id="loginBox">
-
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
-
 <button onclick="login()">Login</button>
-
 </div>
 
 <div id="uploadArea" style="display:none;">
@@ -111,7 +100,7 @@ color:white;
 <h3>Upload Category</h3>
 
 <select id="category">
-<option value="live">Live Gallery</option>
+<option value="live">Live</option>
 <option value="closet">Closet</option>
 <option value="shower">Shower</option>
 <option value="flooring">Flooring</option>
@@ -120,11 +109,9 @@ color:white;
 </select>
 
 <input type="file" id="fileInput">
-
 <button onclick="upload()">Upload</button>
 
 <h3>Current Projects</h3>
-
 <div id="adminGallery"></div>
 
 <button onclick="logout()">Logout</button>
@@ -134,7 +121,6 @@ color:white;
 <div id="message"></div>
 
 </div>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -143,60 +129,38 @@ color:white;
 
 <script>
 
-console.log("ADMIN SCRIPT LOADED");
-
 firebase.initializeApp({
-  apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-  authDomain:"olykrew-website.firebaseapp.com",
-  projectId:"olykrew-website"
+apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+authDomain:"olykrew-website.firebaseapp.com",
+projectId:"olykrew-website"
 });
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+
 const message = document.getElementById("message");
 
-/* ---------------- LOGIN ---------------- */
-
 function login(){
-
-console.log("LOGIN CLICKED");
-
 auth.signInWithEmailAndPassword(
-document.getElementById("email").value,
-document.getElementById("password").value
-)
-
-.then(()=>{
-
-console.log("LOGIN SUCCESS");
-
-document.getElementById("loginBox").style.display="none";
-document.getElementById("uploadArea").style.display="block";
-
+email.value,
+password.value
+).then(()=>{
+loginBox.style.display="none";
+uploadArea.style.display="block";
 message.innerHTML="Logged in";
-
 loadProjects();
-
-})
-
-.catch(err=>{
-console.log("LOGIN ERROR:",err);
-message.innerHTML=err.message;
+}).catch(e=>{
+message.innerHTML=e.message;
 });
-
 }
-
-/* ---------------- UPLOAD (FIXED) ---------------- */
 
 async function upload(){
 
-console.log("UPLOAD CLICKED");
-
-const file=document.getElementById("fileInput").files[0];
+const file=fileInput.files[0];
 const category=document.getElementById("category").value;
 
 if(!file){
-message.innerHTML="❌ Choose a file";
+message.innerHTML="Choose file";
 return;
 }
 
@@ -208,69 +172,38 @@ const form=new FormData();
 form.append("file",file);
 form.append("upload_preset","Olykrewrenovations");
 
-const response=await fetch(
-"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
-{
-method:"POST",
-body:form
-}
-);
-
-const data=await response.json();
-
-console.log("CLOUDINARY RESPONSE:",data);
+const res=await fetch("https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",{method:"POST",body:form});
+const data=await res.json();
 
 if(!data.secure_url){
-message.innerHTML="❌ Cloudinary failed";
+message.innerHTML="Cloudinary failed";
 return;
 }
 
-const imageUrl=data.secure_url;
-
-/* FIRESTORE SAVE */
-
-try{
-
-const docRef=await db.collection("projects").add({
-url:imageUrl,
-category:category,
+await db.collection("projects").add({
+url:data.secure_url,
+category,
 created:Date.now()
 });
 
-console.log("FIREBASE SAVED:",docRef.id);
-
-message.innerHTML="✅ Uploaded";
-
-}catch(e){
-console.log("FIRESTORE ERROR:",e);
-message.innerHTML="❌ Firestore failed: "+e.message;
-return;
-}
-
-document.getElementById("fileInput").value="";
+message.innerHTML="Uploaded";
+fileInput.value="";
 loadProjects();
 
-}catch(err){
-console.log("UPLOAD ERROR:",err);
-message.innerHTML="❌ Upload error";
+}catch(e){
+message.innerHTML="Upload error";
 }
-
 }
-
-/* ---------------- LOAD PROJECTS (FIXED SAFETY) ---------------- */
 
 function loadProjects(){
 
-const gallery=document.getElementById("adminGallery");
-
 db.collection("projects")
 .orderBy("created","desc")
-.onSnapshot(snapshot=>{
+.onSnapshot(snap=>{
 
-gallery.innerHTML="";
+adminGallery.innerHTML="";
 
-snapshot.forEach(doc=>{
-
+snap.forEach(doc=>{
 const d=doc.data();
 
 const div=document.createElement("div");
@@ -278,34 +211,20 @@ div.className="admin-photo";
 
 div.innerHTML=`
 <img src="${d.url}">
-<div style="color:#d4af37">${d.category||"live"}</div>
+<div>${d.category}</div>
 <button class="delete-btn" onclick="deleteProject('${doc.id}')">Delete</button>
 `;
 
-gallery.appendChild(div);
-
+adminGallery.appendChild(div);
 });
 
-},err=>{
-console.log("LOAD ERROR:",err);
-message.innerHTML="❌ Load failed: "+err.message;
 });
 
 }
-
-/* ---------------- DELETE ---------------- */
 
 function deleteProject(id){
-
-db.collection("projects")
-.doc(id)
-.delete()
-.then(()=>console.log("DELETED:",id))
-.catch(err=>console.log("DELETE ERROR:",err));
-
+db.collection("projects").doc(id).delete();
 }
-
-/* ---------------- LOGOUT ---------------- */
 
 function logout(){
 auth.signOut();
