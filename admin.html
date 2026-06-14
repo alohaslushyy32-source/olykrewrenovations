@@ -154,46 +154,69 @@ message.innerHTML=e.message;
 });
 }
 
-async function upload(){
+window.upload = async function () {
 
-const file=fileInput.files[0];
-const category=document.getElementById("category").value;
+console.log("UPLOAD FUNCTION FIRED");
 
-if(!file){
-message.innerHTML="Choose file";
+const file = document.getElementById("fileInput").files[0];
+const category = document.getElementById("category").value;
+
+console.log("FILE:", file);
+console.log("CATEGORY:", category);
+
+if (!file) {
+message.innerHTML = "❌ Choose a file";
 return;
 }
 
-message.innerHTML="Uploading...";
+message.innerHTML = "Uploading...";
 
-try{
+try {
 
-const form=new FormData();
-form.append("file",file);
-form.append("upload_preset","Olykrewrenovations");
+const form = new FormData();
+form.append("file", file);
+form.append("upload_preset", "Olykrewrenovations");
 
-const res=await fetch("https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",{method:"POST",body:form});
-const data=await res.json();
+console.log("➡ Sending to Cloudinary...");
 
-if(!data.secure_url){
-message.innerHTML="Cloudinary failed";
+const response = await fetch(
+"https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
+{
+method: "POST",
+body: form
+}
+);
+
+const data = await response.json();
+
+console.log("⬅ Cloudinary response:", data);
+
+if (!data.secure_url) {
+message.innerHTML = "❌ Cloudinary failed";
 return;
 }
+
+console.log("➡ Saving to Firestore...");
 
 await db.collection("projects").add({
-url:data.secure_url,
-category,
-created:Date.now()
+url: data.secure_url,
+category: category,
+created: Date.now()
 });
 
-message.innerHTML="Uploaded";
-fileInput.value="";
+console.log("✅ Saved to Firestore");
+
+message.innerHTML = "✅ Uploaded";
+
+document.getElementById("fileInput").value = "";
+
 loadProjects();
 
-}catch(e){
-message.innerHTML="Upload error";
+} catch (err) {
+console.log("UPLOAD ERROR:", err);
+message.innerHTML = "❌ Upload error";
 }
-}
+};
 
 function loadProjects(){
 
