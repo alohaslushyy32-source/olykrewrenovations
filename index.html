@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olykrew Renovations</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olykrew Renovations</title>
+<link rel="stylesheet" href="style.css">
 
-  <!-- SAFETY FIX: loader will never block clicks -->
-  <style>
-    #loader {
-      transition: opacity 0.6s ease;
-      pointer-events: none;
-    }
-  </style>
+<style>
+#loader{transition:opacity .6s ease;pointer-events:none}
+</style>
 </head>
 
 <body>
@@ -24,7 +20,7 @@
 
 <!-- TOP BAR -->
 <header class="topbar">
-  <img src="images/logo.png" class="logo" alt="Logo">
+  <img src="images/logo.png" class="logo">
 
   <div class="nav-right">
     <a href="#services">Services</a>
@@ -39,328 +35,140 @@
   <div class="hero-overlay">
     <h1>Luxury Renovation & Restoration</h1>
     <p>Precision craftsmanship. Modern design. Built to last.</p>
-    <a href="#services" class="btn">Explore Services</a>
   </div>
 </section>
 
 <!-- VIDEO -->
 <section class="video-section">
-
-  <div class="video-overlay"></div>
-
-  <video autoplay muted loop playsinline class="service-video">
-  <source src="videos/background.mp4" type="video/mp4">
+<video autoplay muted loop playsinline class="service-video">
+<source src="videos/background.mp4">
 </video>
-
-  <div class="video-text">
-    <h1>Crafted With Precision</h1>
-    <p>Luxury renovations built with detail, discipline, and design.</p>
-  </div>
-
-</section>
-<!-- TRUST -->
-<section class="trust">
-  <div>✔ Licensed & Insured</div>
-  <div>✔ Residential & Commercial</div>
-  <div>✔ Fast Response</div>
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="section">
-  <h2 class="title">What We Do</h2>
-  <p class="subtitle">High-end renovation and restoration tailored to your property.</p>
-
-  <div class="grid">
-    <div class="card"><h3>Drywall & Texture Repair</h3><p>Expert drywall repair and seamless texture matching.</p></div>
-    <div class="card"><h3>Interior Painting</h3><p>Clean, premium interior finishes.</p></div>
-    <div class="card"><h3>Exterior Painting</h3><p>Durable weather-resistant coatings.</p></div>
-    <div class="card"><h3>Tile Installation</h3><p>Modern tile layouts and precision work.</p></div>
-    <div class="card"><h3>Flooring</h3><p>Hardwood, laminate, vinyl installations.</p></div>
-    <div class="card"><h3>Bathroom Remodels</h3><p>Full luxury bathroom renovations.</p></div>
-  </div>
-</section>
-
-<!-- BEFORE / AFTER -->
-<section class="section" id="beforeafter">
-  <h2 class="title">Before & After Transformations</h2>
-
-  <div class="ba-wrapper">
-    <div class="ba-container">
-      <img src="images/before.jpg" class="ba-img before">
-      <img src="images/after.jpg" class="ba-img after">
-      <div class="ba-slider"></div>
-    </div>
-  </div>
-
-  <div class="after-box">
-  <h3 class="after-title">And this is just the beginning.</h3>
-  <p class="after-text">
-    Every project we complete pushes our standard higher. What you see here is only the start of what we’re building.
-  </p>
-</div>
-</section>
-
-<!-- STATIC PORTFOLIO -->
+<!-- STATIC GALLERY -->
 <section id="gallery" class="section">
-  <h2 class="title">Project Portfolio</h2>
 
-  <div class="filter-bar">
-  <button class="filter-btn active" data-filter="all">All</button>
-<button class="filter-btn" data-filter="closet">Closet</button>
-<button class="filter-btn" data-filter="shower">Shower</button>
-<button class="filter-btn" data-filter="flooring">Flooring</button>
-<button class="filter-btn" data-filter="bathroom">Bathroom</button>
-<button class="filter-btn" data-filter="kitchen">Kitchen</button>
+<h2>Project Portfolio</h2>
+
+<div class="project-grid static-gallery">
+
+<div class="project-card" data-category="closet"><img src="images/closet.jpg"><div>closet</div></div>
+<div class="project-card" data-category="flooring"><img src="images/flooring.jpg"><div>flooring</div></div>
+<div class="project-card" data-category="bathroom"><img src="images/bathroom.jpg"><div>bathroom</div></div>
+<div class="project-card" data-category="kitchen"><img src="images/kitchen.jpg"><div>kitchen</div></div>
+
 </div>
 
-  <div class="project-grid static-gallery">
-
-    <div class="project-card" data-category="painting">
-      <img src="images/closet.jpg">
-      <div class="project-info">closet</div>
-    </div>
-
-    <div class="project-card" data-category="flooring">
-      <img src="images/flooring.jpg">
-      <div class="project-info">flooring</div>
-    </div>
-
-    <div class="project-card" data-category="bathroom">
-      <img src="images/bathroom.jpg">
-      <div class="project-info">bathroom</div>
-    </div>
-
-    <div class="project-card" data-category="painting">
-      <img src="images/backyard.jpg">
-      <div class="project-info">backyard</div>
-    </div>
-
-    <div class="project-card" data-category="bathroom">
-      <img src="images/shower.jpg">
-      <div class="project-info">shower</div>
-    </div>
-
-    <div class="project-card" data-category="painting">
-      <img src="images/kitchen.jpg">
-      <div class="project-info">kitchen</div>
-    </div>
-
-    <div class="project-card" data-category="flooring">
-      <img src="images/hallway.jpg">
-      <div class="project-info">hallway</div>
-    </div>
-
-  </div>
 </section>
 
 <!-- LIVE GALLERY -->
 <section id="liveGallery" class="section">
-  <h2 class="title">Live Gallery</h2>
+<h2>Live Gallery</h2>
+<div id="liveGrid" class="project-grid"></div>
+</section>
 
-  <div id="liveGrid" class="project-grid"></div>
+<!-- CATEGORY TABS (IMPORTANT FIX) -->
+<section class="section">
+
+<div id="closet"></div>
+<div id="shower"></div>
+<div id="flooring"></div>
+<div id="bathroom"></div>
+<div id="kitchen"></div>
+
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="section contact">
-  <h2 class="title">Get a Quote</h2>
-  <a class="btn" href="mailto:yourbusiness@email.com">Email Us</a>
+<section id="contact">
+<a href="mailto:yourbusiness@email.com">Email Us</a>
 </section>
 
-<!-- FIXED LOADER SCRIPT -->
+<!-- LOADER SCRIPT -->
 <script>
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  if (!loader) return;
-
-  loader.style.opacity = "0";
-
-  setTimeout(() => {
-    loader.remove();
-    document.body.style.overflow = "auto";
-  }, 500);
+window.addEventListener("load",()=>{
+const l=document.getElementById("loader");
+if(!l) return;
+l.style.opacity="0";
+setTimeout(()=>l.remove(),500);
 });
 </script>
 
 <!-- SCROLL ANIMATION -->
 <script>
-const elements = document.querySelectorAll('.section, .card, .project-card');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('show');
-  });
-}, { threshold: 0.15 });
-
-elements.forEach(el => observer.observe(el));
-</script>
-
-<!-- FILTER (STATIC + LIVE CONNECTED) -->
-<script>
-const buttons = document.querySelectorAll(".filter-btn");
-const staticCards = document.querySelectorAll(".static-gallery .project-card");
-const liveGrid = document.getElementById("liveGrid");
-
-let currentFilter = "all";
-
-// CLICK FILTER BUTTONS
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    currentFilter = btn.dataset.filter;
-
-    filterStatic();
-    filterLive();
-  });
+const els=document.querySelectorAll(".section,.project-card");
+const obs=new IntersectionObserver(e=>{
+e.forEach(x=>{
+if(x.isIntersecting)x.target.classList.add("show");
 });
-
-// FILTER STATIC IMAGES
-function filterStatic(){
-  staticCards.forEach(card => {
-    const match = card.dataset.category;
-
-    if(currentFilter === "all" || currentFilter === match){
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
-
-// FILTER FIREBASE LIVE IMAGES
-function filterLive(){
-  if(!liveGrid) return;
-
-  const items = liveGrid.querySelectorAll(".project-card");
-
-  items.forEach(card => {
-    const match = card.dataset.category;
-
-    if(currentFilter === "all" || currentFilter === match){
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
-</script>
-<!-- BEFORE AFTER (STABLE AUTO + DRAG) -->
-<script>
-const container = document.querySelector(".ba-container");
-const slider = document.querySelector(".ba-slider");
-const afterImg = document.querySelector(".ba-img.after");
-
-if (container && slider && afterImg) {
-
-  let active = false;
-  let auto = true;
-
-  function move(x) {
-    const rect = container.getBoundingClientRect();
-    let pos = x - rect.left;
-
-    pos = Math.max(0, Math.min(pos, rect.width));
-
-    const percent = (pos / rect.width) * 100;
-
-    slider.style.left = percent + "%";
-    afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-  }
-
-  function animate(t) {
-    if (auto) {
-      const rect = container.getBoundingClientRect();
-      const progress = (Math.sin(t / 2500) + 1) / 2;
-      move(rect.left + rect.width * progress);
-    }
-    requestAnimationFrame(animate);
-  }
-
-  requestAnimationFrame(animate);
-
-  container.addEventListener("mousedown", () => { active = true; auto = false; });
-  window.addEventListener("mouseup", () => active = false);
-
-  window.addEventListener("mousemove", (e) => {
-    if (active) move(e.clientX);
-  });
-
-  container.addEventListener("touchstart", (e) => {
-    active = true;
-    auto = false;
-    move(e.touches[0].clientX);
-  }, { passive: true });
-
-  container.addEventListener("touchmove", (e) => {
-    if (active) move(e.touches[0].clientX);
-  }, { passive: true });
-
-  window.addEventListener("touchend", () => active = false);
-}
+},{threshold:.15});
+els.forEach(e=>obs.observe(e));
 </script>
 
-<!-- FIREBASE LIVE GALLERY -->
+<!-- FIREBASE FIXED SYSTEM -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
 firebase.initializeApp({
-  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-  authDomain: "olykrew-website.firebaseapp.com",
-  projectId: "olykrew-website"
+apiKey:"AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+authDomain:"olykrew-website.firebaseapp.com",
+projectId:"olykrew-website"
 });
 
-const db = firebase.firestore();
-const liveGrid = document.getElementById("liveGrid");
+const db=firebase.firestore();
 
-db.collection("projects").orderBy("created", "desc")
-  .onSnapshot(snapshot => {
-    liveGrid.innerHTML = "";
+const liveGrid=document.getElementById("liveGrid");
 
-    snapshot.forEach(doc => {
-      const d = doc.data();
+const sections={
+closet:document.getElementById("closet"),
+shower:document.getElementById("shower"),
+flooring:document.getElementById("flooring"),
+bathroom:document.getElementById("bathroom"),
+kitchen:document.getElementById("kitchen")
+};
 
-      const div = document.createElement("div");
-      div.className = "project-card";
-div.dataset.category = d.category || "live";
+db.collection("projects")
+.orderBy("created","desc")
+.onSnapshot(snap=>{
 
-      div.innerHTML = `
-  <img src="${d.url}">
-  <div class="project-info">${d.category || "live"}</div>
+if(liveGrid) liveGrid.innerHTML="";
+
+Object.values(sections).forEach(s=>{
+if(s) s.innerHTML="";
+});
+
+snap.forEach(doc=>{
+const d=doc.data();
+
+const card=document.createElement("div");
+card.className="project-card";
+card.innerHTML=`
+<img src="${d.url}">
+<div class="project-info">${d.category || "live"}</div>
 `;
 
-      liveGrid.appendChild(div);
-    });
-  });
+const cat=d.category || "live";
+
+if(cat==="live"){
+liveGrid.appendChild(card);
+return;
+}
+
+if(sections[cat]){
+sections[cat].appendChild(card);
+return;
+}
+
+liveGrid.appendChild(card);
+});
+
+});
 </script>
-<!-- BOTTOM INFO BAR -->
+
+<!-- FOOTER -->
 <footer class="bottom-bar">
-  <div class="bottom-left">
-  <div class="brand">Olykrew Renovations</div>
-  <img src="images/logo.png" class="bottom-logo">
-</div>
-
-  <div class="bottom-center">
-    <div class="contact-title">Contacts</div>
-
-    <div class="contact-stack">
-      <a class="contact-btn" href="tel:5202442913">
-        Julian Olivas — 520-244-2913
-      </a>
-
-      <a class="contact-btn" href="tel:5207560839">
-        Arnold Olivas — 520-756-0839
-      </a>
-
-      <a class="contact-btn email-btn" href="mailto:olykrewreno@gmail.com">
-        Email Us
-      </a>
-    </div>
-  </div>
-
-  <div class="bottom-right">
-    <div>Licensed • Insured • Quality Work</div>
-  </div>
+<div>Olykrew Renovations</div>
 </footer>
+
+</body>
+</html>
