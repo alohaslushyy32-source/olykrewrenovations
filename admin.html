@@ -1,50 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Olykrew Admin</title>
 
 <link rel="stylesheet" href="style.css">
 
+
 <style>
 
 body{
-  background:#050505;
-  font-family: Arial, sans-serif;
-  margin:0;
-  padding:0;
+background:#050505;
+font-family:Arial,sans-serif;
+margin:0;
 }
 
 
 .admin-wrap{
 
-  min-height:100vh;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 
 }
 
 
-
 .admin-card{
 
-  width:420px;
+width:420px;
 
-  background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.05);
 
-  backdrop-filter:blur(15px);
+backdrop-filter:blur(15px);
 
-  padding:25px;
+padding:25px;
 
-  border-radius:15px;
+border-radius:15px;
 
-  border:1px solid rgba(212,175,55,0.35);
+border:1px solid rgba(212,175,55,.35);
 
-  text-align:center;
+text-align:center;
 
 }
 
@@ -52,7 +49,7 @@ body{
 
 h2,h3{
 
-  color:#d4af37;
+color:#d4af37;
 
 }
 
@@ -60,17 +57,17 @@ h2,h3{
 
 input,select{
 
-  width:100%;
+width:100%;
 
-  padding:10px;
+padding:10px;
 
-  margin:6px 0;
+margin:6px 0;
 
-  border-radius:8px;
+box-sizing:border-box;
 
-  border:none;
+border-radius:8px;
 
-  box-sizing:border-box;
+border:none;
 
 }
 
@@ -78,77 +75,19 @@ input,select{
 
 button{
 
-  width:100%;
+width:100%;
 
-  padding:10px;
+padding:10px;
 
-  margin-top:8px;
+margin-top:8px;
 
-  background:#d4af37;
+background:#d4af37;
 
-  border:none;
+border:none;
 
-  border-radius:8px;
+border-radius:8px;
 
-  cursor:pointer;
-
-}
-
-
-
-button:hover{
-
-  box-shadow:0 0 20px rgba(212,175,55,.5);
-
-}
-
-
-
-#adminGallery{
-
-  display:grid;
-
-  grid-template-columns:repeat(2,1fr);
-
-  gap:10px;
-
-  margin-top:15px;
-
-}
-
-
-
-.admin-photo{
-
-  background:rgba(255,255,255,0.05);
-
-  padding:8px;
-
-  border-radius:10px;
-
-}
-
-
-
-.admin-photo img{
-
-  width:100%;
-
-  height:100px;
-
-  object-fit:cover;
-
-  border-radius:8px;
-
-}
-
-
-
-.delete-btn{
-
-  background:#8b0000;
-
-  color:white;
+cursor:pointer;
 
 }
 
@@ -156,13 +95,66 @@ button:hover{
 
 #message{
 
-  color:#d4af37;
+color:#d4af37;
 
-  margin-top:10px;
+margin-top:10px;
 
 }
 
+
+
+#adminGallery{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:10px;
+
+margin-top:15px;
+
+}
+
+
+
+.admin-photo{
+
+background:rgba(255,255,255,.05);
+
+padding:8px;
+
+border-radius:10px;
+
+}
+
+
+
+.admin-photo img{
+
+width:100%;
+
+height:100px;
+
+object-fit:cover;
+
+border-radius:8px;
+
+}
+
+
+
+.delete-btn{
+
+background:#8b0000;
+
+color:white;
+
+}
+
+
+
 </style>
+
 
 </head>
 
@@ -171,6 +163,7 @@ button:hover{
 
 
 <div class="admin-wrap">
+
 
 <div class="admin-card">
 
@@ -200,17 +193,15 @@ Login
 
 
 
-
 <div id="uploadArea" style="display:none;">
 
 
 <h3>Upload Category</h3>
 
 
-
 <select id="category">
 
-<option value="live">Live (Unsorted)</option>
+<option value="live">Live Gallery</option>
 
 <option value="closet">Closet</option>
 
@@ -223,7 +214,6 @@ Login
 <option value="kitchen">Kitchen</option>
 
 </select>
-
 
 
 
@@ -247,7 +237,6 @@ Upload
 
 
 
-
 <button onclick="logout()">
 
 Logout
@@ -255,13 +244,11 @@ Logout
 </button>
 
 
-
 </div>
 
 
 
 <div id="message"></div>
-
 
 
 </div>
@@ -280,8 +267,11 @@ Logout
 
 
 
-
 <script>
+
+
+console.log("ADMIN SCRIPT LOADED");
+
 
 
 firebase.initializeApp({
@@ -304,14 +294,15 @@ const db = firebase.firestore();
 
 const message = document.getElementById("message");
 
-const fileInput = document.getElementById("fileInput");
-
-
 
 
 
 
 function login(){
+
+
+console.log("LOGIN CLICKED");
+
 
 
 auth.signInWithEmailAndPassword(
@@ -324,6 +315,9 @@ document.getElementById("password").value
 
 
 .then(()=>{
+
+
+console.log("LOGIN SUCCESS");
 
 
 document.getElementById("loginBox").style.display="none";
@@ -341,10 +335,13 @@ loadProjects();
 })
 
 
-.catch(error=>{
+.catch(err=>{
 
 
-message.innerHTML=error.message;
+console.log(err);
+
+
+message.innerHTML=err.message;
 
 
 });
@@ -362,16 +359,24 @@ message.innerHTML=error.message;
 async function upload(){
 
 
-const file = fileInput.files[0];
+console.log("UPLOAD CLICKED");
 
 
-const category = document.getElementById("category").value;
+
+const file=document.getElementById("fileInput").files[0];
+
+
+const category=document.getElementById("category").value;
+
+
+
+console.log("FILE:",file);
 
 
 
 if(!file){
 
-message.innerHTML="❌ Pick a file first";
+message.innerHTML="❌ Choose a file";
 
 return;
 
@@ -379,14 +384,15 @@ return;
 
 
 
-try{
-
 
 message.innerHTML="Uploading...";
 
 
 
-const form = new FormData();
+try{
+
+
+const form=new FormData();
 
 
 
@@ -405,8 +411,11 @@ form.append(
 
 
 
+console.log("SENDING CLOUDINARY");
 
-const res = await fetch(
+
+
+const response=await fetch(
 
 "https://api.cloudinary.com/v1_1/dwpiqfg7r/image/upload",
 
@@ -422,13 +431,15 @@ body:form
 
 
 
-
-
-const data = await res.json();
+console.log("STATUS:",response.status);
 
 
 
-console.log(data);
+const data=await response.json();
+
+
+
+console.log("CLOUDINARY:",data);
 
 
 
@@ -449,32 +460,26 @@ return;
 
 
 
-
-
 await db.collection("projects").add({
-
 
 url:data.secure_url,
 
-
 category:category,
 
-
 created:Date.now()
-
 
 });
 
 
 
-
-
-message.innerHTML="✅ Uploaded successfully";
+console.log("FIREBASE SAVED");
 
 
 
-fileInput.value="";
+message.innerHTML="✅ Uploaded";
 
+
+document.getElementById("fileInput").value="";
 
 
 loadProjects();
@@ -483,17 +488,18 @@ loadProjects();
 
 }
 
-catch(err){
 
 
-console.log(err);
+catch(error){
+
+
+console.log("ERROR:",error);
 
 
 message.innerHTML="❌ Upload error";
 
 
 }
-
 
 
 }
@@ -507,7 +513,6 @@ message.innerHTML="❌ Upload error";
 
 
 function loadProjects(){
-
 
 
 const gallery=document.getElementById("adminGallery");
@@ -529,16 +534,14 @@ gallery.innerHTML="";
 snapshot.forEach(doc=>{
 
 
-
 const d=doc.data();
-
 
 
 
 const div=document.createElement("div");
 
-div.className="admin-photo";
 
+div.className="admin-photo";
 
 
 
@@ -546,13 +549,11 @@ div.innerHTML=`
 
 <img src="${d.url}">
 
-
-<div style="color:#d4af37;font-size:12px">
+<div style="color:#d4af37">
 
 ${d.category || "live"}
 
 </div>
-
 
 
 <button class="delete-btn" onclick="deleteProject('${doc.id}')">
@@ -560,7 +561,6 @@ ${d.category || "live"}
 Delete
 
 </button>
-
 
 `;
 
@@ -573,8 +573,8 @@ gallery.appendChild(div);
 });
 
 
-});
 
+});
 
 
 }
@@ -588,17 +588,11 @@ gallery.appendChild(div);
 function deleteProject(id){
 
 
-if(confirm("Delete this photo?")){
-
-
 db.collection("projects")
 
 .doc(id)
 
 .delete();
-
-
-}
 
 
 }
