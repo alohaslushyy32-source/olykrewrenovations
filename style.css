@@ -1014,3 +1014,31 @@ margin-top:8px;
   font-size:40px;
   cursor:pointer;
 }
+/* ALL GALLERY IMAGES (STATIC + LIVE + FILTER TABS) */
+.project-grid .project-card {
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-grid .project-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: transform .3s ease;
+}
+
+.project-grid .project-card:hover img {
+  transform: scale(1.05);
+}
+
+
+/* MOBILE SIZE */
+@media (max-width: 600px){
+
+  .project-grid .project-card img {
+    height: 180px;
+  }
+
+}
