@@ -366,7 +366,7 @@ console.log("UPLOAD CLICKED");
 const file=document.getElementById("fileInput").files[0];
 
 
-const category=document.getElementById("category").value;
+const category=document.getElementById("images").value;
 
 
 
@@ -460,7 +460,7 @@ return;
 
 
 
-await db.collection("projects").add({
+await db.collection("images").add({
 
 url:data.secure_url,
 
@@ -519,7 +519,7 @@ const gallery=document.getElementById("adminGallery");
 
 
 
-db.collection("projects")
+db.collection("images")
 
 .orderBy("created","desc")
 
