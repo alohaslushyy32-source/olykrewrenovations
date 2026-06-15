@@ -1042,3 +1042,25 @@ margin-top:8px;
   }
 
 }
+/* FORCE ALL PROJECT IMAGES SAME SIZE */
+.project-card img,
+.static-gallery .project-card img,
+#liveGrid .project-card img {
+  width: 100% !important;
+  height: 260px !important;
+  object-fit: cover !important;
+  border-radius: 12px;
+  display: block;
+}
+
+
+/* MOBILE */
+@media (max-width:600px){
+
+.project-card img,
+.static-gallery .project-card img,
+#liveGrid .project-card img {
+  height:180px !important;
+}
+
+}
