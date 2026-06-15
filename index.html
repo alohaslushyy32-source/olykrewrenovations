@@ -286,6 +286,48 @@ liveGrid.appendChild(card);
 });
 });
 </script>
+<!-- IMAGE FULL VIEW -->
+<div class="image-viewer" id="imageViewer">
+  <div class="image-close" onclick="closeImage()">×</div>
+  <img id="viewerImage">
+</div>
 
+
+<script>
+
+const viewer = document.getElementById("imageViewer");
+const viewerImg = document.getElementById("viewerImage");
+
+
+document.addEventListener("click", function(e){
+
+  if(e.target.tagName === "IMG" && 
+     e.target.closest(".project-card")){
+
+    viewerImg.src = e.target.src;
+    viewer.classList.add("active");
+
+  }
+
+});
+
+
+function closeImage(){
+
+  viewer.classList.remove("active");
+
+}
+
+
+viewer.addEventListener("click", function(e){
+
+  if(e.target === viewer){
+    closeImage();
+  }
+
+});
+
+
+</script>
 </body>
 </html>
