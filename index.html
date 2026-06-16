@@ -255,36 +255,38 @@ requestAnimationFrame(animate);
   <!-- FIREBASE -->
 <script>
 firebase.initializeApp({
-apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
-authDomain: "olykrew-website.firebaseapp.com",
-projectId: "olykrew-website"
+  apiKey: "AIzaSyDf1Lw6DX-zolIwPHe2sOz-7bsOboPlGm0",
+  authDomain: "olykrew-website.firebaseapp.com",
+  projectId: "olykrew-website"
 });
 
 const db = firebase.firestore();
+
 const liveGrid = document.getElementById("liveGrid");
 
 db.collection("images")
-.orderBy("created", "desc")
-.onSnapshot(snapshot => {
+  .orderBy("created", "desc")
+  .onSnapshot(snapshot => {
 
-if (!liveGrid) return;
+    if (!liveGrid) return;
 
-liveGrid.innerHTML = "";
+    liveGrid.innerHTML = "";
 
-snapshot.forEach(doc => {
-const d = doc.data();
+    snapshot.forEach(doc => {
+      const d = doc.data();
 
-const card = document.createElement("div");
-card.className = "project-card";
-card.dataset.category = d.category || "live";
+      const card = document.createElement("div");
+      card.className = "project-card";
+      card.dataset.category = d.category || "live";
 
-card.innerHTML = `
-<img src="${d.url}">
-`;
+      card.innerHTML = `
+        <img src="${d.url}">
+      `;
 
-liveGrid.appendChild(card);
-});
-});
+      liveGrid.appendChild(card);
+    });
+
+  });
 </script>
 <!-- IMAGE FULL VIEW -->
 <div class="image-viewer" id="imageViewer">
