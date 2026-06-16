@@ -973,6 +973,7 @@ margin-top:8px;
   height: 260px;
   object-fit: cover;
   border-radius: 12px;
+  display: block;
   transition: transform .3s ease;
 }
 
