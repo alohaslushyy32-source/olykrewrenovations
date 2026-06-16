@@ -1048,7 +1048,7 @@ margin-top:8px;
 .static-gallery .project-card img,
 #liveGrid .project-card img {
   width: 100% !important;
-  height: 260px !important;
+  height: 160px !important;
   object-fit: cover !important;
   border-radius: 12px;
   display: block;
