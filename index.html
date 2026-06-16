@@ -261,7 +261,7 @@ projectId: "olykrew-website"
 });
 
 const db = firebase.firestore();
-const liveGridFirebase = document.getElementById("liveGrid");
+const liveGrid = document.getElementById("liveGrid");
 
 db.collection("images")
 .orderBy("created", "desc")
