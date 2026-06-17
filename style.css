@@ -1131,3 +1131,11 @@ margin-top:8px;
   font-size: 40px;
   cursor: pointer;
 }
+.project-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: transform .3s ease;
+}
