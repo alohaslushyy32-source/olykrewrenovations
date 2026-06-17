@@ -524,8 +524,9 @@ db.collection("images")
 // REMOVE orderBy for testing
 
 
-.onSnapshot(snapshot=>{
-
+.onSnapshot(
+  (snapshot) => {
+    console.log("LIVE SNAPSHOT:", snapshot.size);
 
 gallery.innerHTML="";
 
