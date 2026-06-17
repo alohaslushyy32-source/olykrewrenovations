@@ -373,6 +373,25 @@ document.querySelectorAll(".project-card img").forEach(img => {
 lightbox.addEventListener("click", () => {
   lightbox.classList.remove("show");
 });
+  
+<div class="image-viewer">
+  <img>
+</div>
+
+<script>
+const viewer = document.querySelector(".image-viewer");
+const viewerImg = document.querySelector(".image-viewer img");
+
+document.querySelectorAll(".project-card img").forEach(img => {
+  img.addEventListener("click", () => {
+    viewer.classList.add("active");
+    viewerImg.src = img.src;
+  });
+});
+
+viewer.addEventListener("click", () => {
+  viewer.classList.remove("active");
+});
 </script>
 
 </body>
