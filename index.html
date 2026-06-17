@@ -176,27 +176,29 @@ elements.forEach(el => observer.observe(el));
 const buttons = document.querySelectorAll(".filter-btn");
 const staticCards = document.querySelectorAll(".static-gallery .project-card");
 const liveGrid = document.getElementById("liveGrid");
-  
+
 let currentFilter = "all";
 
 buttons.forEach(btn => {
-btn.addEventListener("click", () => {
+  btn.addEventListener("click", () => {
 
-buttons.forEach(b => b.classList.remove("active"));
-btn.classList.add("active");
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
-currentFilter = btn.dataset.filter;
+    currentFilter = btn.dataset.filter;
 
-filterStatic();
-filterLive();
-});
+    filterStatic();
+    filterLive();
+  });
 });
 
 function filterStatic() {
   staticCards.forEach(card => {
     const match = card.dataset.category;
 
-    card.hidden = !(currentFilter === "all" || card.dataset.category === match);
+    card.style.display =
+      (currentFilter === "all" || currentFilter === match) ? "block" : "none";
+  });
 }
 
 function filterLive() {
@@ -207,7 +209,9 @@ function filterLive() {
   items.forEach(card => {
     const match = card.dataset.category;
 
-   card.hidden = !(currentFilter === "all" || card.dataset.category === match);
+    card.style.display =
+      (currentFilter === "all" || currentFilter === match) ? "block" : "none";
+  });
 }
 </script>
 
