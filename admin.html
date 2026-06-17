@@ -539,8 +539,12 @@ snapshot.forEach(doc => {
   div.className = "admin-photo";
 
   div.innerHTML = `
-    <img src="${d.url}">
-  `;
+  <img src="${d.url}">
+
+  <button class="delete-btn" onclick="deleteProject('${doc.id}')">
+    Delete
+  </button>
+`;
 
   gallery.appendChild(div);
 });
