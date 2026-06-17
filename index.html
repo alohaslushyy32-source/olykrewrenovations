@@ -308,7 +308,7 @@ firebase.initializeApp({
 const db = firebase.firestore();
 const liveGrid = document.getElementById("liveGrid");
 
-db.collection("projects")
+db.collection("images")
   .orderBy("created", "desc")
   .onSnapshot((snapshot) => {
 
