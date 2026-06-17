@@ -262,7 +262,6 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 
-const liveGrid = document.getElementById("liveGrid");
 
 db.collection("images")
   .orderBy("created", "desc")
