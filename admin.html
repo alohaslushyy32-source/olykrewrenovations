@@ -532,32 +532,17 @@ gallery.innerHTML="";
 
 
 
-snapshot.forEach(doc=>{
+snapshot.forEach(doc => {
+  const d = doc.data();
 
+  const div = document.createElement("div");
+  div.className = "admin-photo";
 
-const d=doc.data();
+  div.innerHTML = `
+    <img src="${d.url}">
+  `;
 
-
-
-const div=document.createElement("div");
-
-
-div.className="admin-photo";
-
-
-
-div.innerHTML=`
-<button class="delete-btn" onclick="deleteProject('${doc.id}')">
-Delete
-</button>
-`;
-
-
-
-gallery.appendChild(div);
-
-
-
+  gallery.appendChild(div);
 });
 
 
