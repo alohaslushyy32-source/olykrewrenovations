@@ -325,7 +325,7 @@ db.collection("images")
       
       card.innerHTML = `
         <img src="${d.url}" />
-        <div class="project-info">${d.category || "live"}</div>
+        const category = d.category || "uncategorized";
       `;
 
       liveGrid.appendChild(card);
