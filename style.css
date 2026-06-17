@@ -477,11 +477,18 @@ html {
 
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* 🔥 IMPORTANT FIX */
+  align-items: flex-start;
   gap: 30px;
 
   padding: 20px 40px;
   box-sizing: border-box;
+}
+
+/* makes columns even */
+.bottom-left,
+.bottom-center,
+.bottom-right {
+  flex: 1;
 }
 
 /* LEFT SIDE */
@@ -507,8 +514,8 @@ html {
 .bottom-center {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 🔥 FIX */
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
 .contact-title {
