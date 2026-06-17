@@ -316,20 +316,22 @@ db.collection("images")
     liveGrid.innerHTML = "";
 
     snapshot.forEach((doc) => {
-      const d = doc.data();
+  const d = doc.data();
 
-      const category = d.category || "uncategorized";
+  const category = d.category || "live";
 
-      const card = document.createElement("div");
-      card.className = "project-card";
-      card.dataset.category = category;
+  const card = document.createElement("div");
+  card.className = "project-card";
+  card.dataset.category = category;
 
-      card.innerHTML = `
-        <img src="${d.url}" />
-      `;
+  card.innerHTML = `
+    <img src="${d.url}" />
+  `;
 
-      liveGrid.appendChild(card);
-    });
+  liveGrid.appendChild(card);
+});
+
+filterLive();
 
   });
 </script>
