@@ -196,9 +196,7 @@ function filterStatic() {
   staticCards.forEach(card => {
     const match = card.dataset.category;
 
-    card.style.display =
-      (currentFilter === "all" || currentFilter === match) ? "" : "none";
-  });
+    card.hidden = !(currentFilter === "all" || card.dataset.category === match);
 }
 
 function filterLive() {
@@ -209,9 +207,7 @@ function filterLive() {
   items.forEach(card => {
     const match = card.dataset.category;
 
-    card.style.display =
-      (currentFilter === "all" || currentFilter === match) ? "" : "none";
-  });
+   card.hidden = !(currentFilter === "all" || card.dataset.category === match);
 }
 </script>
 
