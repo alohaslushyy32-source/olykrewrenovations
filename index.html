@@ -312,20 +312,22 @@ db.collection("images")
   .orderBy("created", "desc")
   .onSnapshot((snapshot) => {
 
-    if (!liveGrid) return; // safety check
+    if (!liveGrid) return;
 
     liveGrid.innerHTML = "";
 
     snapshot.forEach((doc) => {
       const d = doc.data();
 
+      const category = d.category || "uncategorized";
+
       const card = document.createElement("div");
       card.className = "project-card";
-      card.dataset.category = d.category;
-      
+      card.dataset.category = category;
+
       card.innerHTML = `
         <img src="${d.url}" />
-        const category = d.category || "uncategorized";
+        <div class="project-info">${category}</div>
       `;
 
       liveGrid.appendChild(card);
