@@ -193,25 +193,25 @@ filterLive();
 });
 
 function filterStatic() {
-staticCards.forEach(card => {
-const match = card.dataset.category;
+  staticCards.forEach(card => {
+    const match = card.dataset.category;
 
-card.style.display =
-(currentFilter === "all" || currentFilter === match) ? "block" : "none";
-});
+    card.style.display =
+      (currentFilter === "all" || currentFilter === match) ? "" : "none";
+  });
 }
 
 function filterLive() {
-if (!liveGrid) return;
+  if (!liveGrid) return;
 
-const items = liveGrid.querySelectorAll(".project-card");
+  const items = liveGrid.querySelectorAll(".project-card");
 
-items.forEach(card => {
-const match = card.dataset.category;
+  items.forEach(card => {
+    const match = card.dataset.category;
 
-card.style.display =
-(currentFilter === "all" || currentFilter === match) ? "block" : "none";
-});
+    card.style.display =
+      (currentFilter === "all" || currentFilter === match) ? "" : "none";
+  });
 }
 </script>
 
