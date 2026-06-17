@@ -1041,27 +1041,28 @@ margin-top:8px;
   .project-grid .project-card img {
     height: 180px;
   }
-
 }
-/* FORCE ALL PROJECT IMAGES SAME SIZE */
-.project-card img,
-.static-gallery .project-card img,
-#liveGrid .project-card img {
-  width: 100% !important;
-  height: 160px !important;
-  object-fit: cover !important;
+.project-card {
+  overflow: hidden;
   border-radius: 12px;
-  display: block;
+  cursor: pointer;
 }
 
+.project-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover img {
+  transform: scale(1.05);
+}
 
 /* MOBILE */
-@media (max-width:600px){
-
-.project-card img,
-.static-gallery .project-card img,
-#liveGrid .project-card img {
-  height:180px !important;
-}
-
+@media (max-width: 600px) {
+  .project-card img {
+    height: 180px;
+  }
 }
