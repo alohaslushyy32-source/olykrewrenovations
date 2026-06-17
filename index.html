@@ -321,8 +321,8 @@ db.collection("images")
 
       const card = document.createElement("div");
       card.className = "project-card";
-      card.dataset.category = d.category || "live";
-
+      card.dataset.category = d.category;
+      
       card.innerHTML = `
         <img src="${d.url}" />
         <div class="project-info">${d.category || "live"}</div>
