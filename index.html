@@ -359,21 +359,6 @@ db.collection("projects")
   <img id="lightbox-img">
 </div>
 
-<script>
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-
-document.querySelectorAll(".project-card img").forEach(img => {
-  img.addEventListener("click", () => {
-    lightbox.classList.add("show");
-    lightboxImg.src = img.src;
-  });
-});
-
-lightbox.addEventListener("click", () => {
-  lightbox.classList.remove("show");
-});
-  
 <div class="image-viewer">
   <img>
 </div>
